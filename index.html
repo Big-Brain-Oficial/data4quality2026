@@ -882,6 +882,137 @@
       white-space: nowrap;
     }
 
+    .timeline-top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: .8rem 1.5rem; }
+    .timeline-top .panel-header { flex: 1 1 24rem; }
+    .timeline-top select { min-width: 12rem; }
+    .timeline-overview { margin-top: 1rem; }
+    .timeline-days {
+      display: grid;
+      grid-template-columns: repeat(21, minmax(35px, 1fr));
+      gap: .26rem;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      padding: .28rem .18rem .46rem;
+    }
+    .timeline-day {
+      display: grid;
+      justify-items: center;
+      gap: .24rem;
+      padding: .28rem .17rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8faff;
+      color: var(--muted);
+      font-size: .86rem;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+    }
+    .timeline-day[data-count="some"] { background: #eaf1ff; color: #214d97; }
+    .timeline-day:hover { border-color: #618cda; }
+    .timeline-day[aria-pressed="true"] { border-color: #295bbd; background: #295bbd; color: #fff; }
+    .timeline-day:focus-visible { outline-offset: -2px; }
+    .timeline-meter { display: flex; align-items: end; justify-content: center; width: 100%; height: 20px; }
+    .timeline-meter > span { width: 13px; height: var(--frequency, 2px); border-radius: 3px; background: #b5c2d6; }
+    .timeline-day[data-count="some"] .timeline-meter > span { background: #5b82d8; }
+    .timeline-day[aria-pressed="true"] .timeline-meter > span { background: #c6ddff; }
+    .timeline-day-heading { margin: .75rem 0 .6rem; }
+    .timeline-day-heading h3 { font-size: 1.08rem; }
+    .timeline-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, .37fr); align-items: start; gap: .8rem; }
+    .timeline-chart {
+      --timeline-columns: minmax(102px, 151px) minmax(0, 1fr) 78px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+    }
+    .timeline-axis, .timeline-event { display: grid; grid-template-columns: var(--timeline-columns); align-items: center; gap: .56rem; padding: .55rem .7rem; }
+    .timeline-axis {
+      min-height: 43px;
+      background: #edf3fc;
+      color: #344b6e;
+      font-size: .78rem;
+      font-weight: 650;
+    }
+    .timeline-axis > :last-child { text-align: right; font-size: .76rem; min-width: 69px; }
+    .timeline-ruler { position: relative; container-type: inline-size; height: 1.2rem; }
+    .timeline-ruler.with-dates { height: 2.25rem; }
+    .timeline-tick {
+      position: absolute;
+      left: var(--tick);
+      display: grid;
+      justify-items: center;
+      transform: translateX(-50%);
+      line-height: 1.45;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .timeline-tick:first-child { transform: none; justify-items: start; }
+    .timeline-tick:last-child { transform: translateX(-100%); justify-items: end; }
+    @container (max-width: 375px) {
+      .timeline-tick:nth-child(even):not(:last-child) { display: none; }
+    }
+    @container (max-width: 245px) {
+      .timeline-ruler.with-dates .timeline-tick:not(:first-child):not(:last-child) { display: none; }
+    }
+    .timeline-event {
+      width: 100%;
+      min-height: 54px;
+      border: 0;
+      border-top: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      font-size: .85rem;
+      text-align: left;
+    }
+    .timeline-event:hover { background: #f1f6ff; }
+    .timeline-event[aria-pressed="true"] { background: #eaf2ff; box-shadow: inset 3px 0 #315fc3; }
+    .timeline-event:focus-visible { outline-offset: -3px; }
+    .timeline-event-label { display: grid; gap: .15rem; line-height: 1.2; }
+    .timeline-event-label small { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
+    .timeline-length { min-width: 69px; justify-self: end; color: #234787; font-size: .82rem; font-weight: 700; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .timeline-lane {
+      position: relative;
+      height: 29px;
+      border: 1px solid #dce6f4;
+      border-radius: 6px;
+      background: repeating-linear-gradient(to right, #dfe7f3 0 1px, transparent 1px var(--step)), #f6f9ff;
+    }
+    .timeline-interval {
+      position: absolute;
+      top: 5px;
+      left: var(--start);
+      width: var(--span);
+      min-width: 2px;
+      height: 17px;
+      border-radius: 5px;
+      background: var(--bar);
+    }
+    .timeline-event:hover .timeline-interval,
+    .timeline-event[aria-pressed="true"] .timeline-interval { box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--bar); }
+    .timeline-detail {
+      display: grid;
+      gap: .65rem;
+      padding: .86rem;
+      border: 1px solid #c9daf6;
+      border-radius: 11px;
+      background: #f2f6fd;
+    }
+    .timeline-detail .kicker { font-size: .74rem; }
+    .timeline-detail h3 { font-size: 1rem; }
+    .timeline-values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem .82rem; margin: 0; }
+    .timeline-values dt { color: var(--muted); font-size: .8rem; }
+    .timeline-values dd { margin: .15rem 0 0; font-size: .88rem; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .timeline-detail a { justify-self: start; }
+    .timeline-empty { padding: .82rem; border: 1px dashed var(--line); border-radius: 10px; }
+    @media (max-width: 1050px) {
+      .timeline-body { grid-template-columns: minmax(0, 1fr); }
+      .timeline-values { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 575px) {
+      .timeline-chart { --timeline-columns: minmax(0, 1fr) max-content; }
+      .timeline-ruler, .timeline-lane { grid-column: 1 / -1; grid-row: 2; }
+      .timeline-top select { width: 100%; }
+    }
+
     .track {
       display: block;
       height: 8px;
@@ -1783,13 +1914,13 @@
             <div class="metric"><span class="metric-name">Días con reportes</span><strong
                 id="availability-days"></strong><span>En la ventana de 21 días</span></div>
           </div>
-          <div class="panel-grid balanced">
-            <article class="panel">
+          <article class="panel" aria-labelledby="timeline-title">
+            <div class="timeline-top">
               <header class="panel-header">
-                <h2>Incidentes por día</h2>
-                <p>Noviembre de 2026 · Tocá una fecha para ver sus reportes.</p>
+                <h2 id="timeline-title">Línea de tiempo de incidentes</h2>
+                <p>Elegí una fecha y seleccioná una barra. Cada barra va del aviso a la resolución informada.</p>
               </header>
-              <div class="controls" style="margin-top: .8rem">
+              <div class="controls" aria-label="Filtros de disponibilidad" role="group">
                 <label>Alcance
                   <select id="availability-scope">
                     <option value="ar">Argentina (MLA)</option>
@@ -1803,11 +1934,49 @@
                     <option value="">Todos los servicios</option>
                   </select></label>
               </div>
+            </div>
+            <div class="timeline-overview">
+              <p class="small">Selección de fecha · Avisos por día en noviembre de 2026</p>
+              <div class="timeline-days" id="timeline-days" role="group" aria-label="Fechas de noviembre de 2026"></div>
+            </div>
+            <div class="timeline-top timeline-day-heading">
+              <div class="panel-header">
+                <h3 id="timeline-date-title"></h3>
+                <p id="timeline-period" aria-live="polite"></p>
+              </div>
+              <div class="controls">
+                <label>Día en detalle<select id="timeline-date"></select></label>
+                <button class="button" type="button" id="availability-reset-day" hidden>Mostrar todos los avisos</button>
+              </div>
+            </div>
+            <div class="timeline-body" id="timeline-body">
+              <div class="timeline-chart" id="timeline-chart" role="group" aria-label="Intervalos de aviso a resolución">
+                <div class="timeline-axis" id="timeline-axis" aria-hidden="true"></div>
+                <div id="timeline-events"></div>
+              </div>
+              <div class="timeline-detail" id="timeline-detail">
+                <p class="kicker">Aviso seleccionado</p>
+                <h3 id="timeline-detail-title" aria-live="polite"></h3>
+                <dl class="timeline-values">
+                  <div><dt>Aviso</dt><dd id="timeline-reported"></dd></div>
+                  <div><dt>Resolución informada</dt><dd id="timeline-resolved"></dd></div>
+                  <div><dt>Duración</dt><dd id="timeline-duration"></dd></div>
+                </dl>
+                <a class="button" id="timeline-source" target="_blank" rel="noopener noreferrer">Ver aviso original</a>
+              </div>
+            </div>
+            <p class="small timeline-empty" id="timeline-empty" hidden>No hay avisos en esta fecha para los filtros elegidos.</p>
+          </article>
+          <div class="panel-grid balanced">
+            <article class="panel">
+              <header class="panel-header">
+                <h2>Incidentes por día</h2>
+                <p>Noviembre de 2026 · Tocá una fecha para ver sus reportes.</p>
+              </header>
               <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
               <div class="calendar-footer">
                 <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank"
                     rel="noopener">Mercado Pago Status</a></p>
-                <button class="button" id="availability-reset-day" type="button" hidden>Ver todo el período</button>
               </div>
             </article>
             <article class="panel">
@@ -2306,11 +2475,12 @@
       payments: { label: "API de pagos", color: "#63789d", description: "Servicio de pagos que utilizan las integraciones." }
     };
     const cases = embedded("world-data").sort((a, b) => b.date.localeCompare(a.date));
-    const incidents = embedded("incident-data").map((record) => ({
-      ...record,
-      day: Number(record.reported.slice(8, 10)),
-      minutes: (Date.parse(record.resolved) - Date.parse(record.reported)) / 60000
-    })).sort((a, b) => b.reported.localeCompare(a.reported));
+    const incidentUrl = (id) => `https://status.mercadopago.com/incidents/${id}`;
+    const incidents = embedded("incident-data").map((record) => {
+      const start = Date.parse(record.reported);
+      const end = Date.parse(record.resolved);
+      return { ...record, day: Number(record.reported.slice(8, 10)), start, end, minutes: (end - start) / 60000 };
+    }).sort((a, b) => b.start - a.start);
     const argentina = incidents.filter(({ scope }) => scope === "ar");
     const scopes = {
       ar: "Argentina (MLA)",
@@ -2630,6 +2800,140 @@
     let selectedDay = null;
     addOptions(availabilityService, Object.entries(services).map(([key, service]) => [key, service.label]));
 
+    const timelineDate = new Intl.DateTimeFormat("es-AR", {
+      day: "numeric", month: "short", timeZone: "America/Argentina/Buenos_Aires"
+    });
+    const timelineTime = new Intl.DateTimeFormat("es-AR", {
+      hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "America/Argentina/Buenos_Aires"
+    });
+    const timelineStamp = (time) => `${timelineDate.format(time)} · ${timelineTime.format(time)}`;
+    const timelineDays = byId("timeline-days");
+    const timelineDaySelect = byId("timeline-date");
+    const timelineDayButtons = new Map();
+    let timelineSelection = null;
+
+    function chooseTimelineDay(day) {
+      if (selectedDay === day) return;
+      selectedDay = day;
+      renderAvailability();
+    }
+
+    function addTimelineDay(day) {
+      const target = button("timeline-day");
+      const meter = node("span", "timeline-meter");
+      meter.setAttribute("aria-hidden", "true");
+      meter.append(node("span"));
+      target.append(meter, node("span", "", day));
+      target.addEventListener("click", () => chooseTimelineDay(day));
+      const option = new Option("", day);
+      timelineDays.append(target);
+      timelineDaySelect.add(option);
+      timelineDayButtons.set(day, { target, option });
+    }
+
+    function renderTimelineDays(countsByDay, activeDay) {
+      const maximum = Math.max(1, ...countsByDay.values());
+      for (const [day, { target, option }] of timelineDayButtons) {
+        const amount = countsByDay.get(day) ?? 0;
+        const label = `${day} de noviembre · ${countLabel(amount, "aviso", "avisos")}`;
+        target.setAttribute("aria-label", label);
+        target.title = label;
+        target.dataset.count = amount ? "some" : "zero";
+        target.style.setProperty("--frequency", `${amount ? Math.max(4, 20 * amount / maximum) : 2}px`);
+        press(target, day === activeDay);
+        option.textContent = `${day} nov · ${countLabel(amount, "aviso", "avisos")}`;
+      }
+      timelineDaySelect.value = activeDay;
+      const active = timelineDayButtons.get(activeDay).target.getBoundingClientRect();
+      const rail = timelineDays.getBoundingClientRect();
+      if (active.left < rail.left) timelineDays.scrollLeft += active.left - rail.left - 2;
+      if (active.right > rail.right) timelineDays.scrollLeft += active.right - rail.right + 2;
+    }
+
+    function timelineRange(records) {
+      const minute = 60000;
+      const first = records[0].start - 8 * minute;
+      const last = Math.max(...records.map((record) => record.end)) + 8 * minute;
+      const targetMinutes = (last - first) / (5 * minute);
+      const intervals = [5, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 360, 720, 1440];
+      const step = (intervals.find((value) => value >= targetMinutes) ?? Math.ceil(targetMinutes / 1440) * 1440) * minute;
+      const midnight = Date.parse("2026-11-04T00:00:00-03:00");
+      const start = midnight + Math.floor((first - midnight) / step) * step;
+      const end = midnight + Math.ceil((last - midnight) / step) * step;
+      return { start, end, step };
+    }
+
+    function renderTimelineAxis({ start, end, step }) {
+      const segments = (end - start) / step;
+      const withDates = timelineDate.format(start) !== timelineDate.format(end);
+      const ruler = node("div", withDates ? "timeline-ruler with-dates" : "timeline-ruler");
+      for (let index = 0; index <= segments; index++) {
+        const time = start + index * step;
+        const tick = node("span", "timeline-tick");
+        tick.style.setProperty("--tick", `${100 * index / segments}%`);
+        if (withDates) tick.append(node("span", "", timelineDate.format(time)));
+        tick.append(node("span", "", timelineTime.format(time)));
+        ruler.append(tick);
+      }
+      byId("timeline-axis").replaceChildren(node("span", "", "Servicio"), ruler, node("span", "", "Duración"));
+      byId("timeline-chart").style.setProperty("--step", `${100 / segments}%`);
+    }
+
+    function renderTimelineDetail(record, buttons) {
+      timelineSelection = record ?? null;
+      for (const [item, target] of buttons) press(target, item === record);
+      if (!record) return;
+      byId("timeline-detail-title").textContent = record.title;
+      byId("timeline-reported").textContent = timelineStamp(record.start);
+      byId("timeline-resolved").textContent = timelineStamp(record.end);
+      byId("timeline-duration").textContent = duration(record.minutes);
+      byId("timeline-source").href = incidentUrl(record.id);
+    }
+
+    function renderTimeline(items, countsByDay) {
+      const busiest = [...countsByDay].sort(([dayA, countA], [dayB, countB]) => countB - countA || dayA - dayB)[0]?.[0];
+      const activeDay = selectedDay ?? busiest ?? 4;
+      renderTimelineDays(countsByDay, activeDay);
+      const records = items.filter((record) => record.day === activeDay).reverse();
+      byId("timeline-date-title").textContent = `${activeDay} de noviembre`;
+      byId("timeline-period").textContent = `${countLabel(records.length, "aviso", "avisos")} · Hora argentina`;
+      byId("timeline-body").hidden = !records.length;
+      byId("timeline-empty").hidden = Boolean(records.length);
+      const buttons = new Map();
+      if (records.length) {
+        const range = timelineRange(records);
+        const { start, end } = range;
+        renderTimelineAxis(range);
+        for (const record of records) {
+          const service = services[record.service];
+          const length = duration(record.minutes);
+          const row = button("timeline-event");
+          row.setAttribute("aria-label", `${service.label}. Aviso ${timelineStamp(record.start)}. Resolución ${timelineStamp(record.end)}. Duración ${length}.`);
+          const summary = node("span", "timeline-event-label");
+          const hours = timelineDate.format(record.start) === timelineDate.format(record.end)
+            ? `${timelineTime.format(record.start)} – ${timelineTime.format(record.end)}`
+            : `${timelineStamp(record.start)} – ${timelineStamp(record.end)}`;
+          summary.append(node("strong", "", service.label), node("small", "", hours));
+          const lane = node("span", "timeline-lane");
+          lane.setAttribute("aria-hidden", "true");
+          const interval = node("span", "timeline-interval");
+          interval.style.setProperty("--start", `${100 * (record.start - start) / (end - start)}%`);
+          interval.style.setProperty("--span", `${100 * (record.end - record.start) / (end - start)}%`);
+          interval.style.setProperty("--bar", service.color);
+          lane.append(interval);
+          row.append(summary, lane, node("span", "timeline-length", length));
+          row.addEventListener("click", () => renderTimelineDetail(record, buttons));
+          buttons.set(record, row);
+        }
+      }
+      byId("timeline-events").replaceChildren(...buttons.values());
+      renderTimelineDetail(buttons.has(timelineSelection) ? timelineSelection : records[0], buttons);
+    }
+
+    timelineDaySelect.addEventListener("change", () => {
+      chooseTimelineDay(Number(timelineDaySelect.value));
+    });
+
     function fillTrack(value, color) {
       const track = node("span", "track");
       track.setAttribute("aria-hidden", "true");
@@ -2641,7 +2945,7 @@
     }
 
     function incidentLink(record, largest) {
-      const item = externalLink(`https://status.mercadopago.com/incidents/${record.id}`, "", "incident-row");
+      const item = externalLink(incidentUrl(record.id), "", "incident-row");
       const time = node("span", "incident-date", `${record.day} nov. · ${record.reported.slice(11, 16)} · ${record.market ?? scopes[record.scope]}`);
       const headline = node("span", "incident-title");
       headline.append(node("b", "", services[record.service].label), node("b", "", duration(record.minutes)));
@@ -2675,6 +2979,7 @@
       listArea.replaceChildren(...rows);
       listArea.scrollTop = 0;
       byId("availability-reset-day").hidden = selectedDay === null;
+      renderTimeline(items, countsByDay);
     }
 
     const calendar = byId("calendar");
@@ -2691,15 +2996,15 @@
       });
       calendar.append(target);
       dayButtons.set(day, target);
+      addTimelineDay(day);
     }
     for (const select of [availabilityScope, availabilityService]) {
       select.addEventListener("change", renderAvailability);
     }
     byId("availability-reset-day").addEventListener("click", () => {
-      const previousDay = selectedDay;
       selectedDay = null;
       renderAvailability();
-      dayButtons.get(previousDay)?.focus();
+      timelineDaySelect.focus({ preventScroll: true });
     });
     renderAvailability();
 
