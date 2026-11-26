@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="es-AR">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Tablero interactivo sobre disponibilidad y calidad de los pagos digitales en Argentina y el mundo.">
+  <meta name="description"
+    content="Tenés dinero. Pero… ¿podés usarlo? Una historia interactiva sobre pagos cotidianos, incidentes documentados y calidad del software.">
   <link rel="icon" href="data:,">
   <title>Data4Quality | Pagos digitales y disponibilidad</title>
   <style>
@@ -21,15 +23,55 @@
       --shadow: 0 7px 24px #15284608, 0 2px 5px #15284603;
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
-    [hidden] { display: none !important; }
-    body { margin: 0; min-width: 300px; background: var(--background); color: var(--ink); }
-    h1, h2, h3, p { margin: 0; }
-    h1, h2, h3 { line-height: 1.18; }
-    a { color: var(--blue); text-underline-offset: 3px; }
-    button, select { font: inherit; }
-    button { cursor: pointer; }
-    :focus-visible { outline: 3px solid #2283ee; outline-offset: 3px; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      margin: 0;
+      min-width: 300px;
+      background: var(--background);
+      color: var(--ink);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.18;
+    }
+
+    a {
+      color: var(--blue);
+      text-underline-offset: 3px;
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 3px solid #2283ee;
+      outline-offset: 3px;
+    }
+
     .skip-link {
       position: fixed;
       z-index: 8;
@@ -40,9 +82,17 @@
       border-radius: 8px;
       clip-path: inset(50%);
     }
-    .skip-link:focus { clip-path: none; }
 
-    .shell { display: grid; grid-template-columns: 223px minmax(0, 1fr); min-height: 100vh; }
+    .skip-link:focus {
+      clip-path: none;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 223px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
     .sidebar {
       position: sticky;
       top: 0;
@@ -54,6 +104,7 @@
       background: var(--navy);
       color: #d8e3f5;
     }
+
     .brand {
       display: flex;
       gap: .68rem;
@@ -62,6 +113,7 @@
       text-decoration: none;
       color: white;
     }
+
     .brand-mark {
       display: grid;
       place-items: center;
@@ -73,9 +125,25 @@
       font-size: 1.22rem;
       line-height: 1;
     }
-    .brand strong { display: block; font-size: 1.05rem; letter-spacing: -.025em; }
-    .brand small { display: block; margin-top: .18rem; color: #aebfdb; font-size: .8rem; }
-    .sidebar nav { display: grid; gap: .25rem; }
+
+    .brand strong {
+      display: block;
+      font-size: 1.05rem;
+      letter-spacing: -.025em;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: .18rem;
+      color: #aebfdb;
+      font-size: .8rem;
+    }
+
+    .sidebar nav {
+      display: grid;
+      gap: .25rem;
+    }
+
     .sidebar nav a {
       display: flex;
       align-items: center;
@@ -90,11 +158,36 @@
       text-decoration: none;
       white-space: nowrap;
     }
-    .sidebar nav a:hover { background: #ffffff0b; color: white; }
-    .sidebar nav a[aria-current] { background: #24395f; border-color: #314b74; color: #fff; }
-    .sidebar nav a[aria-current] .nav-icon { color: #86eadb; }
-    .sidebar nav a:last-child { margin-top: .55rem; }
-    .nav-icon { display: inline-grid; place-items: center; width: 1.26rem; flex: none; color: #a4b9d8; font-size: 1.14rem; line-height: 1; }
+
+    .sidebar nav a:hover {
+      background: #ffffff0b;
+      color: white;
+    }
+
+    .sidebar nav a[aria-current] {
+      background: #24395f;
+      border-color: #314b74;
+      color: #fff;
+    }
+
+    .sidebar nav a[aria-current] .nav-icon {
+      color: #86eadb;
+    }
+
+    .sidebar nav a:last-child {
+      margin-top: .55rem;
+    }
+
+    .nav-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 1.26rem;
+      flex: none;
+      color: #a4b9d8;
+      font-size: 1.14rem;
+      line-height: 1;
+    }
+
     .sidebar-foot {
       display: grid;
       gap: .3rem;
@@ -104,8 +197,16 @@
       color: #b0c0da;
       font-size: .8rem;
     }
-    .sidebar-foot strong { color: #ecf4ff; font-size: .85rem; }
-    .workspace { min-width: 0; }
+
+    .sidebar-foot strong {
+      color: #ecf4ff;
+      font-size: .85rem;
+    }
+
+    .workspace {
+      min-width: 0;
+    }
+
     .topbar {
       display: flex;
       align-items: center;
@@ -116,9 +217,24 @@
       border-bottom: 1px solid var(--line);
       background: #fcfdff;
     }
-    .trail { display: flex; align-items: center; flex-wrap: wrap; gap: .3rem .7rem; color: var(--muted); font-size: .88rem; }
-    .trail strong { color: var(--ink); }
-    .trail-separator { color: #8596ae; }
+
+    .trail {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .3rem .7rem;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .trail strong {
+      color: var(--ink);
+    }
+
+    .trail-separator {
+      color: #8596ae;
+    }
+
     .flag {
       display: inline-block;
       width: 19px;
@@ -128,16 +244,37 @@
       background: radial-gradient(circle, #f3b43e 0 1.4px, transparent 1.8px),
         linear-gradient(#82bfea 33.3%, #fff 33.3% 66.6%, #82bfea 66.6%);
     }
+
     main {
       width: 100%;
       max-width: 1560px;
       margin: 0 auto;
       padding: clamp(1.1rem, 2.6vw, 2rem) clamp(1rem, 2.8vw, 2.25rem) 2rem;
     }
-    .view { display: grid; gap: 1.25rem; }
-    .page-heading { display: grid; gap: .5rem; padding: .25rem 0 .2rem; }
-    .page-heading h1 { font-size: clamp(2rem, 3.25vw, 3.05rem); letter-spacing: -.055em; }
-    .page-heading p { max-width: 60ch; font-size: 1.03rem; line-height: 1.5; color: var(--muted); }
+
+    .view {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .page-heading {
+      display: grid;
+      gap: .5rem;
+      padding: .25rem 0 .2rem;
+    }
+
+    .page-heading h1 {
+      font-size: clamp(2rem, 3.25vw, 3.05rem);
+      letter-spacing: -.055em;
+    }
+
+    .page-heading p {
+      max-width: 60ch;
+      font-size: 1.03rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
     .kicker {
       color: var(--blue);
       font-size: .79rem;
@@ -145,9 +282,23 @@
       letter-spacing: .08em;
       text-transform: uppercase;
     }
-    .small { color: var(--muted); font-size: .875rem; line-height: 1.55; }
-    .source { color: var(--muted); font-size: .81rem; line-height: 1.55; }
-    .source a { font-weight: 600; }
+
+    .small {
+      color: var(--muted);
+      font-size: .875rem;
+      line-height: 1.55;
+    }
+
+    .source {
+      color: var(--muted);
+      font-size: .81rem;
+      line-height: 1.55;
+    }
+
+    .source a {
+      font-weight: 600;
+    }
+
     .panel {
       min-width: 0;
       padding: clamp(1.05rem, 1.9vw, 1.55rem);
@@ -156,13 +307,50 @@
       background: var(--paper);
       box-shadow: var(--shadow);
     }
-    .panel-header { display: grid; gap: .35rem; }
-    .panel-header h2, .panel h2 { font-size: 1.27rem; letter-spacing: -.025em; }
-    .panel-header p { font-size: .9rem; color: var(--muted); line-height: 1.45; }
-    .panel-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 1.2rem; }
-    .balanced { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .controls { display: flex; align-items: end; flex-wrap: wrap; gap: .65rem; }
-    .controls label, .filter-grid label { display: grid; gap: .35rem; color: var(--ink); font-size: .875rem; font-weight: 650; }
+
+    .panel-header {
+      display: grid;
+      gap: .35rem;
+    }
+
+    .panel-header h2,
+    .panel h2 {
+      font-size: 1.27rem;
+      letter-spacing: -.025em;
+    }
+
+    .panel-header p {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+      gap: 1.2rem;
+    }
+
+    .balanced {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .controls {
+      display: flex;
+      align-items: end;
+      flex-wrap: wrap;
+      gap: .65rem;
+    }
+
+    .controls label,
+    .filter-grid label {
+      display: grid;
+      gap: .35rem;
+      color: var(--ink);
+      font-size: .875rem;
+      font-weight: 650;
+    }
+
     select {
       width: 100%;
       appearance: none;
@@ -178,7 +366,10 @@
       font-weight: 500;
       min-height: 40px;
     }
-    .button, .segment button, .legend-toggle {
+
+    .button,
+    .segment button,
+    .legend-toggle {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -194,7 +385,14 @@
       text-decoration: none;
       line-height: 1.3;
     }
-    .button:hover, .segment button:hover, .legend-toggle:hover { border-color: #7197dc; background: #edf4ff; }
+
+    .button:hover,
+    .segment button:hover,
+    .legend-toggle:hover {
+      border-color: #7197dc;
+      background: #edf4ff;
+    }
+
     .segment {
       display: inline-flex;
       flex-wrap: wrap;
@@ -204,8 +402,21 @@
       border-radius: 11px;
       background: #f2f6fc;
     }
-    .segment button { min-height: 33px; border-color: transparent; background: transparent; color: var(--muted); }
-    .segment button[aria-pressed="true"] { border-color: #c9d9f3; background: white; color: #234fa5; box-shadow: 0 1px 4px #234fa516; }
+
+    .segment button {
+      min-height: 33px;
+      border-color: transparent;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .segment button[aria-pressed="true"] {
+      border-color: #c9d9f3;
+      background: white;
+      color: #234fa5;
+      box-shadow: 0 1px 4px #234fa516;
+    }
+
     .note {
       display: grid;
       gap: .28rem;
@@ -218,7 +429,10 @@
       font-size: .9rem;
       line-height: 1.55;
     }
-    .note strong { color: #21385e; }
+
+    .note strong {
+      color: #21385e;
+    }
 
     .hero {
       position: relative;
@@ -236,6 +450,7 @@
         linear-gradient(116deg, #15234a 6%, #152c5b 56%, #163c62 100%);
       color: #fff;
     }
+
     .hero::before {
       content: "";
       position: absolute;
@@ -244,7 +459,11 @@
       background: radial-gradient(#9dcaeb3c 1px, transparent 1.3px) 0 0/13px 13px;
       mask-image: linear-gradient(90deg, transparent, #000);
     }
-    .hero .kicker { color: #91eade; }
+
+    .hero .kicker {
+      color: #91eade;
+    }
+
     .hero h1 {
       margin: .55rem 0 .7rem;
       font-size: clamp(2rem, 4.05vw, 3.7rem);
@@ -252,8 +471,18 @@
       letter-spacing: -.065em;
       line-height: 1.04;
     }
-    .hero h1 span { color: #a0eee4; }
-    .hero p:last-child { max-width: 53ch; color: #e0eafa; font-size: clamp(.96rem, 1.2vw, 1.08rem); line-height: 1.5; }
+
+    .hero h1 span {
+      color: #a0eee4;
+    }
+
+    .hero p:last-child {
+      max-width: 53ch;
+      color: #e0eafa;
+      font-size: clamp(.96rem, 1.2vw, 1.08rem);
+      line-height: 1.5;
+    }
+
     .hero-figure {
       position: relative;
       display: grid;
@@ -270,6 +499,7 @@
       text-decoration: none;
       box-shadow: 0 0 0 12px #92efe417, 0 0 0 26px #92efe40b, 0 0 55px #68d9e34d;
     }
+
     .hero-figure::before {
       content: "";
       position: absolute;
@@ -277,12 +507,41 @@
       border: 1px dashed #c1fff46a;
       border-radius: inherit;
     }
-    .hero-figure:hover { background: radial-gradient(circle, #1b4667 24%, #1e7083 100%); }
-    .hero-figure strong { color: #a0f3e6; font-size: clamp(2rem, 3.6vw, 3.1rem); line-height: 1; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
-    .hero-figure span { margin-top: .4rem; font-size: .9rem; font-weight: 600; }
-    .hero-figure small { margin-top: .3rem; color: #badeec; font-size: .78rem; }
-    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .95rem; }
-    .metric-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .hero-figure:hover {
+      background: radial-gradient(circle, #1b4667 24%, #1e7083 100%);
+    }
+
+    .hero-figure strong {
+      color: #a0f3e6;
+      font-size: clamp(2rem, 3.6vw, 3.1rem);
+      line-height: 1;
+      letter-spacing: -.06em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero-figure span {
+      margin-top: .4rem;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .hero-figure small {
+      margin-top: .3rem;
+      color: #badeec;
+      font-size: .78rem;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .95rem;
+    }
+
+    .metric-grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .metric {
       display: grid;
       align-content: start;
@@ -296,9 +555,25 @@
       text-decoration: none;
       box-shadow: var(--shadow);
     }
-    a.metric { transition: border-color .16s ease, box-shadow .16s ease; }
-    a.metric:hover { border-color: #91afe9; box-shadow: 0 8px 20px #285ed018; }
-    .metric-name { display: flex; align-items: center; gap: .46rem; color: #344969; font-size: .89rem; font-weight: 700; }
+
+    a.metric {
+      transition: border-color .16s ease, box-shadow .16s ease;
+    }
+
+    a.metric:hover {
+      border-color: #91afe9;
+      box-shadow: 0 8px 20px #285ed018;
+    }
+
+    .metric-name {
+      display: flex;
+      align-items: center;
+      gap: .46rem;
+      color: #344969;
+      font-size: .89rem;
+      font-weight: 700;
+    }
+
     .metric-icon {
       display: grid;
       place-items: center;
@@ -311,13 +586,46 @@
       font-size: 1.1rem;
       line-height: 1;
     }
-    .metric-icon.violet { background: #f1eafa; color: #6939a8; }
-    .metric-icon.mint { background: #e0f5ef; color: #06796a; }
-    .metric-icon.sand { background: #fff0e4; color: #9b4c22; }
-    .metric strong { font-size: clamp(1.55rem, 2.45vw, 2.3rem); letter-spacing: -.055em; line-height: 1.1; font-variant-numeric: tabular-nums; }
-    .metric strong small { font-size: .57em; letter-spacing: -.02em; }
-    .metric > span:not(.metric-name) { color: #354764; font-size: .88rem; line-height: 1.35; }
-    .metric > small { color: var(--muted); font-size: .78rem; line-height: 1.38; }
+
+    .metric-icon.violet {
+      background: #f1eafa;
+      color: #6939a8;
+    }
+
+    .metric-icon.mint {
+      background: #e0f5ef;
+      color: #06796a;
+    }
+
+    .metric-icon.sand {
+      background: #fff0e4;
+      color: #9b4c22;
+    }
+
+    .metric strong {
+      font-size: clamp(1.55rem, 2.45vw, 2.3rem);
+      letter-spacing: -.055em;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric strong small {
+      font-size: .57em;
+      letter-spacing: -.02em;
+    }
+
+    .metric>span:not(.metric-name) {
+      color: #354764;
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    .metric>small {
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.38;
+    }
+
     .world-preview {
       position: relative;
       isolation: isolate;
@@ -332,22 +640,102 @@
       color: white;
       text-decoration: none;
     }
-    .world-preview:hover { box-shadow: inset 0 0 0 2px #9de9e6ae; }
-    .world-preview canvas { position: absolute; z-index: -1; top: -21px; right: -24px; width: 255px; height: 245px; opacity: .8; }
-    .world-preview .kicker { color: #9ef4e6; }
-    .world-preview h2 { font-size: 1.52rem; letter-spacing: -.03em; }
-    .world-preview p { max-width: 28ch; color: #deedfb; line-height: 1.45; font-size: .95rem; }
-    .world-preview .world-total { font-size: 2.5rem; line-height: 1; letter-spacing: -.06em; color: #9ef4e6; }
-    .world-preview .world-total small { font-size: .47em; letter-spacing: -.02em; }
 
-    .chart { margin-top: .75rem; }
-    .legend { display: flex; flex-wrap: wrap; align-items: center; gap: .44rem .6rem; margin-bottom: .3rem; }
-    .legend-toggle { min-height: 30px; justify-content: flex-start; gap: .42rem; padding: .35rem .48rem; font-size: .83rem; }
-    .legend-toggle[aria-pressed="false"] { color: var(--muted); background: #f1f4f9; text-decoration: line-through; }
-    .swatch { display: inline-block; flex: none; width: 9px; height: 9px; border-radius: 3px; background: var(--swatch, #326bd9); }
-    .trend-plot { position: relative; height: 235px; }
-    .trend-plot canvas { display: block; width: 100%; height: 100%; }
-    .year-targets { position: absolute; inset: 9px 12px 25px 26px; display: grid; grid-template-columns: repeat(8, 1fr); }
+    .world-preview:hover {
+      box-shadow: inset 0 0 0 2px #9de9e6ae;
+    }
+
+    .world-preview canvas {
+      position: absolute;
+      z-index: -1;
+      top: -21px;
+      right: -24px;
+      width: 255px;
+      height: 245px;
+      opacity: .8;
+    }
+
+    .world-preview .kicker {
+      color: #9ef4e6;
+    }
+
+    .world-preview h2 {
+      font-size: 1.52rem;
+      letter-spacing: -.03em;
+    }
+
+    .world-preview p {
+      max-width: 28ch;
+      color: #deedfb;
+      line-height: 1.45;
+      font-size: .95rem;
+    }
+
+    .world-preview .world-total {
+      font-size: 2.5rem;
+      line-height: 1;
+      letter-spacing: -.06em;
+      color: #9ef4e6;
+    }
+
+    .world-preview .world-total small {
+      font-size: .47em;
+      letter-spacing: -.02em;
+    }
+
+    .chart {
+      margin-top: .75rem;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .44rem .6rem;
+      margin-bottom: .3rem;
+    }
+
+    .legend-toggle {
+      min-height: 30px;
+      justify-content: flex-start;
+      gap: .42rem;
+      padding: .35rem .48rem;
+      font-size: .83rem;
+    }
+
+    .legend-toggle[aria-pressed="false"] {
+      color: var(--muted);
+      background: #f1f4f9;
+      text-decoration: line-through;
+    }
+
+    .swatch {
+      display: inline-block;
+      flex: none;
+      width: 9px;
+      height: 9px;
+      border-radius: 3px;
+      background: var(--swatch, #326bd9);
+    }
+
+    .trend-plot {
+      position: relative;
+      height: 235px;
+    }
+
+    .trend-plot canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .year-targets {
+      position: absolute;
+      inset: 9px 12px 25px 26px;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+    }
+
     .year-targets button {
       min-width: 0;
       padding: 0;
@@ -356,6 +744,7 @@
       background: transparent;
       touch-action: manipulation;
     }
+
     .trend-tooltip {
       position: absolute;
       top: 9px;
@@ -374,10 +763,30 @@
       font-size: .79rem;
       line-height: 1.35;
     }
-    .chart-value { margin: .22rem 0 .55rem; color: #31496e; font-size: .86rem; font-variant-numeric: tabular-nums; line-height: 1.45; }
 
-    .calendar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .4rem; margin: .9rem 0; }
-    .dow { color: var(--muted); font-size: .81rem; font-weight: 650; text-align: center; padding: .2rem 0; }
+    .chart-value {
+      margin: .22rem 0 .55rem;
+      color: #31496e;
+      font-size: .86rem;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.45;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: .4rem;
+      margin: .9rem 0;
+    }
+
+    .dow {
+      color: var(--muted);
+      font-size: .81rem;
+      font-weight: 650;
+      text-align: center;
+      padding: .2rem 0;
+    }
+
     .calendar button {
       display: grid;
       align-content: space-between;
@@ -392,13 +801,53 @@
       font-size: .84rem;
       font-variant-numeric: tabular-nums;
     }
-    .calendar button[data-count="some"] { background: #e7efff; border-color: #b9cef3; color: #163e8c; }
-    .calendar button[aria-pressed="true"] { border-color: #3c6cca; background: #2c5fca; color: white; }
-    .calendar button:hover { border-color: #7197dc; }
-    .calendar-amount { justify-self: end; color: inherit; font-size: 1.09rem; font-weight: 700; line-height: 1; }
-    .calendar button[data-count="zero"]:not([aria-pressed="true"]) .calendar-amount { color: #687891; font-weight: 500; }
-    .calendar-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
-    .incident-list { display: grid; gap: .62rem; max-height: 420px; overflow: auto; margin-top: .7rem; padding: 0 .18rem .1rem 0; }
+
+    .calendar button[data-count="some"] {
+      background: #e7efff;
+      border-color: #b9cef3;
+      color: #163e8c;
+    }
+
+    .calendar button[aria-pressed="true"] {
+      border-color: #3c6cca;
+      background: #2c5fca;
+      color: white;
+    }
+
+    .calendar button:hover {
+      border-color: #7197dc;
+    }
+
+    .calendar-amount {
+      justify-self: end;
+      color: inherit;
+      font-size: 1.09rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .calendar button[data-count="zero"]:not([aria-pressed="true"]) .calendar-amount {
+      color: #687891;
+      font-weight: 500;
+    }
+
+    .calendar-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .incident-list {
+      display: grid;
+      gap: .62rem;
+      max-height: 420px;
+      overflow: auto;
+      margin-top: .7rem;
+      padding: 0 .18rem .1rem 0;
+    }
+
     .incident-row {
       display: grid;
       gap: .28rem;
@@ -409,13 +858,54 @@
       text-decoration: none;
       font-size: .88rem;
     }
-    .incident-row:hover { border-color: #9ab9ec; background: #f4f8ff; }
-    .incident-date { color: var(--muted); font-size: .81rem; }
-    .incident-title { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .12rem .5rem; }
-    .incident-title b:last-child { color: #244b99; white-space: nowrap; }
-    .track { display: block; height: 8px; width: 100%; overflow: hidden; border-radius: 8px; background: #e7edf7; }
-    .fill { display: block; height: 100%; min-width: 2px; width: var(--amount); border-radius: 8px; background: var(--bar, #4d7ce0); }
-    .bars { display: grid; gap: .42rem; margin: .9rem 0; }
+
+    .incident-row:hover {
+      border-color: #9ab9ec;
+      background: #f4f8ff;
+    }
+
+    .incident-date {
+      color: var(--muted);
+      font-size: .81rem;
+    }
+
+    .incident-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .12rem .5rem;
+    }
+
+    .incident-title b:last-child {
+      color: #244b99;
+      white-space: nowrap;
+    }
+
+    .track {
+      display: block;
+      height: 8px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #e7edf7;
+    }
+
+    .fill {
+      display: block;
+      height: 100%;
+      min-width: 2px;
+      width: var(--amount);
+      border-radius: 8px;
+      background: var(--bar, #4d7ce0);
+    }
+
+    .bars {
+      display: grid;
+      gap: .42rem;
+      margin: .9rem 0;
+    }
+
     .bar-row {
       display: grid;
       gap: .42rem;
@@ -428,22 +918,109 @@
       text-align: left;
       font-size: .9rem;
     }
-    .bar-row:hover { background: #f2f6fe; }
-    .bar-row[aria-pressed="true"] { background: #eef4ff; border-color: #c9daf6; }
-    .bar-label { display: flex; align-items: baseline; justify-content: space-between; gap: .36rem; }
-    .bar-label strong { color: #28497f; white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .bar-row .track { height: 12px; }
-    .detail-panel { display: grid; align-content: start; gap: .75rem; }
-    .detail-panel hr { width: 100%; border: 0; border-top: 1px solid var(--line); margin: .15rem 0; }
-    .stat-list { display: grid; gap: .6rem; margin: 0; }
-    .stat-list div { display: flex; align-items: baseline; justify-content: space-between; gap: .55rem; padding-bottom: .52rem; border-bottom: 1px solid var(--line); }
-    .stat-list div:last-child { border: 0; padding-bottom: 0; }
-    .stat-list dt { color: var(--muted); font-size: .88rem; line-height: 1.4; }
-    .stat-list dd { margin: 0; text-align: right; color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
-    .stack { display: flex; height: 13px; overflow: hidden; border-radius: 8px; background: #e5edf7; }
-    .stack span { width: var(--amount); background: var(--segment-color); }
-    .stack-key { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .4rem .7rem; color: var(--muted); font-size: .84rem; line-height: 1.35; }
-    .stack-key span { display: inline-flex; align-items: center; gap: .32rem; }
+
+    .bar-row:hover {
+      background: #f2f6fe;
+    }
+
+    .bar-row[aria-pressed="true"] {
+      background: #eef4ff;
+      border-color: #c9daf6;
+    }
+
+    .bar-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: .36rem;
+    }
+
+    .bar-label strong {
+      color: #28497f;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bar-row .track {
+      height: 12px;
+    }
+
+    .detail-panel {
+      display: grid;
+      align-content: start;
+      gap: .75rem;
+    }
+
+    .detail-panel hr {
+      width: 100%;
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: .15rem 0;
+    }
+
+    .stat-list {
+      display: grid;
+      gap: .6rem;
+      margin: 0;
+    }
+
+    .stat-list div {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: .55rem;
+      padding-bottom: .52rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat-list div:last-child {
+      border: 0;
+      padding-bottom: 0;
+    }
+
+    .stat-list dt {
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.4;
+    }
+
+    .stat-list dd {
+      margin: 0;
+      text-align: right;
+      color: var(--ink);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stack {
+      display: flex;
+      height: 13px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #e5edf7;
+    }
+
+    .stack span {
+      width: var(--amount);
+      background: var(--segment-color);
+    }
+
+    .stack-key {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .4rem .7rem;
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.35;
+    }
+
+    .stack-key span {
+      display: inline-flex;
+      align-items: center;
+      gap: .32rem;
+    }
+
     .impact-value {
       display: grid;
       gap: .28rem;
@@ -454,29 +1031,81 @@
       background: #eaf8f4;
       color: #15564f;
     }
-    .impact-value strong { font-size: clamp(2.45rem, 4.7vw, 4rem); letter-spacing: -.06em; line-height: 1; font-variant-numeric: tabular-nums; }
-    .impact-value span { font-size: .92rem; font-weight: 650; }
-    .accounts-chart { display: grid; gap: .52rem; }
-    .accounts-chart .stack { height: 23px; margin-top: .25rem; }
+
+    .impact-value strong {
+      font-size: clamp(2.45rem, 4.7vw, 4rem);
+      letter-spacing: -.06em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .impact-value span {
+      font-size: .92rem;
+      font-weight: 650;
+    }
+
+    .accounts-chart {
+      display: grid;
+      gap: .52rem;
+    }
+
+    .accounts-chart .stack {
+      height: 23px;
+      margin-top: .25rem;
+    }
+
     .stack button {
       width: var(--amount);
       border: 0;
       padding: 0;
       background: var(--segment-color);
     }
-    .stack button:hover, .stack button:focus-visible { box-shadow: inset 0 0 0 3px #ffffff; outline: none; }
+
+    .stack button:hover,
+    .stack button:focus-visible {
+      box-shadow: inset 0 0 0 3px #ffffff;
+      outline: none;
+    }
+
     .story-card {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
       gap: .7rem 1.2rem;
     }
-    .story-card div { display: grid; gap: .38rem; }
-    .signed-bar { display: grid; position: relative; height: 12px; border-radius: 8px; background: #e7edf7; }
-    .signed-bar::after { content: ""; position: absolute; inset: 0 auto 0 var(--zero); width: 1px; background: #627596; }
-    .signed-bar .fill { position: absolute; left: var(--left); top: 0; }
 
-    .world-layout { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: start; }
+    .story-card div {
+      display: grid;
+      gap: .38rem;
+    }
+
+    .signed-bar {
+      display: grid;
+      position: relative;
+      height: 12px;
+      border-radius: 8px;
+      background: #e7edf7;
+    }
+
+    .signed-bar::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 var(--zero);
+      width: 1px;
+      background: #627596;
+    }
+
+    .signed-bar .fill {
+      position: absolute;
+      left: var(--left);
+      top: 0;
+    }
+
+    .world-layout {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
     .globe-panel {
       overflow: hidden;
       min-width: 0;
@@ -486,11 +1115,38 @@
       background: radial-gradient(ellipse at 60% 27%, #1a4261 0, #112741 55%, #102039 100%);
       box-shadow: var(--shadow);
     }
-    .globe-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .85rem; padding: 1.15rem 1.1rem 0; }
-    .globe-head h2 { font-size: 1.25rem; letter-spacing: -.02em; }
-    .globe-head p { margin-top: .35rem; color: #c5d7ec; font-size: .86rem; line-height: 1.48; }
-    .globe-head .button { flex: none; background: #244663; color: #e7f5ff; border-color: #577999; }
-    .globe-head .button:hover { background: #305878; }
+
+    .globe-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .85rem;
+      padding: 1.15rem 1.1rem 0;
+    }
+
+    .globe-head h2 {
+      font-size: 1.25rem;
+      letter-spacing: -.02em;
+    }
+
+    .globe-head p {
+      margin-top: .35rem;
+      color: #c5d7ec;
+      font-size: .86rem;
+      line-height: 1.48;
+    }
+
+    .globe-head .button {
+      flex: none;
+      background: #244663;
+      color: #e7f5ff;
+      border-color: #577999;
+    }
+
+    .globe-head .button:hover {
+      background: #305878;
+    }
+
     .globe-stage {
       position: relative;
       touch-action: none;
@@ -498,10 +1154,27 @@
       overflow: hidden;
       cursor: grab;
     }
-    .globe-stage.dragging { cursor: grabbing; }
-    .globe-stage:focus-visible { outline-offset: -5px; }
-    .globe-stage canvas { display: block; width: 100%; height: 100%; }
-    .markers { position: absolute; inset: 0; pointer-events: none; }
+
+    .globe-stage.dragging {
+      cursor: grabbing;
+    }
+
+    .globe-stage:focus-visible {
+      outline-offset: -5px;
+    }
+
+    .globe-stage canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .markers {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
     .marker {
       position: absolute;
       display: grid;
@@ -516,6 +1189,7 @@
       color: white;
       pointer-events: auto;
     }
+
     .marker::before {
       content: "";
       display: block;
@@ -526,7 +1200,16 @@
       background: #ffbe72;
       box-shadow: 0 0 0 4px #ffc5743b, 0 0 14px #ffbb66bd;
     }
-    .marker:hover::before, .marker[aria-pressed="true"]::before { width: 13px; height: 13px; background: #abf4e5; border-color: #fff; box-shadow: 0 0 0 5px #80ddcf50, 0 0 18px #80ddcfcf; }
+
+    .marker:hover::before,
+    .marker[aria-pressed="true"]::before {
+      width: 13px;
+      height: 13px;
+      background: #abf4e5;
+      border-color: #fff;
+      box-shadow: 0 0 0 5px #80ddcf50, 0 0 18px #80ddcfcf;
+    }
+
     .marker span {
       display: none;
       position: absolute;
@@ -542,8 +1225,18 @@
       font-size: .81rem;
       pointer-events: none;
     }
-    .marker:hover, .marker:focus-visible { z-index: 2; outline-color: #94fff1; }
-    .marker:hover span, .marker:focus-visible span { display: block; }
+
+    .marker:hover,
+    .marker:focus-visible {
+      z-index: 2;
+      outline-color: #94fff1;
+    }
+
+    .marker:hover span,
+    .marker:focus-visible span {
+      display: block;
+    }
+
     .map-case {
       display: grid;
       gap: .42rem;
@@ -556,22 +1249,102 @@
       line-height: 1.48;
       scroll-margin-top: 7rem;
     }
-    .map-case h3 { font-size: 1.1rem; }
-    .map-case p { color: #d8e7f7; }
-    .map-case a { color: #97f1e3; font-weight: 650; justify-self: start; }
-    .map-case .case-meta { font-size: .81rem; color: #a7d4e0; }
-    .world-catalog { display: grid; align-content: start; gap: .75rem; }
-    .filter-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
-    .filter-info { display: flex; align-items: center; justify-content: space-between; gap: .4rem .7rem; flex-wrap: wrap; }
-    .filter-info .button { min-height: 33px; }
-    .table-scroll { max-height: 410px; overflow: auto; border: 1px solid var(--line); border-radius: 11px; }
-    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .87rem; line-height: 1.4; }
-    th, td { padding: .57rem .63rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
-    th { position: sticky; top: 0; z-index: 1; color: #344b6e; background: #edf3fc; font-size: .83rem; }
-    tr:last-child td { border-bottom: 0; }
-    tr:hover td, tr.selected td { background: #eef5ff; }
-    td:first-child { white-space: nowrap; }
-    .cell-detail { display: block; margin-top: .28rem; color: var(--muted); font-size: .8rem; }
+
+    .map-case h3 {
+      font-size: 1.1rem;
+    }
+
+    .map-case p {
+      color: #d8e7f7;
+    }
+
+    .map-case a {
+      color: #97f1e3;
+      font-weight: 650;
+      justify-self: start;
+    }
+
+    .map-case .case-meta {
+      font-size: .81rem;
+      color: #a7d4e0;
+    }
+
+    .world-catalog {
+      display: grid;
+      align-content: start;
+      gap: .75rem;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .6rem;
+    }
+
+    .filter-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .4rem .7rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-info .button {
+      min-height: 33px;
+    }
+
+    .table-scroll {
+      max-height: 410px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: .87rem;
+      line-height: 1.4;
+    }
+
+    th,
+    td {
+      padding: .57rem .63rem;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #344b6e;
+      background: #edf3fc;
+      font-size: .83rem;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tr:hover td,
+    tr.selected td {
+      background: #eef5ff;
+    }
+
+    td:first-child {
+      white-space: nowrap;
+    }
+
+    .cell-detail {
+      display: block;
+      margin-top: .28rem;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
     .news-title {
       border: 0;
       background: none;
@@ -582,8 +1355,16 @@
       font-size: .9rem;
       line-height: 1.35;
     }
-    .news-title:hover { text-decoration: underline; }
-    .news-source { display: inline-block; margin-top: .3rem; font-size: .81rem; }
+
+    .news-title:hover {
+      text-decoration: underline;
+    }
+
+    .news-source {
+      display: inline-block;
+      margin-top: .3rem;
+      font-size: .81rem;
+    }
 
     dialog {
       width: min(650px, calc(100% - 2rem));
@@ -595,7 +1376,11 @@
       color: var(--ink);
       box-shadow: 0 18px 90px #0d1c4360;
     }
-    dialog::backdrop { background: #09152db0; }
+
+    dialog::backdrop {
+      background: #09152db0;
+    }
+
     .dialog-header {
       display: flex;
       justify-content: space-between;
@@ -604,31 +1389,104 @@
       padding: 1rem 1.2rem;
       border-bottom: 1px solid var(--line);
     }
-    .dialog-header h2 { font-size: 1.34rem; }
-    .dialog-content { display: grid; gap: .72rem; padding: 1rem 1.2rem 1.25rem; color: #334561; line-height: 1.55; }
-    .dialog-content ul { margin: 0; padding-left: 1.3rem; }
-    .dialog-content li + li { margin-top: .36rem; }
-    .dialog-content h3 { color: var(--ink); font-size: 1rem; }
+
+    .dialog-header h2 {
+      font-size: 1.34rem;
+    }
+
+    .dialog-content {
+      display: grid;
+      gap: .72rem;
+      padding: 1rem 1.2rem 1.25rem;
+      color: #334561;
+      line-height: 1.55;
+    }
+
+    .dialog-content ul {
+      margin: 0;
+      padding-left: 1.3rem;
+    }
+
+    .dialog-content li+li {
+      margin-top: .36rem;
+    }
+
+    .dialog-content h3 {
+      color: var(--ink);
+      font-size: 1rem;
+    }
 
     @media (max-width: 1120px) {
-      .shell { grid-template-columns: 190px minmax(0, 1fr); }
-      .sidebar { padding-left: .68rem; padding-right: .68rem; }
-      .world-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-      .globe-head { flex-wrap: wrap; }
+      .shell {
+        grid-template-columns: 190px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        padding-left: .68rem;
+        padding-right: .68rem;
+      }
+
+      .world-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      .globe-head {
+        flex-wrap: wrap;
+      }
     }
+
     @media (max-width: 920px) {
-      .shell { display: block; }
-      .sidebar { z-index: 4; height: auto; gap: .65rem; padding: .65rem 1rem .45rem; }
-      .sidebar nav { display: flex; overflow-x: auto; scrollbar-width: thin; padding: 0 .12rem .2rem; }
-      .sidebar nav a { padding: .48rem .6rem; }
-      .sidebar nav a:last-child { margin-top: 0; }
-      .sidebar-foot { display: none; }
-      .brand-mark { flex-basis: 31px; height: 31px; border-radius: 8px; }
-      .brand small { display: none; }
-      .topbar { min-height: 52px; }
+      .shell {
+        display: block;
+      }
+
+      .sidebar {
+        z-index: 4;
+        height: auto;
+        gap: .65rem;
+        padding: .65rem 1rem .45rem;
+      }
+
+      .sidebar nav {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        padding: 0 .12rem .2rem;
+      }
+
+      .sidebar nav a {
+        padding: .48rem .6rem;
+      }
+
+      .sidebar nav a:last-child {
+        margin-top: 0;
+      }
+
+      .sidebar-foot {
+        display: none;
+      }
+
+      .brand-mark {
+        flex-basis: 31px;
+        height: 31px;
+        border-radius: 8px;
+      }
+
+      .brand small {
+        display: none;
+      }
+
+      .topbar {
+        min-height: 52px;
+      }
     }
+
     @media (max-width: 700px) {
-      .hero { grid-template-columns: 1fr; align-items: start; }
+      .hero {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
       .hero-figure {
         width: auto;
         aspect-ratio: auto;
@@ -642,37 +1500,126 @@
         box-shadow: none;
         text-align: left;
       }
-      .hero-figure::before { display: none; }
-      .hero-figure strong { font-size: 1.32rem; }
-      .hero-figure span, .hero-figure small { margin: 0; }
-      .hero-figure small { grid-column: 1 / -1; }
-      .hero h1 { margin-top: .45rem; }
-      .metric-grid, .metric-grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .66rem; }
-      .panel-grid, .balanced, .world-layout { grid-template-columns: 1fr; gap: .85rem; }
-      .view { gap: .9rem; }
-      .world-preview { min-height: 231px; }
-      .world-preview canvas { top: -32px; right: -28px; width: 230px; height: 230px; opacity: .55; }
-      .story-card { grid-template-columns: 1fr; }
-      .story-card .button { justify-self: start; }
+
+      .hero-figure::before {
+        display: none;
+      }
+
+      .hero-figure strong {
+        font-size: 1.32rem;
+      }
+
+      .hero-figure span,
+      .hero-figure small {
+        margin: 0;
+      }
+
+      .hero-figure small {
+        grid-column: 1 / -1;
+      }
+
+      .hero h1 {
+        margin-top: .45rem;
+      }
+
+      .metric-grid,
+      .metric-grid.three {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .66rem;
+      }
+
+      .panel-grid,
+      .balanced,
+      .world-layout {
+        grid-template-columns: 1fr;
+        gap: .85rem;
+      }
+
+      .view {
+        gap: .9rem;
+      }
+
+      .world-preview {
+        min-height: 231px;
+      }
+
+      .world-preview canvas {
+        top: -32px;
+        right: -28px;
+        width: 230px;
+        height: 230px;
+        opacity: .55;
+      }
+
+      .story-card {
+        grid-template-columns: 1fr;
+      }
+
+      .story-card .button {
+        justify-self: start;
+      }
     }
+
     @media (max-width: 420px) {
-      .nav-icon { display: none; }
-      .sidebar nav a { padding: .5rem .56rem; }
-      .trail > span:not(.flag) { display: none; }
-      .trail { gap: .36rem; }
-      main { padding-left: .78rem; padding-right: .78rem; }
-      .panel { padding: .88rem; }
-      .metric { padding: .75rem .69rem; }
-      .calendar { gap: .26rem; }
-      .calendar button { min-height: 52px; }
-      .globe-head { padding: .92rem .88rem 0; }
-      .filter-grid { grid-template-columns: 1fr; }
+      .nav-icon {
+        display: none;
+      }
+
+      .sidebar nav a {
+        padding: .5rem .56rem;
+      }
+
+      .trail>span:not(.flag) {
+        display: none;
+      }
+
+      .trail {
+        gap: .36rem;
+      }
+
+      main {
+        padding-left: .78rem;
+        padding-right: .78rem;
+      }
+
+      .panel {
+        padding: .88rem;
+      }
+
+      .metric {
+        padding: .75rem .69rem;
+      }
+
+      .calendar {
+        gap: .26rem;
+      }
+
+      .calendar button {
+        min-height: 52px;
+      }
+
+      .globe-head {
+        padding: .92rem .88rem 0;
+      }
+
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
     }
+
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
     }
   </style>
+  <link rel="stylesheet" href="story.css">
 </head>
+
 <body>
   <a class="skip-link" href="#contenido">Ir al contenido</a>
   <div class="shell">
@@ -682,12 +1629,12 @@
         <span><strong>Data4Quality</strong><small>Pagos digitales</small></span>
       </a>
       <nav aria-label="Secciones">
-        <a href="#vista-general" data-view aria-current="page"><span class="nav-icon" aria-hidden="true">▦</span>Vista General</a>
-        <a href="#disponibilidad" data-view><span class="nav-icon" aria-hidden="true">◷</span>Disponibilidad</a>
-        <a href="#criticidad" data-view><span class="nav-icon" aria-hidden="true">▤</span>Criticidad</a>
-        <a href="#impacto" data-view><span class="nav-icon" aria-hidden="true">◈</span>Impacto</a>
-        <a href="#uso-digital" data-view><span class="nav-icon" aria-hidden="true">▥</span>Uso Digital</a>
-        <a href="#situacion-mundial" data-view><span class="nav-icon" aria-hidden="true">◎</span>Situación Mundial</a>
+        <a href="#vista-general" data-view aria-current="page">La historia</a>
+        <a href="#disponibilidad" data-view>¿Cuándo pasó?</a>
+        <a href="#criticidad" data-view>¿Cuánto duró?</a>
+        <a href="#impacto" data-view>¿Qué está en juego?</a>
+        <a href="#uso-digital" data-view>¿Cuánto los usamos?</a>
+        <a href="#situacion-mundial" data-view>Casos en otros países</a>
       </nav>
       <div class="sidebar-foot">
         <strong>TPI · Big Brain</strong>
@@ -697,81 +1644,144 @@
 
     <div class="workspace">
       <header class="topbar">
-        <div class="trail"><span class="flag" id="context-flag" aria-hidden="true"></span><span id="area-title">Argentina</span><span class="trail-separator" aria-hidden="true">/</span><strong id="current-view">Vista General</strong></div>
-        <button class="button" id="sources-button" type="button" aria-haspopup="dialog">Fuentes y método</button>
+        <div class="trail"><span class="flag" id="context-flag" aria-hidden="true"></span><span
+            id="area-title">Argentina</span><span class="trail-separator" aria-hidden="true">/</span><strong
+            id="current-view">Vista General</strong></div>
       </header>
 
       <main id="contenido" tabindex="-1">
         <section class="view" id="vista-general" aria-labelledby="overview-title">
           <div class="hero">
             <div>
-              <p class="kicker">Disponibilidad del software financiero</p>
+              <p class="kicker">Una historia sobre tu próximo pago</p>
               <h1 id="overview-title" tabindex="-1">Tenés dinero. Pero…<br><span>¿podés usarlo?</span></h1>
-              <p>Una falla en una billetera o en un banco digital puede impedirte pagar, cobrar o transferir cuando lo necesitás.</p>
+              <p>Estás en la caja. Tenés saldo.<br>Pero el pago no sale.</p>
+              <button class="button story-start" type="button" data-story-target="story-evidence">¿Qué dicen los
+                registros?</button>
             </div>
-            <a class="hero-figure" href="#impacto" data-view>
-              <strong>≈&nbsp;2.843</strong>
-              <span>pagos QR por minuto</span>
-              <small>Argentina · sep. 2026</small>
-            </a>
+            <div class="scene-receipt" id="payment-scene" data-state="ready"
+              aria-label="Simulación ilustrativa de un pago">
+              <span>EN LA CAJA</span>
+              <p>Saldo suficiente</p>
+              <div class="payment-symbol" aria-hidden="true"><span></span></div>
+              <strong id="payment-status" role="status">Todo listo para pagar</strong>
+              <button class="button" id="try-payment" type="button">Probar el pago</button>
+            </div>
           </div>
+          <article class="panel story-chapter" aria-labelledby="story-evidence">
+            <p class="kicker">De la situación a la evidencia</p>
+            <h2 id="story-evidence" tabindex="-1">El reloj sigue. ¿Y la solución?</h2>
+            <p class="evidence-scope" id="story-scope"></p>
+            <div class="clock-actions"><button class="button play-clock" type="button" id="play-clock"
+                aria-pressed="false">Reproducir el tiempo</button>
+              <div class="segment" aria-label="Saltar a un momento"><button type="button" data-minute="5"
+                  aria-pressed="false">5 min</button><button type="button" data-minute="60" aria-pressed="false">1
+                  hora</button><button type="button" data-minute="120" aria-pressed="false">2 horas</button></div>
+            </div>
+            <label class="wait-control" for="story-minutes">Desde el aviso: <output id="story-minutes-value"
+                for="story-minutes">15 minutos</output>
+              <input id="story-minutes" type="range" min="0" max="150" step="1" value="15"
+                aria-describedby="story-clock-note">
+            </label>
+            <p class="small" id="story-clock-note">Cada barra: del aviso a su resolución informada. Todos parten de cero
+              para compararlos.</p>
+            <p id="story-readout" class="story-readout" role="status"></p>
+            <div class="interval-axis" aria-hidden="true"><span>Minutos desde el aviso</span>
+              <div><span>0</span><span>30</span><span>60</span><span>90</span><span>120</span><span>150</span></div>
+            </div>
+            <div id="story-intervals" class="intervals" aria-label="Intervalos de los incidentes argentinos"></div>
+            <div class="interval-key"><span><i class="swatch" style="--swatch:#285ed0" aria-hidden="true"></i>Sin
+                resolución</span><span><i class="swatch" style="--swatch:#8d9bb0" aria-hidden="true"></i>Resolución
+                informada</span><span>Tocá una barra para ver el aviso.</span></div>
+            <details id="incident-disclosure">
+              <summary>Horarios y fuente del aviso seleccionado</summary>
+              <div id="story-incident-detail" class="note" aria-live="polite"></div>
+            </details>
+            <p class="source"><a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado
+                Pago Status</a> · Intervalos publicados, no tiempo de espera de una persona.</p>
+            <details>
+              <summary>Cómo leer estos tiempos</summary>
+              <p>Los avisos no ocurrieron simultáneamente. La comparación alinea sus publicaciones en el minuto cero. Se
+                muestran minutos redondeados y se calcula con marcas temporales completas.</p>
+              <p>Son avisos de servicios e integraciones: no implican que todos los pagos fallaron. Sin aviso tampoco
+                significa sin fallas. No permiten medir personas afectadas ni disponibilidad real.</p>
+            </details>
+            <button class="button chapter-next" type="button" data-story-target="story-discovery">Ver el
+              hallazgo</button>
+          </article>
 
-          <div class="metric-grid" aria-label="Indicadores destacados de Argentina">
-            <a class="metric" href="#disponibilidad" data-view>
-              <span class="metric-name"><span class="metric-icon" aria-hidden="true">◷</span>Disponibilidad</span>
-              <strong id="overview-incident-count">7</strong>
-              <span>incidentes identificados en Argentina</span>
-              <small>Mercado Pago · 4–24 nov. 2026</small>
-            </a>
-            <a class="metric" href="#criticidad" data-view>
-              <span class="metric-name"><span class="metric-icon violet" aria-hidden="true">▤</span>Criticidad</span>
-              <strong><span id="overview-point-median">106</span> <small>min</small></strong>
-              <span>mediana de resolución de Point</span>
-              <small>Mercado Pago · Argentina</small>
-            </a>
-            <a class="metric" href="#impacto" data-view>
-              <span class="metric-name"><span class="metric-icon mint" aria-hidden="true">◈</span>Impacto</span>
-              <strong>16,1 <small>M</small></strong>
-              <span>cuentas de pago con saldo</span>
-              <small>BCRA · ago. 2026</small>
-            </a>
-            <a class="metric" href="#uso-digital" data-view>
-              <span class="metric-name"><span class="metric-icon sand" aria-hidden="true">▥</span>Uso Digital</span>
-              <strong>32,8</strong>
-              <span>pagos electrónicos por adulto al mes</span>
-              <small>BCRA · primer semestre de 2026</small>
-            </a>
-          </div>
+          <article class="panel story-chapter" aria-labelledby="story-discovery">
+            <p class="kicker">El descubrimiento</p>
+            <h2 id="story-discovery" tabindex="-1">Un incidente no cuenta toda la historia.</h2>
+            <p id="story-finding" class="story-takeaway"></p>
+            <p class="small">En esta muestra, los avisos de Point tardaron más en resolverse. No es un ranking de
+              confiabilidad.</p>
+            <details>
+              <summary>Muestra, límites y descarga</summary>
+              <p id="story-sample"></p>
+              <p>Point es la terminal de cobro del comercio; QR inicia el pago al escanear un código. Faltan el volumen
+                de uso, los pagos fallidos y un monitoreo completo para comparar confiabilidad.</p>
+              <p>Los avisos globales o sin país no se atribuyen automáticamente a Argentina. La API muestra avisos
+                recientes y cambia con el tiempo.</p><button class="button" type="button"
+                id="download-evidence">Descargar los 50 registros</button>
+              <p class="small">JSON normalizado, con fuente y método. No es la respuesta íntegra de la API.</p><a
+                href="#disponibilidad" data-view>Revisar fechas y alcances</a>
+            </details>
+            <button class="button chapter-next" type="button" data-story-target="story-context">¿Por qué nos
+              importa?</button>
+          </article>
 
-          <div class="panel-grid">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Pagos electrónicos y retiros de efectivo</h2>
-                <p>Operaciones mensuales por adulto · Primer semestre de cada año</p>
-              </header>
-              <div class="chart" id="overview-trend"></div>
-              <p class="source"><a href="#uso-digital" data-view>Explorar Uso Digital</a> · BCRA, Inclusión Financiera</p>
-            </article>
-            <a class="world-preview" href="#situacion-mundial" data-view>
-              <canvas id="preview-globe" aria-hidden="true"></canvas>
-              <span class="kicker">Situación Mundial</span>
-              <strong class="world-total"><span data-country-total>14</span> <small>países</small></strong>
-              <h2>Interrupciones documentadas</h2>
-              <p>En un incidente en Singapur quedaron sin completar unos 2,5 millones de pagos y operaciones en cajeros.</p>
-            </a>
-          </div>
+          <article class="panel story-chapter" aria-labelledby="story-context">
+            <p class="kicker">La escala cotidiana</p>
+            <h2 id="story-context" tabindex="-1">Pagamos digitalmente <span class="highlight-number">5,7 veces</span> lo
+              que pagábamos en 2019.</h2>
+            <p class="small">Operaciones mensuales por adulto · Elegí un año para comparar.</p>
+            <div class="chart" id="overview-trend"></div>
+            <p class="source">Argentina · Primer semestre de cada año · <a
+                href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
+                target="_blank" rel="noopener">BCRA, Inclusión Financiera</a>.</p>
+            <details>
+              <summary>Qué compara el gráfico</summary>
+              <p>Promedios mensuales por adulto: 5,8 pagos electrónicos en 2019 y 32,8 en 2026 (32,8 / 5,8 ≈ 5,7). El
+                eje horizontal muestra años; el vertical, operaciones desde cero. La leyenda permite aislar cada serie.
+              </p>
+              <p>Las extracciones bajan de 2,9 a 1,3. Esto no mide compras en efectivo ni su abandono. Los promedios
+                describen a la población, no a cada persona.</p>
+              <p>El BCRA mide todo el sistema argentino; los avisos son de Mercado Pago. Multiplicar operaciones por
+                minuto por la duración de un aviso no permite estimar pagos afectados.</p>
+            </details>
+            <button class="button chapter-next" type="button" data-story-target="story-quality">Ponerle nombre al
+              problema</button>
+          </article>
+
+          <article class="story-ending story-chapter" aria-labelledby="story-quality">
+            <p class="kicker">Ahora sí: la calidad del software</p>
+            <h2 id="story-quality" tabindex="-1">Tu dinero necesita un sistema que responda.</h2>
+            <p>Eso es <strong>disponibilidad</strong>: poder usar el sistema cuando lo necesitás.</p>
+            <p class="story-takeaway">La calidad también se juega en la caja.</p>
+            <p class="source">Parte de la confiabilidad en <a href="https://www.iso.org/standard/78176.html"
+                target="_blank" rel="noopener">ISO/IEC 25010:2023</a>. Explicación simplificada.</p>
+            <div class="story-links"><a class="button" href="#criticidad" data-view>Explorar otros servicios</a><a
+                class="button" href="#situacion-mundial" data-view>Leer otros casos</a><button class="button"
+                type="button" data-story-target="overview-title">Volver al comienzo</button></div>
+          </article>
         </section>
 
         <section class="view" id="disponibilidad" aria-labelledby="availability-title" hidden>
           <header class="page-heading">
             <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
-            <h1 id="availability-title" tabindex="-1">Disponibilidad</h1>
-            <p>La disponibilidad es poder usar un servicio cuando lo necesitás. Estos reportes muestran cuándo se notificaron fallas y cuánto pasó hasta que se informó su resolución.</p>
+            <h1 id="availability-title" tabindex="-1">¿Cuándo se publicaron los avisos?</h1>
+            <p>Elegí un alcance y un servicio para localizar los reportes en el calendario. Un día sin avisos en esta
+              muestra no demuestra que el servicio funcionó sin fallas.</p>
           </header>
           <div class="metric-grid three" aria-label="Resumen del alcance seleccionado">
-            <div class="metric"><span class="metric-name">Incidentes publicados</span><strong id="availability-count"></strong><span id="availability-scope-label"></span></div>
-            <div class="metric"><span class="metric-name">Ventanas acumuladas</span><strong id="availability-duration"></strong><span>Entre avisos y resoluciones informadas</span></div>
-            <div class="metric"><span class="metric-name">Días con reportes</span><strong id="availability-days"></strong><span>En la ventana de 21 días</span></div>
+            <div class="metric"><span class="metric-name">Incidentes publicados</span><strong
+                id="availability-count"></strong><span id="availability-scope-label"></span></div>
+            <div class="metric"><span class="metric-name">Suma de intervalos publicados</span><strong
+                id="availability-duration"></strong><span>Puede contar tiempos superpuestos; no es tiempo total de
+                caída</span></div>
+            <div class="metric"><span class="metric-name">Días con reportes</span><strong
+                id="availability-days"></strong><span>En la ventana de 21 días</span></div>
           </div>
           <div class="panel-grid balanced">
             <article class="panel">
@@ -789,11 +1799,14 @@
                     <option value="sample">Muestra completa</option>
                   </select>
                 </label>
-                <label>Servicio<select id="availability-service"><option value="">Todos los servicios</option></select></label>
+                <label>Servicio<select id="availability-service">
+                    <option value="">Todos los servicios</option>
+                  </select></label>
               </div>
               <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
               <div class="calendar-footer">
-                <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado Pago Status</a></p>
+                <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank"
+                    rel="noopener">Mercado Pago Status</a></p>
                 <button class="button" id="availability-reset-day" type="button" hidden>Ver todo el período</button>
               </div>
             </article>
@@ -807,14 +1820,16 @@
           </div>
           <aside class="note">
             <strong>Cómo interpretar los tiempos</strong>
-            <p>El reloj empieza con el aviso público y termina con la resolución informada, en hora argentina. Las ventanas pueden superponerse. Calcular la disponibilidad real requeriría medir el tiempo operativo de cada servicio.</p>
+            <p>El reloj empieza con el aviso público y termina con la resolución informada, en hora argentina. Las
+              ventanas pueden superponerse. Calcular la disponibilidad real requeriría medir el tiempo operativo de cada
+              servicio.</p>
           </aside>
         </section>
 
         <section class="view" id="criticidad" aria-labelledby="criticality-title" hidden>
           <header class="page-heading">
             <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
-            <h1 id="criticality-title" tabindex="-1">Criticidad</h1>
+            <h1 id="criticality-title" tabindex="-1">¿Cuánto pasó hasta la resolución?</h1>
             <p>Compará cuántas veces se reportaron fallas en cada servicio y cuánto tardaron en darse por resueltas.</p>
           </header>
           <div class="panel-grid">
@@ -837,26 +1852,33 @@
                 </div>
               </div>
               <div class="bars" id="criticality-bars"></div>
-              <p class="source"><span id="criticality-chart-description"></span> <a href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado Pago Status</a></p>
+              <p class="source"><span id="criticality-chart-description"></span> <a
+                  href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado
+                  Pago Status</a></p>
             </article>
             <article class="panel detail-panel" id="criticality-detail" aria-live="polite"></article>
           </div>
           <aside class="note">
             <strong>Impacto reportado por la plataforma</strong>
-            <p>Las categorías mayor y menor corresponden a la clasificación de Mercado Pago. Sus reportes describen qué servicio falló y dejan sin cuantificar el alcance en personas o transacciones afectadas.</p>
+            <p>Las categorías mayor y menor corresponden a la clasificación de Mercado Pago. Sus reportes describen qué
+              servicio falló y dejan sin cuantificar el alcance en personas o transacciones afectadas.</p>
           </aside>
         </section>
 
         <section class="view" id="impacto" aria-labelledby="impact-title" hidden>
           <header class="page-heading">
             <span class="kicker">Argentina · BCRA</span>
-            <h1 id="impact-title" tabindex="-1">Impacto</h1>
-            <p>La disponibilidad importa tanto para mover dinero como para acceder al saldo que ya está en una billetera.</p>
+            <h1 id="impact-title" tabindex="-1">¿Qué está en juego cuando falla un pago?</h1>
+            <p>Estos datos dimensionan el uso del sistema argentino. No cuantifican el impacto de los incidentes de
+              Mercado Pago.</p>
           </header>
           <div class="metric-grid three" aria-label="Dinero en cuentas de pago y viajes con QR">
-            <div class="metric"><span class="metric-name">Cuentas de pago con saldo</span><strong>16,1 <small>M</small></strong><span>De 70,1 millones de cuentas · ago. 2026</span></div>
-            <div class="metric"><span class="metric-name">Saldo en cuentas de pago</span><strong>$900.000 <small>M</small></strong><span>Pesos argentinos · ago. 2026</span></div>
-            <div class="metric"><span class="metric-name">Viajes pagados con QR</span><strong>26,9 <small>M</small></strong><span>Colectivos y subte · sep. 2026</span></div>
+            <div class="metric"><span class="metric-name">Cuentas de pago con saldo</span><strong>16,1
+                <small>M</small></strong><span>De 70,1 millones de cuentas · ago. 2026</span></div>
+            <div class="metric"><span class="metric-name">Saldo en cuentas de pago</span><strong>$900.000
+                <small>M</small></strong><span>Pesos argentinos · ago. 2026</span></div>
+            <div class="metric"><span class="metric-name">Viajes pagados con QR</span><strong>26,9
+                <small>M</small></strong><span>Colectivos y subte · sep. 2026</span></div>
           </div>
           <div class="panel-grid balanced">
             <article class="panel">
@@ -875,53 +1897,73 @@
                 <button type="button" data-period="minute" aria-pressed="true">Minuto</button>
                 <button type="button" data-period="second" aria-pressed="false">Segundo</button>
               </div>
-              <p class="source" style="margin-top: .75rem">Promedios calculados sobre los 30 días del mes. <a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
+              <p class="source" style="margin-top: .75rem">Base: 122,8 millones de pagos en septiembre, divididos por 30
+                días, 24 horas, 60 minutos y 60 segundos según la unidad. Es un promedio uniforme: no mide demanda por
+                horario ni pagos afectados por fallas. <a
+                  href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
+                  target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
             </article>
             <article class="panel detail-panel">
               <header class="panel-header">
                 <h2>Cómo circulan los pagos QR</h2>
-                <p>Participación por tipo de cuenta · Septiembre de 2026</p>
+                <p>De los 122,8 millones de pagos QR interoperables de septiembre de 2026, ¿desde qué cuenta se pagó y
+                  en cuál se cobró?</p>
               </header>
               <div class="accounts-chart">
                 <strong>Desde dónde se paga</strong>
                 <div class="stack" aria-label="Cuenta de origen">
-                  <button type="button" style="--amount:52.8%;--segment-color:#4776d6" data-account="origin-cbu" aria-label="52,8 % de pagos desde cuentas bancarias"></button>
-                  <button type="button" style="--amount:47.2%;--segment-color:#0b8578" data-account="origin-cvu" aria-label="47,2 % de pagos desde cuentas de pago"></button>
+                  <button type="button" style="--amount:52.8%;--segment-color:#4776d6" data-account="origin-cbu"
+                    aria-label="52,8 % de pagos desde cuentas bancarias"></button>
+                  <button type="button" style="--amount:47.2%;--segment-color:#0b8578" data-account="origin-cvu"
+                    aria-label="47,2 % de pagos desde cuentas de pago"></button>
                 </div>
-                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 52,8 %</span><span><i class="swatch" style="--swatch:#0b8578"></i>CVU 47,2 %</span></div>
+                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 52,8 %</span><span><i
+                      class="swatch" style="--swatch:#0b8578"></i>CVU 47,2 %</span></div>
               </div>
               <div class="accounts-chart">
                 <strong>Dónde cobra el comercio</strong>
                 <div class="stack" aria-label="Cuenta de destino">
-                  <button type="button" style="--amount:45.3%;--segment-color:#4776d6" data-account="destination-cbu" aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
-                  <button type="button" style="--amount:54.7%;--segment-color:#0b8578" data-account="destination-cvu" aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
+                  <button type="button" style="--amount:45.3%;--segment-color:#4776d6" data-account="destination-cbu"
+                    aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
+                  <button type="button" style="--amount:54.7%;--segment-color:#0b8578" data-account="destination-cvu"
+                    aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
                 </div>
-                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 45,3 %</span><span><i class="swatch" style="--swatch:#0b8578"></i>CVU 54,7 %</span></div>
+                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 45,3 %</span><span><i
+                      class="swatch" style="--swatch:#0b8578"></i>CVU 54,7 %</span></div>
               </div>
-              <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas de pago de los comercios (CVU).</p>
+              <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas
+                de pago de los comercios (CVU).</p>
             </article>
           </div>
           <article class="panel story-card">
             <div>
               <p class="kicker">Caso documentado · Argentina</p>
               <h2>Problemas para pagar o cobrar con Mercado Pago</h2>
-              <p class="small">El 7 de mayo de 2026 hubo reportes de demoras y fallas en operaciones de la billetera.</p>
+              <p class="small">El 7 de mayo de 2026 hubo reportes de demoras y fallas en operaciones de la billetera.
+              </p>
             </div>
-            <a class="button" href="https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html" target="_blank" rel="noopener">Leer en La Gaceta</a>
+            <a class="button"
+              href="https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html"
+              target="_blank" rel="noopener">Leer en La Gaceta</a>
           </article>
         </section>
 
         <section class="view" id="uso-digital" aria-labelledby="usage-title" hidden>
           <header class="page-heading">
             <span class="kicker">Argentina · BCRA</span>
-            <h1 id="usage-title" tabindex="-1">Uso Digital</h1>
-            <p>El uso frecuente de pagos electrónicos muestra cuánto dependemos de estos sistemas para operar día a día.</p>
+            <h1 id="usage-title" tabindex="-1">¿Cuánto usamos los pagos digitales?</h1>
+            <p>El uso frecuente de pagos electrónicos muestra cuánto dependemos de estos sistemas para operar día a día.
+            </p>
           </header>
           <div class="metric-grid" aria-label="Alcance en la población argentina">
-            <div class="metric"><span class="metric-name">Personas con cuentas</span><strong>38,1 <small>M</small></strong><span>Junio de 2026</span></div>
-            <div class="metric"><span class="metric-name">Tenencia simultánea</span><strong>76,5 <small>%</small></strong><span>Titulares con cuenta bancaria y de pago</span></div>
-            <div class="metric"><span class="metric-name">Acceso digital bancario</span><strong>7 <small>de</small> 10</strong><span>Con usuario habilitado para canales electrónicos</span></div>
-            <div class="metric"><span class="metric-name">Nuevos usuarios</span><strong>Más de 2 <small>M</small></strong><span>En pagos electrónicos frente al primer semestre de 2025</span></div>
+            <div class="metric"><span class="metric-name">Personas con cuentas</span><strong>38,1
+                <small>M</small></strong><span>Junio de 2026</span></div>
+            <div class="metric"><span class="metric-name">Tenencia simultánea</span><strong>76,5
+                <small>%</small></strong><span>Titulares con cuenta bancaria y de pago</span></div>
+            <div class="metric"><span class="metric-name">Acceso digital bancario</span><strong>7 <small>de</small>
+                10</strong><span>Con usuario habilitado para canales electrónicos</span></div>
+            <div class="metric"><span class="metric-name">Nuevos usuarios</span><strong>Más de 2
+                <small>M</small></strong><span>En pagos electrónicos frente al primer semestre de 2025</span></div>
           </div>
           <div class="panel-grid">
             <article class="panel">
@@ -930,17 +1972,36 @@
                 <p>Operaciones mensuales por adulto · Primer semestre de cada año</p>
               </header>
               <div class="chart" id="usage-trend"></div>
-              <p class="source">Fuente · <a href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/" target="_blank" rel="noopener">BCRA, Inclusión Financiera</a></p>
+              <p class="source">Fuente · <a
+                  href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
+                  target="_blank" rel="noopener">BCRA, Inclusión Financiera</a></p>
             </article>
             <article class="panel detail-panel">
-              <header class="panel-header"><h2>Un ecosistema interconectado</h2><p>Pagos Minoristas · septiembre de 2026</p></header>
+              <header class="panel-header">
+                <h2>Un ecosistema interconectado</h2>
+                <p>Pagos Minoristas · septiembre de 2026</p>
+              </header>
               <dl class="stat-list">
-                <div><dt>Billeteras digitales interoperables registradas</dt><dd>93</dd></div>
-                <div><dt>Aceptadores de pagos con transferencia</dt><dd>67</dd></div>
-                <div><dt>Transferencias inmediatas de envío en pesos con CVU de origen o destino</dt><dd>75 %</dd></div>
-                <div><dt>Pagos con transferencia interoperables en pesos iniciados con QR</dt><dd>99,1 %</dd></div>
+                <div>
+                  <dt>Billeteras digitales interoperables registradas</dt>
+                  <dd>93</dd>
+                </div>
+                <div>
+                  <dt>Aceptadores de pagos con transferencia</dt>
+                  <dd>67</dd>
+                </div>
+                <div>
+                  <dt>Transferencias inmediatas de envío en pesos con CVU de origen o destino</dt>
+                  <dd>75 %</dd>
+                </div>
+                <div>
+                  <dt>Pagos con transferencia interoperables en pesos iniciados con QR</dt>
+                  <dd>99,1 %</dd>
+                </div>
               </dl>
-              <p class="source"><a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">Consultar el informe del BCRA</a></p>
+              <p class="source"><a
+                  href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
+                  target="_blank" rel="noopener">Consultar el informe del BCRA</a></p>
             </article>
           </div>
           <article class="panel">
@@ -956,35 +2017,52 @@
             </div>
             <div class="bars" id="volume-bars"></div>
             <p class="chart-value" id="volume-detail" aria-live="polite"></p>
-            <p class="source">Los datos de débito, crédito, prepaga y cajeros corresponden a agosto. Los demás corresponden a septiembre de 2026. <a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
+            <p class="source">Los datos de débito, crédito, prepaga y cajeros corresponden a agosto. Los demás
+              corresponden a septiembre de 2026. <a
+                href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
+                target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
           </article>
         </section>
 
         <section class="view" id="situacion-mundial" aria-labelledby="world-title" hidden>
           <header class="page-heading">
-            <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span> casos documentados</span>
-            <h1 id="world-title" tabindex="-1">Situación Mundial</h1>
-            <p>Qué pasó cuando fallaron billeteras, bancos o redes de pago en distintos países.</p>
+            <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span>
+              casos documentados</span>
+            <h1 id="world-title" tabindex="-1">¿Dónde más se documentaron problemas?</h1>
+            <p>Una selección de casos para leer sus consecuencias. No es un censo de fallas ni permite comparar la
+              confiabilidad de países o bancos.</p>
           </header>
           <div class="panel-grid world-layout">
             <article class="globe-panel">
               <header class="globe-head">
-                <div><h2>Globo de incidentes</h2><p id="globe-instructions">Arrastrá el globo o usá las teclas de flecha. Elegí un punto para abrir un caso.</p></div>
+                <div>
+                  <h2>Ubicá los casos documentados</h2>
+                  <p id="globe-instructions">Cada punto localiza un país con casos en la selección; su tamaño no indica
+                    cantidad ni gravedad. Arrastrá o usá las flechas y elegí un punto para leer.</p>
+                </div>
                 <button class="button" type="button" id="globe-reset">Centrar</button>
               </header>
-              <div class="globe-stage" id="globe-stage" tabindex="0" role="group" aria-label="Globo terráqueo interactivo" aria-describedby="globe-instructions">
+              <div class="globe-stage" id="globe-stage" tabindex="0" role="group"
+                aria-label="Globo terráqueo interactivo" aria-describedby="globe-instructions">
                 <canvas id="main-globe" aria-hidden="true"></canvas>
                 <div class="markers" id="globe-markers"></div>
               </div>
-              <div class="map-case" id="map-case" aria-live="polite">
-                <p>Elegí un país en el globo, en el filtro o desde una noticia de la tabla.</p>
+              <div class="map-case" id="map-case" tabindex="0" aria-live="off" aria-label="Caso destacado. El recorrido se pausa mientras leés esta placa.">
+                <p>Casos documentados alrededor del mundo.</p>
               </div>
             </article>
             <article class="panel world-catalog">
-              <header class="panel-header"><h2>Noticias e informes</h2><p>Elegí un caso para leer su resumen en el globo.</p></header>
+              <header class="panel-header">
+                <h2>Noticias e informes</h2>
+                <p>Elegí un caso para leer su resumen en el globo.</p>
+              </header>
               <div class="filter-grid">
-                <label>País<select id="country-filter"><option value="">Todos los países</option></select></label>
-                <label>Tipo de incidente<select id="type-filter"><option value="">Todos los tipos</option></select></label>
+                <label>País<select id="country-filter">
+                    <option value="">Todos los países</option>
+                  </select></label>
+                <label>Tipo de incidente<select id="type-filter">
+                    <option value="">Todos los tipos</option>
+                  </select></label>
               </div>
               <div class="filter-info">
                 <p class="small" id="world-result-count" aria-live="polite"></p>
@@ -992,11 +2070,18 @@
               </div>
               <div class="table-scroll" tabindex="0" aria-label="Tabla de casos filtrados">
                 <table>
-                  <thead><tr><th scope="col">País y fecha</th><th scope="col">Incidente</th></tr></thead>
+                  <thead>
+                    <tr>
+                      <th scope="col">País y fecha</th>
+                      <th scope="col">Incidente</th>
+                    </tr>
+                  </thead>
                   <tbody id="world-rows"></tbody>
                 </table>
               </div>
-              <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural Earth</a>.</p>
+              <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a
+                  href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural
+                  Earth</a>.</p>
             </article>
           </div>
         </section>
@@ -1004,32 +2089,10 @@
     </div>
   </div>
 
-  <dialog id="sources-dialog" aria-labelledby="sources-title">
-    <div class="dialog-header">
-      <h2 id="sources-title">Fuentes y método</h2>
-      <form method="dialog"><button class="button" type="submit" autofocus>Cerrar</button></form>
-    </div>
-    <div class="dialog-content">
-      <p>Basado en <cite>TPI – Big Brain</cite>. Corte de datos del tablero al 26 de noviembre de 2026.</p>
-      <h3>Disponibilidad y criticidad</h3>
-      <p>La ISO/IEC 25010:2023 trata la disponibilidad como parte de la confiabilidad del software, junto con la ausencia de fallos, la tolerancia a fallos y la capacidad de recuperación.</p>
-      <p>La muestra contiene 50 incidentes resueltos de Mercado Pago Status entre el 4 y el 24 de noviembre de 2026. Los códigos de mercado distinguen 7 avisos de Argentina (MLA), 19 de otros países, 18 de todos los sitios y 6 sin país indicado. Cada intervalo va del aviso a la resolución, en hora argentina. Los acumulados pueden incluir intervalos superpuestos.</p>
-      <ul>
-        <li><a href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado Pago Status · API de incidentes recientes</a></li>
-        <li><a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado Pago Status · Historial</a></li>
-        <li><a href="https://www.iso.org/standard/78176.html" target="_blank" rel="noopener">ISO/IEC 25010:2023 · Modelo de calidad del producto</a></li>
-      </ul>
-      <h3>Uso digital e impacto</h3>
-      <p>Los informes del BCRA miden actividad y alcance poblacional del sistema argentino. La serie histórica compara el primer semestre de cada año. Los promedios por minuto y segundo distribuyen el volumen mensual de QR sobre los 30 días de septiembre.</p>
-      <ul>
-        <li><a href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/" target="_blank" rel="noopener">BCRA · Inclusión Financiera, primer semestre de 2026</a></li>
-        <li><a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">BCRA · Pagos Minoristas, septiembre de 2026</a></li>
-      </ul>
-      <h3>Casos internacionales</h3>
-      <p>La tabla reúne noticias e informes de los países relevados en el TPI y enlaza la fuente de cada caso. Los filtros operan sobre una selección de eventos documentados con una categoría principal por caso.</p>
-    </div>
-  </dialog>
-  <noscript><p class="note">Activá JavaScript en el navegador para usar los gráficos, las pestañas y el globo.</p></noscript>
+
+  <noscript>
+    <p class="note">Activá JavaScript en el navegador para usar los gráficos, las pestañas y el globo.</p>
+  </noscript>
 
   <script type="application/json" id="incident-data">
   [
@@ -1333,12 +2396,12 @@
     }
 
     const sections = {
-      "vista-general": "Vista General",
-      disponibilidad: "Disponibilidad",
-      criticidad: "Criticidad",
-      impacto: "Impacto",
-      "uso-digital": "Uso Digital",
-      "situacion-mundial": "Situación Mundial"
+      "vista-general": "La historia",
+      disponibilidad: "¿Cuándo pasó?",
+      criticidad: "¿Cuánto duró?",
+      impacto: "¿Qué está en juego?",
+      "uso-digital": "¿Cuánto los usamos?",
+      "situacion-mundial": "Casos en otros países"
     };
     const nav = document.querySelector(".sidebar nav");
 
@@ -1377,9 +2440,6 @@
         showSection(true);
       }
     });
-    byId("sources-button").addEventListener("click", () => byId("sources-dialog").showModal());
-    byId("overview-incident-count").textContent = argentina.length;
-    byId("overview-point-median").textContent = decimal.format(median(argentina.filter((record) => record.service === "point").map((record) => record.minutes)));
 
     function canvasArea(canvas) {
       const width = canvas.clientWidth;
@@ -1681,14 +2741,14 @@
       statLine(statistics, "Intervalo más corto", duration(Math.min(...durations)));
       statLine(statistics, "Intervalo más largo", duration(largest.minutes));
       const link = externalLink(`https://status.mercadopago.com/incidents/${largest.id}`, "Consultar el aviso de mayor duración");
-      const major = all.filter((record) => record.impact === "major").length;
-      const minor = all.length - major;
+      const major = records.filter((record) => record.impact === "major").length;
+      const minor = records.length - major;
       const split = node("div", "stack");
       split.setAttribute("aria-hidden", "true");
       const severity = node("div", "stack-key");
       for (const [label, count, color] of [["Mayor", major, "#7853a7"], ["Menor", minor, "#478aab"]]) {
         const segment = node("span");
-        segment.style.setProperty("--amount", `${count / all.length * 100}%`);
+        segment.style.setProperty("--amount", `${count / records.length * 100}%`);
         segment.style.setProperty("--segment-color", color);
         split.append(segment);
         severity.append(severityLegend(label, count, color));
@@ -1696,7 +2756,7 @@
       criticalityDetail.replaceChildren(
         node("h2", "", service.label), node("p", "small", service.description),
         statistics, link, node("hr"),
-        node("h3", "small", "Impacto en el alcance seleccionado"), split, severity
+        node("h3", "small", `Clasificación de los ${records.length} avisos de este servicio`), split, severity
       );
     }
 
@@ -1724,7 +2784,7 @@
       for (const entry of groups) {
         const service = services[entry.key];
         const label = criticalityMode === "median"
-          ? `${decimal.format(entry.middle)} min`
+          ? `${decimal.format(entry.middle)} min · n = ${entry.records.length}`
           : countLabel(entry.records.length, "aviso", "avisos");
         const row = labeledBar(service.label, label, fillTrack(metric(entry) / largest * 100, service.color));
         row.addEventListener("click", () => detail(entry));
@@ -1860,10 +2920,12 @@
     }
 
     function renderMapCase() {
+      const previousId = mapCase.dataset.case;
       if (selectedCase) {
         const item = selectedCase;
         mapCase.replaceChildren(
-          node("div", "case-meta", `${countries[item.country].name} · ${formatDate(item.date)} · ${caseTypes[item.type]}`),
+          node("div", "case-country", countries[item.country].name),
+          node("div", "case-meta", `${formatDate(item.date)} · ${caseTypes[item.type]}`),
           node("h3", "", item.title),
           node("p", "", item.summary),
           externalLink(item.url, `Leer en ${item.source}`)
@@ -1879,6 +2941,12 @@
         row.classList.toggle("selected", chosen);
         press(row.querySelector("button"), chosen);
       });
+      mapCase.dataset.case = selectedCase?.id ?? "";
+      if (previousId !== mapCase.dataset.case && !reducedMotion.matches && !byId("situacion-mundial").hidden) {
+        mapCase.getAnimations().forEach(animation => animation.cancel());
+        mapCase.animate([{ opacity: .2, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 750, easing: "ease-out" });
+      }
+      document.dispatchEvent(new Event("world-case-change"));
     }
 
     function caseRow(item) {
@@ -1901,7 +2969,7 @@
 
     function renderWorld() {
       const results = filteredCases();
-      if (!results.includes(selectedCase)) selectedCase = countryFilter.value ? results[0] ?? null : null;
+      if (!results.includes(selectedCase)) selectedCase = results[0] ?? null;
       const rows = results.map(caseRow);
       if (!rows.length) {
         const empty = node("tr");
@@ -2153,8 +3221,6 @@
       centerGlobe();
     });
     new ResizeObserver(scheduleGlobe).observe(globeStage);
-    const preview = byId("preview-globe");
-    new ResizeObserver(() => drawPlanet(preview, -53, 8)).observe(preview);
     renderWorld();
     showSection();
     window.addEventListener("load", () => {
@@ -2163,5 +3229,8 @@
       }
     }, { once: true });
   </script>
+  <script src="story.js"></script>
+  <script src="world-tour.js"></script>
 </body>
+
 </html>
