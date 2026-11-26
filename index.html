@@ -1,0 +1,2167 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tablero interactivo sobre disponibilidad y calidad de los pagos digitales en Argentina y el mundo.">
+  <link rel="icon" href="data:,">
+  <title>Data4Quality | Pagos digitales y disponibilidad</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+      --ink: #14223b;
+      --muted: #52637d;
+      --paper: #fff;
+      --background: #f2f5fa;
+      --line: #dce4ef;
+      --navy: #111f3d;
+      --blue: #285ed0;
+      --radius: 20px;
+      --shadow: 0 7px 24px #15284608, 0 2px 5px #15284603;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; min-width: 300px; background: var(--background); color: var(--ink); }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { line-height: 1.18; }
+    a { color: var(--blue); text-underline-offset: 3px; }
+    button, select { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid #2283ee; outline-offset: 3px; }
+    .skip-link {
+      position: fixed;
+      z-index: 8;
+      top: 10px;
+      left: 10px;
+      padding: .6rem 1rem;
+      background: white;
+      border-radius: 8px;
+      clip-path: inset(50%);
+    }
+    .skip-link:focus { clip-path: none; }
+
+    .shell { display: grid; grid-template-columns: 223px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      gap: 2.15rem;
+      padding: 1.55rem 1rem 1.25rem;
+      background: var(--navy);
+      color: #d8e3f5;
+    }
+    .brand {
+      display: flex;
+      gap: .68rem;
+      align-items: center;
+      padding: 0 .3rem;
+      text-decoration: none;
+      color: white;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      flex: 0 0 37px;
+      height: 37px;
+      border-radius: 11px;
+      background: #77e6d6;
+      color: #122941;
+      font-size: 1.22rem;
+      line-height: 1;
+    }
+    .brand strong { display: block; font-size: 1.05rem; letter-spacing: -.025em; }
+    .brand small { display: block; margin-top: .18rem; color: #aebfdb; font-size: .8rem; }
+    .sidebar nav { display: grid; gap: .25rem; }
+    .sidebar nav a {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      padding: .72rem .62rem;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      color: #c5d3e8;
+      font-size: .91rem;
+      font-weight: 550;
+      letter-spacing: -.01em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .sidebar nav a:hover { background: #ffffff0b; color: white; }
+    .sidebar nav a[aria-current] { background: #24395f; border-color: #314b74; color: #fff; }
+    .sidebar nav a[aria-current] .nav-icon { color: #86eadb; }
+    .sidebar nav a:last-child { margin-top: .55rem; }
+    .nav-icon { display: inline-grid; place-items: center; width: 1.26rem; flex: none; color: #a4b9d8; font-size: 1.14rem; line-height: 1; }
+    .sidebar-foot {
+      display: grid;
+      gap: .3rem;
+      margin-top: auto;
+      padding: 1rem .3rem 0;
+      border-top: 1px solid #ffffff23;
+      color: #b0c0da;
+      font-size: .8rem;
+    }
+    .sidebar-foot strong { color: #ecf4ff; font-size: .85rem; }
+    .workspace { min-width: 0; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      min-height: 65px;
+      padding: .64rem clamp(1rem, 2.8vw, 2.25rem);
+      border-bottom: 1px solid var(--line);
+      background: #fcfdff;
+    }
+    .trail { display: flex; align-items: center; flex-wrap: wrap; gap: .3rem .7rem; color: var(--muted); font-size: .88rem; }
+    .trail strong { color: var(--ink); }
+    .trail-separator { color: #8596ae; }
+    .flag {
+      display: inline-block;
+      width: 19px;
+      height: 13px;
+      border: 1px solid #b2d5ef;
+      border-radius: 3px;
+      background: radial-gradient(circle, #f3b43e 0 1.4px, transparent 1.8px),
+        linear-gradient(#82bfea 33.3%, #fff 33.3% 66.6%, #82bfea 66.6%);
+    }
+    main {
+      width: 100%;
+      max-width: 1560px;
+      margin: 0 auto;
+      padding: clamp(1.1rem, 2.6vw, 2rem) clamp(1rem, 2.8vw, 2.25rem) 2rem;
+    }
+    .view { display: grid; gap: 1.25rem; }
+    .page-heading { display: grid; gap: .5rem; padding: .25rem 0 .2rem; }
+    .page-heading h1 { font-size: clamp(2rem, 3.25vw, 3.05rem); letter-spacing: -.055em; }
+    .page-heading p { max-width: 60ch; font-size: 1.03rem; line-height: 1.5; color: var(--muted); }
+    .kicker {
+      color: var(--blue);
+      font-size: .79rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .small { color: var(--muted); font-size: .875rem; line-height: 1.55; }
+    .source { color: var(--muted); font-size: .81rem; line-height: 1.55; }
+    .source a { font-weight: 600; }
+    .panel {
+      min-width: 0;
+      padding: clamp(1.05rem, 1.9vw, 1.55rem);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+    .panel-header { display: grid; gap: .35rem; }
+    .panel-header h2, .panel h2 { font-size: 1.27rem; letter-spacing: -.025em; }
+    .panel-header p { font-size: .9rem; color: var(--muted); line-height: 1.45; }
+    .panel-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 1.2rem; }
+    .balanced { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .controls { display: flex; align-items: end; flex-wrap: wrap; gap: .65rem; }
+    .controls label, .filter-grid label { display: grid; gap: .35rem; color: var(--ink); font-size: .875rem; font-weight: 650; }
+    select {
+      width: 100%;
+      appearance: none;
+      padding: .58rem 2.15rem .58rem .7rem;
+      border: 1px solid #c5d2e4;
+      border-radius: 9px;
+      background-color: #fff;
+      background-image: linear-gradient(45deg, transparent 50%, #516581 50%), linear-gradient(135deg, #516581 50%, transparent 50%);
+      background-position: right 15px center, right 10px center;
+      background-size: 5px 5px;
+      background-repeat: no-repeat;
+      color: var(--ink);
+      font-weight: 500;
+      min-height: 40px;
+    }
+    .button, .segment button, .legend-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      min-height: 38px;
+      padding: .4rem .74rem;
+      border: 1px solid #c9d6e7;
+      border-radius: 9px;
+      background: white;
+      color: var(--ink);
+      font-size: .875rem;
+      font-weight: 650;
+      text-decoration: none;
+      line-height: 1.3;
+    }
+    .button:hover, .segment button:hover, .legend-toggle:hover { border-color: #7197dc; background: #edf4ff; }
+    .segment {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: .26rem;
+      padding: .22rem;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #f2f6fc;
+    }
+    .segment button { min-height: 33px; border-color: transparent; background: transparent; color: var(--muted); }
+    .segment button[aria-pressed="true"] { border-color: #c9d9f3; background: white; color: #234fa5; box-shadow: 0 1px 4px #234fa516; }
+    .note {
+      display: grid;
+      gap: .28rem;
+      padding: .95rem 1rem;
+      border: 1px solid #d4e3fa;
+      border-left: 4px solid #6a98e6;
+      border-radius: 10px;
+      background: #eaf2ff;
+      color: #30466c;
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+    .note strong { color: #21385e; }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(210px, 1fr);
+      align-items: center;
+      gap: 1rem;
+      min-height: 262px;
+      padding: clamp(1.35rem, 3.1vw, 2.6rem);
+      border-radius: 23px;
+      background:
+        radial-gradient(ellipse at 94% -5%, #226c84 0, transparent 50%),
+        linear-gradient(116deg, #15234a 6%, #152c5b 56%, #163c62 100%);
+      color: #fff;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0 0 0 49%;
+      background: radial-gradient(#9dcaeb3c 1px, transparent 1.3px) 0 0/13px 13px;
+      mask-image: linear-gradient(90deg, transparent, #000);
+    }
+    .hero .kicker { color: #91eade; }
+    .hero h1 {
+      margin: .55rem 0 .7rem;
+      font-size: clamp(2rem, 4.05vw, 3.7rem);
+      font-weight: 720;
+      letter-spacing: -.065em;
+      line-height: 1.04;
+    }
+    .hero h1 span { color: #a0eee4; }
+    .hero p:last-child { max-width: 53ch; color: #e0eafa; font-size: clamp(.96rem, 1.2vw, 1.08rem); line-height: 1.5; }
+    .hero-figure {
+      position: relative;
+      display: grid;
+      place-content: center;
+      justify-self: center;
+      width: min(100%, 219px);
+      aspect-ratio: 1;
+      padding: .8rem;
+      border: 1px solid #b1fff775;
+      border-radius: 50%;
+      background: radial-gradient(circle, #143758 24%, #175e73bb 100%);
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 0 0 12px #92efe417, 0 0 0 26px #92efe40b, 0 0 55px #68d9e34d;
+    }
+    .hero-figure::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px dashed #c1fff46a;
+      border-radius: inherit;
+    }
+    .hero-figure:hover { background: radial-gradient(circle, #1b4667 24%, #1e7083 100%); }
+    .hero-figure strong { color: #a0f3e6; font-size: clamp(2rem, 3.6vw, 3.1rem); line-height: 1; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
+    .hero-figure span { margin-top: .4rem; font-size: .9rem; font-weight: 600; }
+    .hero-figure small { margin-top: .3rem; color: #badeec; font-size: .78rem; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .95rem; }
+    .metric-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .metric {
+      display: grid;
+      align-content: start;
+      gap: .32rem;
+      min-width: 0;
+      padding: .95rem 1rem .98rem;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      color: var(--ink);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+    }
+    a.metric { transition: border-color .16s ease, box-shadow .16s ease; }
+    a.metric:hover { border-color: #91afe9; box-shadow: 0 8px 20px #285ed018; }
+    .metric-name { display: flex; align-items: center; gap: .46rem; color: #344969; font-size: .89rem; font-weight: 700; }
+    .metric-icon {
+      display: grid;
+      place-items: center;
+      width: 29px;
+      height: 29px;
+      flex: none;
+      border-radius: 8px;
+      background: #e8f0ff;
+      color: #2355b7;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .metric-icon.violet { background: #f1eafa; color: #6939a8; }
+    .metric-icon.mint { background: #e0f5ef; color: #06796a; }
+    .metric-icon.sand { background: #fff0e4; color: #9b4c22; }
+    .metric strong { font-size: clamp(1.55rem, 2.45vw, 2.3rem); letter-spacing: -.055em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .metric strong small { font-size: .57em; letter-spacing: -.02em; }
+    .metric > span:not(.metric-name) { color: #354764; font-size: .88rem; line-height: 1.35; }
+    .metric > small { color: var(--muted); font-size: .78rem; line-height: 1.38; }
+    .world-preview {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: grid;
+      align-content: end;
+      gap: .55rem;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      min-height: 296px;
+      background: radial-gradient(ellipse at 92% 18%, #236178 0, #173751 47%, #122542 85%);
+      color: white;
+      text-decoration: none;
+    }
+    .world-preview:hover { box-shadow: inset 0 0 0 2px #9de9e6ae; }
+    .world-preview canvas { position: absolute; z-index: -1; top: -21px; right: -24px; width: 255px; height: 245px; opacity: .8; }
+    .world-preview .kicker { color: #9ef4e6; }
+    .world-preview h2 { font-size: 1.52rem; letter-spacing: -.03em; }
+    .world-preview p { max-width: 28ch; color: #deedfb; line-height: 1.45; font-size: .95rem; }
+    .world-preview .world-total { font-size: 2.5rem; line-height: 1; letter-spacing: -.06em; color: #9ef4e6; }
+    .world-preview .world-total small { font-size: .47em; letter-spacing: -.02em; }
+
+    .chart { margin-top: .75rem; }
+    .legend { display: flex; flex-wrap: wrap; align-items: center; gap: .44rem .6rem; margin-bottom: .3rem; }
+    .legend-toggle { min-height: 30px; justify-content: flex-start; gap: .42rem; padding: .35rem .48rem; font-size: .83rem; }
+    .legend-toggle[aria-pressed="false"] { color: var(--muted); background: #f1f4f9; text-decoration: line-through; }
+    .swatch { display: inline-block; flex: none; width: 9px; height: 9px; border-radius: 3px; background: var(--swatch, #326bd9); }
+    .trend-plot { position: relative; height: 235px; }
+    .trend-plot canvas { display: block; width: 100%; height: 100%; }
+    .year-targets { position: absolute; inset: 9px 12px 25px 26px; display: grid; grid-template-columns: repeat(8, 1fr); }
+    .year-targets button {
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      touch-action: manipulation;
+    }
+    .trend-tooltip {
+      position: absolute;
+      top: 9px;
+      z-index: 1;
+      display: grid;
+      gap: .1rem;
+      width: max-content;
+      max-width: 66%;
+      padding: .45rem .55rem;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fffffffa;
+      color: var(--ink);
+      box-shadow: 0 3px 10px #182b4e1a;
+      pointer-events: none;
+      font-size: .79rem;
+      line-height: 1.35;
+    }
+    .chart-value { margin: .22rem 0 .55rem; color: #31496e; font-size: .86rem; font-variant-numeric: tabular-nums; line-height: 1.45; }
+
+    .calendar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .4rem; margin: .9rem 0; }
+    .dow { color: var(--muted); font-size: .81rem; font-weight: 650; text-align: center; padding: .2rem 0; }
+    .calendar button {
+      display: grid;
+      align-content: space-between;
+      gap: .3rem;
+      min-height: 61px;
+      padding: .38rem .35rem;
+      border: 1px solid #dbe4f0;
+      border-radius: 9px;
+      background: #f7f9fd;
+      color: var(--ink);
+      text-align: left;
+      font-size: .84rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .calendar button[data-count="some"] { background: #e7efff; border-color: #b9cef3; color: #163e8c; }
+    .calendar button[aria-pressed="true"] { border-color: #3c6cca; background: #2c5fca; color: white; }
+    .calendar button:hover { border-color: #7197dc; }
+    .calendar-amount { justify-self: end; color: inherit; font-size: 1.09rem; font-weight: 700; line-height: 1; }
+    .calendar button[data-count="zero"]:not([aria-pressed="true"]) .calendar-amount { color: #687891; font-weight: 500; }
+    .calendar-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+    .incident-list { display: grid; gap: .62rem; max-height: 420px; overflow: auto; margin-top: .7rem; padding: 0 .18rem .1rem 0; }
+    .incident-row {
+      display: grid;
+      gap: .28rem;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: .65rem .7rem;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: .88rem;
+    }
+    .incident-row:hover { border-color: #9ab9ec; background: #f4f8ff; }
+    .incident-date { color: var(--muted); font-size: .81rem; }
+    .incident-title { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .12rem .5rem; }
+    .incident-title b:last-child { color: #244b99; white-space: nowrap; }
+    .track { display: block; height: 8px; width: 100%; overflow: hidden; border-radius: 8px; background: #e7edf7; }
+    .fill { display: block; height: 100%; min-width: 2px; width: var(--amount); border-radius: 8px; background: var(--bar, #4d7ce0); }
+    .bars { display: grid; gap: .42rem; margin: .9rem 0; }
+    .bar-row {
+      display: grid;
+      gap: .42rem;
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--ink);
+      padding: .45rem .55rem;
+      text-align: left;
+      font-size: .9rem;
+    }
+    .bar-row:hover { background: #f2f6fe; }
+    .bar-row[aria-pressed="true"] { background: #eef4ff; border-color: #c9daf6; }
+    .bar-label { display: flex; align-items: baseline; justify-content: space-between; gap: .36rem; }
+    .bar-label strong { color: #28497f; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .bar-row .track { height: 12px; }
+    .detail-panel { display: grid; align-content: start; gap: .75rem; }
+    .detail-panel hr { width: 100%; border: 0; border-top: 1px solid var(--line); margin: .15rem 0; }
+    .stat-list { display: grid; gap: .6rem; margin: 0; }
+    .stat-list div { display: flex; align-items: baseline; justify-content: space-between; gap: .55rem; padding-bottom: .52rem; border-bottom: 1px solid var(--line); }
+    .stat-list div:last-child { border: 0; padding-bottom: 0; }
+    .stat-list dt { color: var(--muted); font-size: .88rem; line-height: 1.4; }
+    .stat-list dd { margin: 0; text-align: right; color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .stack { display: flex; height: 13px; overflow: hidden; border-radius: 8px; background: #e5edf7; }
+    .stack span { width: var(--amount); background: var(--segment-color); }
+    .stack-key { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .4rem .7rem; color: var(--muted); font-size: .84rem; line-height: 1.35; }
+    .stack-key span { display: inline-flex; align-items: center; gap: .32rem; }
+    .impact-value {
+      display: grid;
+      gap: .28rem;
+      margin: .92rem 0;
+      padding: 1rem;
+      border: 1px solid #cde9e5;
+      border-radius: 14px;
+      background: #eaf8f4;
+      color: #15564f;
+    }
+    .impact-value strong { font-size: clamp(2.45rem, 4.7vw, 4rem); letter-spacing: -.06em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .impact-value span { font-size: .92rem; font-weight: 650; }
+    .accounts-chart { display: grid; gap: .52rem; }
+    .accounts-chart .stack { height: 23px; margin-top: .25rem; }
+    .stack button {
+      width: var(--amount);
+      border: 0;
+      padding: 0;
+      background: var(--segment-color);
+    }
+    .stack button:hover, .stack button:focus-visible { box-shadow: inset 0 0 0 3px #ffffff; outline: none; }
+    .story-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: .7rem 1.2rem;
+    }
+    .story-card div { display: grid; gap: .38rem; }
+    .signed-bar { display: grid; position: relative; height: 12px; border-radius: 8px; background: #e7edf7; }
+    .signed-bar::after { content: ""; position: absolute; inset: 0 auto 0 var(--zero); width: 1px; background: #627596; }
+    .signed-bar .fill { position: absolute; left: var(--left); top: 0; }
+
+    .world-layout { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: start; }
+    .globe-panel {
+      overflow: hidden;
+      min-width: 0;
+      border: 1px solid #263d5c;
+      border-radius: var(--radius);
+      color: #f5fbff;
+      background: radial-gradient(ellipse at 60% 27%, #1a4261 0, #112741 55%, #102039 100%);
+      box-shadow: var(--shadow);
+    }
+    .globe-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .85rem; padding: 1.15rem 1.1rem 0; }
+    .globe-head h2 { font-size: 1.25rem; letter-spacing: -.02em; }
+    .globe-head p { margin-top: .35rem; color: #c5d7ec; font-size: .86rem; line-height: 1.48; }
+    .globe-head .button { flex: none; background: #244663; color: #e7f5ff; border-color: #577999; }
+    .globe-head .button:hover { background: #305878; }
+    .globe-stage {
+      position: relative;
+      touch-action: none;
+      height: clamp(285px, 29vw, 395px);
+      overflow: hidden;
+      cursor: grab;
+    }
+    .globe-stage.dragging { cursor: grabbing; }
+    .globe-stage:focus-visible { outline-offset: -5px; }
+    .globe-stage canvas { display: block; width: 100%; height: 100%; }
+    .markers { position: absolute; inset: 0; pointer-events: none; }
+    .marker {
+      position: absolute;
+      display: grid;
+      width: var(--marker-size, 30px);
+      height: var(--marker-size, 30px);
+      place-items: center;
+      transform: translate(-50%, -50%);
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: white;
+      pointer-events: auto;
+    }
+    .marker::before {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #fff0cf;
+      border-radius: 50%;
+      background: #ffbe72;
+      box-shadow: 0 0 0 4px #ffc5743b, 0 0 14px #ffbb66bd;
+    }
+    .marker:hover::before, .marker[aria-pressed="true"]::before { width: 13px; height: 13px; background: #abf4e5; border-color: #fff; box-shadow: 0 0 0 5px #80ddcf50, 0 0 18px #80ddcfcf; }
+    .marker span {
+      display: none;
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: .26rem .46rem;
+      border: 1px solid #77a6bb;
+      border-radius: 7px;
+      background: #0e233c;
+      color: #fff;
+      white-space: nowrap;
+      font-size: .81rem;
+      pointer-events: none;
+    }
+    .marker:hover, .marker:focus-visible { z-index: 2; outline-color: #94fff1; }
+    .marker:hover span, .marker:focus-visible span { display: block; }
+    .map-case {
+      display: grid;
+      gap: .42rem;
+      padding: .95rem 1rem;
+      margin: 0 .95rem .95rem;
+      border: 1px solid #476781;
+      border-radius: 13px;
+      background: #19344ee8;
+      font-size: .93rem;
+      line-height: 1.48;
+      scroll-margin-top: 7rem;
+    }
+    .map-case h3 { font-size: 1.1rem; }
+    .map-case p { color: #d8e7f7; }
+    .map-case a { color: #97f1e3; font-weight: 650; justify-self: start; }
+    .map-case .case-meta { font-size: .81rem; color: #a7d4e0; }
+    .world-catalog { display: grid; align-content: start; gap: .75rem; }
+    .filter-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+    .filter-info { display: flex; align-items: center; justify-content: space-between; gap: .4rem .7rem; flex-wrap: wrap; }
+    .filter-info .button { min-height: 33px; }
+    .table-scroll { max-height: 410px; overflow: auto; border: 1px solid var(--line); border-radius: 11px; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .87rem; line-height: 1.4; }
+    th, td { padding: .57rem .63rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { position: sticky; top: 0; z-index: 1; color: #344b6e; background: #edf3fc; font-size: .83rem; }
+    tr:last-child td { border-bottom: 0; }
+    tr:hover td, tr.selected td { background: #eef5ff; }
+    td:first-child { white-space: nowrap; }
+    .cell-detail { display: block; margin-top: .28rem; color: var(--muted); font-size: .8rem; }
+    .news-title {
+      border: 0;
+      background: none;
+      padding: 0;
+      color: #234e9e;
+      font-weight: 680;
+      text-align: left;
+      font-size: .9rem;
+      line-height: 1.35;
+    }
+    .news-title:hover { text-decoration: underline; }
+    .news-source { display: inline-block; margin-top: .3rem; font-size: .81rem; }
+
+    dialog {
+      width: min(650px, calc(100% - 2rem));
+      max-height: calc(100dvh - 2rem);
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 18px 90px #0d1c4360;
+    }
+    dialog::backdrop { background: #09152db0; }
+    .dialog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .dialog-header h2 { font-size: 1.34rem; }
+    .dialog-content { display: grid; gap: .72rem; padding: 1rem 1.2rem 1.25rem; color: #334561; line-height: 1.55; }
+    .dialog-content ul { margin: 0; padding-left: 1.3rem; }
+    .dialog-content li + li { margin-top: .36rem; }
+    .dialog-content h3 { color: var(--ink); font-size: 1rem; }
+
+    @media (max-width: 1120px) {
+      .shell { grid-template-columns: 190px minmax(0, 1fr); }
+      .sidebar { padding-left: .68rem; padding-right: .68rem; }
+      .world-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .globe-head { flex-wrap: wrap; }
+    }
+    @media (max-width: 920px) {
+      .shell { display: block; }
+      .sidebar { z-index: 4; height: auto; gap: .65rem; padding: .65rem 1rem .45rem; }
+      .sidebar nav { display: flex; overflow-x: auto; scrollbar-width: thin; padding: 0 .12rem .2rem; }
+      .sidebar nav a { padding: .48rem .6rem; }
+      .sidebar nav a:last-child { margin-top: 0; }
+      .sidebar-foot { display: none; }
+      .brand-mark { flex-basis: 31px; height: 31px; border-radius: 8px; }
+      .brand small { display: none; }
+      .topbar { min-height: 52px; }
+    }
+    @media (max-width: 700px) {
+      .hero { grid-template-columns: 1fr; align-items: start; }
+      .hero-figure {
+        width: auto;
+        aspect-ratio: auto;
+        justify-self: start;
+        place-content: start;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: baseline;
+        gap: .1rem .5rem;
+        padding: .55rem .7rem;
+        border-radius: 10px;
+        box-shadow: none;
+        text-align: left;
+      }
+      .hero-figure::before { display: none; }
+      .hero-figure strong { font-size: 1.32rem; }
+      .hero-figure span, .hero-figure small { margin: 0; }
+      .hero-figure small { grid-column: 1 / -1; }
+      .hero h1 { margin-top: .45rem; }
+      .metric-grid, .metric-grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .66rem; }
+      .panel-grid, .balanced, .world-layout { grid-template-columns: 1fr; gap: .85rem; }
+      .view { gap: .9rem; }
+      .world-preview { min-height: 231px; }
+      .world-preview canvas { top: -32px; right: -28px; width: 230px; height: 230px; opacity: .55; }
+      .story-card { grid-template-columns: 1fr; }
+      .story-card .button { justify-self: start; }
+    }
+    @media (max-width: 420px) {
+      .nav-icon { display: none; }
+      .sidebar nav a { padding: .5rem .56rem; }
+      .trail > span:not(.flag) { display: none; }
+      .trail { gap: .36rem; }
+      main { padding-left: .78rem; padding-right: .78rem; }
+      .panel { padding: .88rem; }
+      .metric { padding: .75rem .69rem; }
+      .calendar { gap: .26rem; }
+      .calendar button { min-height: 52px; }
+      .globe-head { padding: .92rem .88rem 0; }
+      .filter-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Panel">
+      <a class="brand" href="#vista-general" data-view>
+        <span class="brand-mark" aria-hidden="true">◈</span>
+        <span><strong>Data4Quality</strong><small>Pagos digitales</small></span>
+      </a>
+      <nav aria-label="Secciones">
+        <a href="#vista-general" data-view aria-current="page"><span class="nav-icon" aria-hidden="true">▦</span>Vista General</a>
+        <a href="#disponibilidad" data-view><span class="nav-icon" aria-hidden="true">◷</span>Disponibilidad</a>
+        <a href="#criticidad" data-view><span class="nav-icon" aria-hidden="true">▤</span>Criticidad</a>
+        <a href="#impacto" data-view><span class="nav-icon" aria-hidden="true">◈</span>Impacto</a>
+        <a href="#uso-digital" data-view><span class="nav-icon" aria-hidden="true">▥</span>Uso Digital</a>
+        <a href="#situacion-mundial" data-view><span class="nav-icon" aria-hidden="true">◎</span>Situación Mundial</a>
+      </nav>
+      <div class="sidebar-foot">
+        <strong>TPI · Big Brain</strong>
+        <span>Corte de datos · 26 nov. 2026</span>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div class="trail"><span class="flag" id="context-flag" aria-hidden="true"></span><span id="area-title">Argentina</span><span class="trail-separator" aria-hidden="true">/</span><strong id="current-view">Vista General</strong></div>
+        <button class="button" id="sources-button" type="button" aria-haspopup="dialog">Fuentes y método</button>
+      </header>
+
+      <main id="contenido" tabindex="-1">
+        <section class="view" id="vista-general" aria-labelledby="overview-title">
+          <div class="hero">
+            <div>
+              <p class="kicker">Disponibilidad del software financiero</p>
+              <h1 id="overview-title" tabindex="-1">Tenés dinero. Pero…<br><span>¿podés usarlo?</span></h1>
+              <p>Una falla en una billetera o en un banco digital puede impedirte pagar, cobrar o transferir cuando lo necesitás.</p>
+            </div>
+            <a class="hero-figure" href="#impacto" data-view>
+              <strong>≈&nbsp;2.843</strong>
+              <span>pagos QR por minuto</span>
+              <small>Argentina · sep. 2026</small>
+            </a>
+          </div>
+
+          <div class="metric-grid" aria-label="Indicadores destacados de Argentina">
+            <a class="metric" href="#disponibilidad" data-view>
+              <span class="metric-name"><span class="metric-icon" aria-hidden="true">◷</span>Disponibilidad</span>
+              <strong id="overview-incident-count">7</strong>
+              <span>incidentes identificados en Argentina</span>
+              <small>Mercado Pago · 4–24 nov. 2026</small>
+            </a>
+            <a class="metric" href="#criticidad" data-view>
+              <span class="metric-name"><span class="metric-icon violet" aria-hidden="true">▤</span>Criticidad</span>
+              <strong><span id="overview-point-median">106</span> <small>min</small></strong>
+              <span>mediana de resolución de Point</span>
+              <small>Mercado Pago · Argentina</small>
+            </a>
+            <a class="metric" href="#impacto" data-view>
+              <span class="metric-name"><span class="metric-icon mint" aria-hidden="true">◈</span>Impacto</span>
+              <strong>16,1 <small>M</small></strong>
+              <span>cuentas de pago con saldo</span>
+              <small>BCRA · ago. 2026</small>
+            </a>
+            <a class="metric" href="#uso-digital" data-view>
+              <span class="metric-name"><span class="metric-icon sand" aria-hidden="true">▥</span>Uso Digital</span>
+              <strong>32,8</strong>
+              <span>pagos electrónicos por adulto al mes</span>
+              <small>BCRA · primer semestre de 2026</small>
+            </a>
+          </div>
+
+          <div class="panel-grid">
+            <article class="panel">
+              <header class="panel-header">
+                <h2>Pagos electrónicos y retiros de efectivo</h2>
+                <p>Operaciones mensuales por adulto · Primer semestre de cada año</p>
+              </header>
+              <div class="chart" id="overview-trend"></div>
+              <p class="source"><a href="#uso-digital" data-view>Explorar Uso Digital</a> · BCRA, Inclusión Financiera</p>
+            </article>
+            <a class="world-preview" href="#situacion-mundial" data-view>
+              <canvas id="preview-globe" aria-hidden="true"></canvas>
+              <span class="kicker">Situación Mundial</span>
+              <strong class="world-total"><span data-country-total>14</span> <small>países</small></strong>
+              <h2>Interrupciones documentadas</h2>
+              <p>En un incidente en Singapur quedaron sin completar unos 2,5 millones de pagos y operaciones en cajeros.</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="view" id="disponibilidad" aria-labelledby="availability-title" hidden>
+          <header class="page-heading">
+            <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
+            <h1 id="availability-title" tabindex="-1">Disponibilidad</h1>
+            <p>La disponibilidad es poder usar un servicio cuando lo necesitás. Estos reportes muestran cuándo se notificaron fallas y cuánto pasó hasta que se informó su resolución.</p>
+          </header>
+          <div class="metric-grid three" aria-label="Resumen del alcance seleccionado">
+            <div class="metric"><span class="metric-name">Incidentes publicados</span><strong id="availability-count"></strong><span id="availability-scope-label"></span></div>
+            <div class="metric"><span class="metric-name">Ventanas acumuladas</span><strong id="availability-duration"></strong><span>Entre avisos y resoluciones informadas</span></div>
+            <div class="metric"><span class="metric-name">Días con reportes</span><strong id="availability-days"></strong><span>En la ventana de 21 días</span></div>
+          </div>
+          <div class="panel-grid balanced">
+            <article class="panel">
+              <header class="panel-header">
+                <h2>Incidentes por día</h2>
+                <p>Noviembre de 2026 · Tocá una fecha para ver sus reportes.</p>
+              </header>
+              <div class="controls" style="margin-top: .8rem">
+                <label>Alcance
+                  <select id="availability-scope">
+                    <option value="ar">Argentina (MLA)</option>
+                    <option value="all">Todos los sitios</option>
+                    <option value="unspecified">Sin país indicado</option>
+                    <option value="other">Otros países</option>
+                    <option value="sample">Muestra completa</option>
+                  </select>
+                </label>
+                <label>Servicio<select id="availability-service"><option value="">Todos los servicios</option></select></label>
+              </div>
+              <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
+              <div class="calendar-footer">
+                <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado Pago Status</a></p>
+                <button class="button" id="availability-reset-day" type="button" hidden>Ver todo el período</button>
+              </div>
+            </article>
+            <article class="panel">
+              <header class="panel-header">
+                <h2>Registro de incidentes</h2>
+                <p id="incident-list-label" aria-live="polite"></p>
+              </header>
+              <div class="incident-list" id="incident-list"></div>
+            </article>
+          </div>
+          <aside class="note">
+            <strong>Cómo interpretar los tiempos</strong>
+            <p>El reloj empieza con el aviso público y termina con la resolución informada, en hora argentina. Las ventanas pueden superponerse. Calcular la disponibilidad real requeriría medir el tiempo operativo de cada servicio.</p>
+          </aside>
+        </section>
+
+        <section class="view" id="criticidad" aria-labelledby="criticality-title" hidden>
+          <header class="page-heading">
+            <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
+            <h1 id="criticality-title" tabindex="-1">Criticidad</h1>
+            <p>Compará cuántas veces se reportaron fallas en cada servicio y cuánto tardaron en darse por resueltas.</p>
+          </header>
+          <div class="panel-grid">
+            <article class="panel">
+              <header class="panel-header">
+                <h2>Comparación por servicio</h2>
+                <p>Seleccioná una barra para ver el detalle de ese servicio.</p>
+              </header>
+              <div class="controls" style="margin-top: .8rem">
+                <label>Alcance
+                  <select id="criticality-scope">
+                    <option value="ar">Argentina (MLA)</option>
+                    <option value="all">Todos los sitios</option>
+                    <option value="sample">Muestra completa</option>
+                  </select>
+                </label>
+                <div class="segment" id="criticality-mode" aria-label="Métrica del gráfico">
+                  <button type="button" data-mode="median" aria-pressed="true">Mediana</button>
+                  <button type="button" data-mode="count" aria-pressed="false">Cantidad</button>
+                </div>
+              </div>
+              <div class="bars" id="criticality-bars"></div>
+              <p class="source"><span id="criticality-chart-description"></span> <a href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado Pago Status</a></p>
+            </article>
+            <article class="panel detail-panel" id="criticality-detail" aria-live="polite"></article>
+          </div>
+          <aside class="note">
+            <strong>Impacto reportado por la plataforma</strong>
+            <p>Las categorías mayor y menor corresponden a la clasificación de Mercado Pago. Sus reportes describen qué servicio falló y dejan sin cuantificar el alcance en personas o transacciones afectadas.</p>
+          </aside>
+        </section>
+
+        <section class="view" id="impacto" aria-labelledby="impact-title" hidden>
+          <header class="page-heading">
+            <span class="kicker">Argentina · BCRA</span>
+            <h1 id="impact-title" tabindex="-1">Impacto</h1>
+            <p>La disponibilidad importa tanto para mover dinero como para acceder al saldo que ya está en una billetera.</p>
+          </header>
+          <div class="metric-grid three" aria-label="Dinero en cuentas de pago y viajes con QR">
+            <div class="metric"><span class="metric-name">Cuentas de pago con saldo</span><strong>16,1 <small>M</small></strong><span>De 70,1 millones de cuentas · ago. 2026</span></div>
+            <div class="metric"><span class="metric-name">Saldo en cuentas de pago</span><strong>$900.000 <small>M</small></strong><span>Pesos argentinos · ago. 2026</span></div>
+            <div class="metric"><span class="metric-name">Viajes pagados con QR</span><strong>26,9 <small>M</small></strong><span>Colectivos y subte · sep. 2026</span></div>
+          </div>
+          <div class="panel-grid balanced">
+            <article class="panel">
+              <header class="panel-header">
+                <h2>Pagos con transferencia vía QR</h2>
+                <p>Septiembre de 2026 · QR interoperable en Argentina</p>
+              </header>
+              <div class="impact-value" aria-live="polite">
+                <strong id="qr-value">≈ 2.843</strong>
+                <span id="qr-unit">pagos por minuto en promedio</span>
+              </div>
+              <div class="segment" id="qr-period" aria-label="Unidad de tiempo">
+                <button type="button" data-period="month" aria-pressed="false">Mes</button>
+                <button type="button" data-period="day" aria-pressed="false">Día</button>
+                <button type="button" data-period="hour" aria-pressed="false">Hora</button>
+                <button type="button" data-period="minute" aria-pressed="true">Minuto</button>
+                <button type="button" data-period="second" aria-pressed="false">Segundo</button>
+              </div>
+              <p class="source" style="margin-top: .75rem">Promedios calculados sobre los 30 días del mes. <a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
+            </article>
+            <article class="panel detail-panel">
+              <header class="panel-header">
+                <h2>Cómo circulan los pagos QR</h2>
+                <p>Participación por tipo de cuenta · Septiembre de 2026</p>
+              </header>
+              <div class="accounts-chart">
+                <strong>Desde dónde se paga</strong>
+                <div class="stack" aria-label="Cuenta de origen">
+                  <button type="button" style="--amount:52.8%;--segment-color:#4776d6" data-account="origin-cbu" aria-label="52,8 % de pagos desde cuentas bancarias"></button>
+                  <button type="button" style="--amount:47.2%;--segment-color:#0b8578" data-account="origin-cvu" aria-label="47,2 % de pagos desde cuentas de pago"></button>
+                </div>
+                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 52,8 %</span><span><i class="swatch" style="--swatch:#0b8578"></i>CVU 47,2 %</span></div>
+              </div>
+              <div class="accounts-chart">
+                <strong>Dónde cobra el comercio</strong>
+                <div class="stack" aria-label="Cuenta de destino">
+                  <button type="button" style="--amount:45.3%;--segment-color:#4776d6" data-account="destination-cbu" aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
+                  <button type="button" style="--amount:54.7%;--segment-color:#0b8578" data-account="destination-cvu" aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
+                </div>
+                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 45,3 %</span><span><i class="swatch" style="--swatch:#0b8578"></i>CVU 54,7 %</span></div>
+              </div>
+              <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas de pago de los comercios (CVU).</p>
+            </article>
+          </div>
+          <article class="panel story-card">
+            <div>
+              <p class="kicker">Caso documentado · Argentina</p>
+              <h2>Problemas para pagar o cobrar con Mercado Pago</h2>
+              <p class="small">El 7 de mayo de 2026 hubo reportes de demoras y fallas en operaciones de la billetera.</p>
+            </div>
+            <a class="button" href="https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html" target="_blank" rel="noopener">Leer en La Gaceta</a>
+          </article>
+        </section>
+
+        <section class="view" id="uso-digital" aria-labelledby="usage-title" hidden>
+          <header class="page-heading">
+            <span class="kicker">Argentina · BCRA</span>
+            <h1 id="usage-title" tabindex="-1">Uso Digital</h1>
+            <p>El uso frecuente de pagos electrónicos muestra cuánto dependemos de estos sistemas para operar día a día.</p>
+          </header>
+          <div class="metric-grid" aria-label="Alcance en la población argentina">
+            <div class="metric"><span class="metric-name">Personas con cuentas</span><strong>38,1 <small>M</small></strong><span>Junio de 2026</span></div>
+            <div class="metric"><span class="metric-name">Tenencia simultánea</span><strong>76,5 <small>%</small></strong><span>Titulares con cuenta bancaria y de pago</span></div>
+            <div class="metric"><span class="metric-name">Acceso digital bancario</span><strong>7 <small>de</small> 10</strong><span>Con usuario habilitado para canales electrónicos</span></div>
+            <div class="metric"><span class="metric-name">Nuevos usuarios</span><strong>Más de 2 <small>M</small></strong><span>En pagos electrónicos frente al primer semestre de 2025</span></div>
+          </div>
+          <div class="panel-grid">
+            <article class="panel">
+              <header class="panel-header">
+                <h2>Pagos electrónicos y retiros de efectivo</h2>
+                <p>Operaciones mensuales por adulto · Primer semestre de cada año</p>
+              </header>
+              <div class="chart" id="usage-trend"></div>
+              <p class="source">Fuente · <a href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/" target="_blank" rel="noopener">BCRA, Inclusión Financiera</a></p>
+            </article>
+            <article class="panel detail-panel">
+              <header class="panel-header"><h2>Un ecosistema interconectado</h2><p>Pagos Minoristas · septiembre de 2026</p></header>
+              <dl class="stat-list">
+                <div><dt>Billeteras digitales interoperables registradas</dt><dd>93</dd></div>
+                <div><dt>Aceptadores de pagos con transferencia</dt><dd>67</dd></div>
+                <div><dt>Transferencias inmediatas de envío en pesos con CVU de origen o destino</dt><dd>75 %</dd></div>
+                <div><dt>Pagos con transferencia interoperables en pesos iniciados con QR</dt><dd>99,1 %</dd></div>
+              </dl>
+              <p class="source"><a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">Consultar el informe del BCRA</a></p>
+            </article>
+          </div>
+          <article class="panel">
+            <header class="panel-header">
+              <h2>Operaciones por medio de pago</h2>
+              <p>Argentina · Comparación de volúmenes y crecimiento interanual</p>
+            </header>
+            <div class="controls" style="margin-top: .75rem">
+              <div class="segment" id="volume-mode" aria-label="Métrica del gráfico">
+                <button type="button" data-mode="amount" aria-pressed="true">Cantidad mensual</button>
+                <button type="button" data-mode="growth" aria-pressed="false">Variación interanual</button>
+              </div>
+            </div>
+            <div class="bars" id="volume-bars"></div>
+            <p class="chart-value" id="volume-detail" aria-live="polite"></p>
+            <p class="source">Los datos de débito, crédito, prepaga y cajeros corresponden a agosto. Los demás corresponden a septiembre de 2026. <a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
+          </article>
+        </section>
+
+        <section class="view" id="situacion-mundial" aria-labelledby="world-title" hidden>
+          <header class="page-heading">
+            <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span> casos documentados</span>
+            <h1 id="world-title" tabindex="-1">Situación Mundial</h1>
+            <p>Qué pasó cuando fallaron billeteras, bancos o redes de pago en distintos países.</p>
+          </header>
+          <div class="panel-grid world-layout">
+            <article class="globe-panel">
+              <header class="globe-head">
+                <div><h2>Globo de incidentes</h2><p id="globe-instructions">Arrastrá el globo o usá las teclas de flecha. Elegí un punto para abrir un caso.</p></div>
+                <button class="button" type="button" id="globe-reset">Centrar</button>
+              </header>
+              <div class="globe-stage" id="globe-stage" tabindex="0" role="group" aria-label="Globo terráqueo interactivo" aria-describedby="globe-instructions">
+                <canvas id="main-globe" aria-hidden="true"></canvas>
+                <div class="markers" id="globe-markers"></div>
+              </div>
+              <div class="map-case" id="map-case" aria-live="polite">
+                <p>Elegí un país en el globo, en el filtro o desde una noticia de la tabla.</p>
+              </div>
+            </article>
+            <article class="panel world-catalog">
+              <header class="panel-header"><h2>Noticias e informes</h2><p>Elegí un caso para leer su resumen en el globo.</p></header>
+              <div class="filter-grid">
+                <label>País<select id="country-filter"><option value="">Todos los países</option></select></label>
+                <label>Tipo de incidente<select id="type-filter"><option value="">Todos los tipos</option></select></label>
+              </div>
+              <div class="filter-info">
+                <p class="small" id="world-result-count" aria-live="polite"></p>
+                <button class="button" id="reset-filters" type="button">Limpiar filtros</button>
+              </div>
+              <div class="table-scroll" tabindex="0" aria-label="Tabla de casos filtrados">
+                <table>
+                  <thead><tr><th scope="col">País y fecha</th><th scope="col">Incidente</th></tr></thead>
+                  <tbody id="world-rows"></tbody>
+                </table>
+              </div>
+              <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural Earth</a>.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="sources-dialog" aria-labelledby="sources-title">
+    <div class="dialog-header">
+      <h2 id="sources-title">Fuentes y método</h2>
+      <form method="dialog"><button class="button" type="submit" autofocus>Cerrar</button></form>
+    </div>
+    <div class="dialog-content">
+      <p>Basado en <cite>TPI – Big Brain</cite>. Corte de datos del tablero al 26 de noviembre de 2026.</p>
+      <h3>Disponibilidad y criticidad</h3>
+      <p>La ISO/IEC 25010:2023 trata la disponibilidad como parte de la confiabilidad del software, junto con la ausencia de fallos, la tolerancia a fallos y la capacidad de recuperación.</p>
+      <p>La muestra contiene 50 incidentes resueltos de Mercado Pago Status entre el 4 y el 24 de noviembre de 2026. Los códigos de mercado distinguen 7 avisos de Argentina (MLA), 19 de otros países, 18 de todos los sitios y 6 sin país indicado. Cada intervalo va del aviso a la resolución, en hora argentina. Los acumulados pueden incluir intervalos superpuestos.</p>
+      <ul>
+        <li><a href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado Pago Status · API de incidentes recientes</a></li>
+        <li><a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado Pago Status · Historial</a></li>
+        <li><a href="https://www.iso.org/standard/78176.html" target="_blank" rel="noopener">ISO/IEC 25010:2023 · Modelo de calidad del producto</a></li>
+      </ul>
+      <h3>Uso digital e impacto</h3>
+      <p>Los informes del BCRA miden actividad y alcance poblacional del sistema argentino. La serie histórica compara el primer semestre de cada año. Los promedios por minuto y segundo distribuyen el volumen mensual de QR sobre los 30 días de septiembre.</p>
+      <ul>
+        <li><a href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/" target="_blank" rel="noopener">BCRA · Inclusión Financiera, primer semestre de 2026</a></li>
+        <li><a href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/" target="_blank" rel="noopener">BCRA · Pagos Minoristas, septiembre de 2026</a></li>
+      </ul>
+      <h3>Casos internacionales</h3>
+      <p>La tabla reúne noticias e informes de los países relevados en el TPI y enlaza la fuente de cada caso. Los filtros operan sobre una selección de eventos documentados con una categoría principal por caso.</p>
+    </div>
+  </dialog>
+  <noscript><p class="note">Activá JavaScript en el navegador para usar los gráficos, las pestañas y el globo.</p></noscript>
+
+  <script type="application/json" id="incident-data">
+  [
+    {"id":"czg4rbmd7hns","reported":"2026-11-24T19:08:38.930-03:00","resolved":"2026-11-24T19:26:38.615-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"kfld307fx4ll","reported":"2026-11-24T03:45:11.862-03:00","resolved":"2026-11-24T04:02:11.507-03:00","scope":"other","service":"qr","impact":"major","title":"Incidente en pagos con saldo de la billetera","market":"Brasil (MLB)"},
+    {"id":"87wwzmr24b4w","reported":"2026-11-24T03:46:00.066-03:00","resolved":"2026-11-24T03:59:00.686-03:00","scope":"other","service":"qr","impact":"major","title":"Incidente en pagos QR de billeteras locales","market":"Brasil (MLB)"},
+    {"id":"5cbh398yn22w","reported":"2026-11-24T01:55:14.183-03:00","resolved":"2026-11-24T02:08:13.300-03:00","scope":"other","service":"qr","impact":"major","title":"Incidente en pagos con saldo de la billetera","market":"Brasil (MLB)"},
+    {"id":"t5bvxy7n9zwn","reported":"2026-11-23T17:06:30.958-03:00","resolved":"2026-11-23T18:45:29.603-03:00","scope":"ar","service":"point","impact":"major","title":"Anomalía en la aprobación de pagos","market":"Argentina (MLA)"},
+    {"id":"104cln3k1ncl","reported":"2026-11-23T07:04:29.980-03:00","resolved":"2026-11-23T09:17:30.411-03:00","scope":"ar","service":"point","impact":"major","title":"Anomalía en la aprobación de pagos","market":"Argentina (MLA)"},
+    {"id":"fr2yc6jy2tg4","reported":"2026-11-21T16:45:40.691-03:00","resolved":"2026-11-22T19:34:40.746-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (webhook)"},
+    {"id":"5n3lz8b33hkz","reported":"2026-11-22T15:08:38.991-03:00","resolved":"2026-11-22T15:48:38.333-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"bz1rlwhhtj1g","reported":"2026-11-22T14:20:38.539-03:00","resolved":"2026-11-22T14:40:38.728-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"crg6pm4lkzzj","reported":"2026-11-22T02:12:15.965-03:00","resolved":"2026-11-22T02:29:16.156-03:00","scope":"unspecified","service":"payments","impact":"minor","title":"Incidente en el servicio de pagos"},
+    {"id":"4c9l6d7vwwrq","reported":"2026-11-21T21:20:47.332-03:00","resolved":"2026-11-21T22:15:46.979-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"México (MLM)"},
+    {"id":"xml908l1282x","reported":"2026-11-21T18:12:46.952-03:00","resolved":"2026-11-21T19:29:47.254-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"México (MLM)"},
+    {"id":"sqm2nm0g71m8","reported":"2026-11-21T16:42:39.077-03:00","resolved":"2026-11-21T17:18:38.637-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"pjz1yr6966lx","reported":"2026-11-21T15:52:47.090-03:00","resolved":"2026-11-21T17:01:47.365-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"México (MLM)"},
+    {"id":"08d7s4lpx14c","reported":"2026-11-21T15:49:38.518-03:00","resolved":"2026-11-21T16:23:38.500-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"lx3q4pqr2ts3","reported":"2026-11-20T16:54:05.805-03:00","resolved":"2026-11-20T18:07:05.502-03:00","scope":"other","service":"point","impact":"major","title":"Anomalía en la aprobación de pagos","market":"Brasil (MLB)"},
+    {"id":"49ywnw6s8yyp","reported":"2026-11-20T06:46:05.307-03:00","resolved":"2026-11-20T07:45:07.415-03:00","scope":"other","service":"point","impact":"major","title":"Anomalía en la aprobación de pagos","market":"Brasil (MLB)"},
+    {"id":"f7v2lf7vyptq","reported":"2026-11-20T00:36:37.902-03:00","resolved":"2026-11-20T00:51:38.715-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"Uruguay (MLU)"},
+    {"id":"3kvym43x8n0c","reported":"2026-11-19T08:35:40.469-03:00","resolved":"2026-11-19T08:48:40.655-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (webhook)"},
+    {"id":"8n5nngrfhn7r","reported":"2026-11-18T11:22:40.604-03:00","resolved":"2026-11-18T11:38:40.366-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (webhook)"},
+    {"id":"7dt0hpf3pl27","reported":"2026-11-18T00:10:16.597-03:00","resolved":"2026-11-18T00:42:32.031-03:00","scope":"unspecified","service":"online","impact":"major","title":"Incidente en Checkout Pro"},
+    {"id":"1pwl9k5qgpct","reported":"2026-11-18T00:13:55.432-03:00","resolved":"2026-11-18T00:22:55.941-03:00","scope":"unspecified","service":"qr","impact":"minor","title":"Incidente en la integración de pagos QR"},
+    {"id":"dv2d5kjh0wnb","reported":"2026-11-16T09:28:37.412-03:00","resolved":"2026-11-16T11:55:39.483-03:00","scope":"other","service":"point","impact":"major","title":"Anomalía en la aprobación de pagos","market":"México (MLM)"},
+    {"id":"6x7hzyps5559","reported":"2026-11-16T10:59:40.757-03:00","resolved":"2026-11-16T11:19:40.789-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (webhook)"},
+    {"id":"x0bjksr22l3k","reported":"2026-11-16T10:44:39.299-03:00","resolved":"2026-11-16T11:01:38.856-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"yh7wntxfpdsq","reported":"2026-11-15T03:41:15.482-03:00","resolved":"2026-11-15T04:07:15.370-03:00","scope":"unspecified","service":"payments","impact":"minor","title":"Incidente en el servicio de pagos"},
+    {"id":"r7yjwjb7lc5b","reported":"2026-11-15T02:45:05.485-03:00","resolved":"2026-11-15T03:20:06.954-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"Chile (MLC)"},
+    {"id":"rlgkgtspwflq","reported":"2026-11-15T03:07:41.717-03:00","resolved":"2026-11-15T03:11:41.551-03:00","scope":"ar","service":"qr","impact":"minor","title":"Rechazo de pagos en comercios","market":"Argentina (MLA)"},
+    {"id":"jyy0fkrkwhv9","reported":"2026-11-13T09:51:05.193-03:00","resolved":"2026-11-13T10:34:04.987-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"Brasil (MLB)"},
+    {"id":"fvs6rhnxqp1p","reported":"2026-11-12T20:37:41.435-03:00","resolved":"2026-11-12T20:41:42.930-03:00","scope":"ar","service":"qr","impact":"minor","title":"Rechazo de pagos en comercios","market":"Argentina (MLA)"},
+    {"id":"94ycr7wtlkc6","reported":"2026-11-11T23:32:38.536-03:00","resolved":"2026-11-12T00:42:38.129-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"Uruguay (MLU)"},
+    {"id":"14gzc0jj2p72","reported":"2026-11-11T12:59:12.580-03:00","resolved":"2026-11-11T13:16:12.798-03:00","scope":"other","service":"qr","impact":"major","title":"Incidente en pagos con saldo de la billetera","market":"Brasil (MLB)"},
+    {"id":"rfc4k23cmb21","reported":"2026-11-09T16:56:30.014-03:00","resolved":"2026-11-09T18:49:30.401-03:00","scope":"ar","service":"point","impact":"major","title":"Anomalía en la aprobación de pagos","market":"Argentina (MLA)"},
+    {"id":"x3bvs5w6p9g5","reported":"2026-11-09T08:09:34.447-03:00","resolved":"2026-11-09T10:16:33.329-03:00","scope":"ar","service":"online","impact":"major","title":"Anomalía en pagos online","market":"Argentina (MLA)"},
+    {"id":"qd725m4m41w1","reported":"2026-11-09T07:18:35.274-03:00","resolved":"2026-11-09T08:56:29.353-03:00","scope":"ar","service":"point","impact":"major","title":"Anomalía en la aprobación de pagos","market":"Argentina (MLA)"},
+    {"id":"9pyng5bwzkn9","reported":"2026-11-08T15:53:40.819-03:00","resolved":"2026-11-08T16:07:40.069-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (webhook)"},
+    {"id":"x63z0t81kybl","reported":"2026-11-08T03:24:46.987-03:00","resolved":"2026-11-08T04:22:47.145-03:00","scope":"other","service":"point","impact":"minor","title":"Incidente de rechazo de pagos","market":"México (MLM)"},
+    {"id":"j7ym3qj6bssh","reported":"2026-11-08T00:19:11.604-03:00","resolved":"2026-11-08T00:44:12.248-03:00","scope":"other","service":"qr","impact":"major","title":"Incidente en pagos con saldo de la billetera","market":"Brasil (MLB)"},
+    {"id":"x0gtf7zm0q6t","reported":"2026-11-06T21:41:38.390-03:00","resolved":"2026-11-06T21:57:39.727-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"1t45r80tdfkl","reported":"2026-11-06T19:17:57.550-03:00","resolved":"2026-11-06T19:43:57.501-03:00","scope":"unspecified","service":"point","impact":"minor","title":"Incidente en la integración Point"},
+    {"id":"yhn72pkqksrr","reported":"2026-11-06T19:24:44.967-03:00","resolved":"2026-11-06T19:35:44.216-03:00","scope":"unspecified","service":"point","impact":"minor","title":"Incidente en la integración Point"},
+    {"id":"fyk7zfnpkg45","reported":"2026-11-06T14:00:38.897-03:00","resolved":"2026-11-06T14:15:38.918-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"dfmh72xs7fgh","reported":"2026-11-06T13:33:50.861-03:00","resolved":"2026-11-06T13:56:50.363-03:00","scope":"other","service":"qr","impact":"major","title":"Incidente en pagos QR con tarjeta","market":"Brasil (MLB)"},
+    {"id":"06dtcrxc981v","reported":"2026-11-06T13:33:11.234-03:00","resolved":"2026-11-06T13:42:12.553-03:00","scope":"other","service":"qr","impact":"major","title":"Incidente en pagos con saldo de la billetera","market":"Brasil (MLB)"},
+    {"id":"wmt2rr9mg49m","reported":"2026-11-05T17:42:38.485-03:00","resolved":"2026-11-05T18:58:38.130-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"j31bhws35c2s","reported":"2026-11-05T17:42:40.128-03:00","resolved":"2026-11-05T18:46:42.004-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (webhook)"},
+    {"id":"h9bk2hhwjzk5","reported":"2026-11-05T14:20:40.942-03:00","resolved":"2026-11-05T14:38:41.105-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (webhook)"},
+    {"id":"npxy93knxf5k","reported":"2026-11-05T14:06:38.787-03:00","resolved":"2026-11-05T14:26:39.020-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"gm3hh9tw98zw","reported":"2026-11-05T00:29:38.391-03:00","resolved":"2026-11-05T01:07:38.425-03:00","scope":"all","service":"notifications","impact":"major","title":"Demora en avisos de pago (IPN)"},
+    {"id":"ypnllmrxgg4l","reported":"2026-11-04T10:13:36.302-03:00","resolved":"2026-11-04T10:20:35.961-03:00","scope":"other","service":"qr","impact":"minor","title":"Incidente en la integración de pagos QR","market":"Chile (MLC)"}
+  ]
+  </script>
+  <script type="application/json" id="world-data">
+  [
+    {"id":"ar-mercado-pago","country":"AR","date":"2026-05-07","type":"access","title":"Mercado Pago registró fallas al pagar y cobrar","summary":"Usuarios argentinos reportaron problemas para transferir y realizar cobros con QR. Mercado Pago atribuyó la interrupción a una falla de un proveedor externo.","source":"La Gaceta","url":"https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html"},
+    {"id":"ar-aws","country":"AR","date":"2025-10-20","type":"infrastructure","title":"Una caída de AWS afectó a bancos y billeteras","summary":"Servicios financieros que usan esa infraestructura reportaron dificultades para hacer pagos y transferencias en Argentina.","source":"Infobae","url":"https://www.infobae.com/economia/2025/10/20/reportan-fallas-en-pagos-y-transferencias-por-la-caida-de-un-servicio-web-global-afecta-a-apps-bancarias-y-billeteras-digitales/"},
+    {"id":"br-pix","country":"BR","date":"2026-08-23","type":"transfers","title":"Intermitencias en las transferencias con Pix","summary":"Usuarios de distintos bancos brasileños reportaron problemas para operar con el sistema de transferencias instantáneas durante la mañana.","source":"Agência Brasil","url":"https://agenciabrasil.ebc.com.br/economia/noticia/2026-08/pix-enfrenta-instabilidade-na-manha-deste-domingo"},
+    {"id":"co-nequi","country":"CO","date":"2026-02-03","type":"access","title":"Una caída de Nequi afectó pagos y retiros","summary":"El monitoreo de la billetera informó una falla generalizada que comprometió varios canales, incluidas las transferencias y los retiros.","source":"La República Colombia","url":"https://www.larepublica.co/finanzas/caida-generalizada-de-nequi-impacta-pagos-transferencias-y-retiros-de-los-usuarios-4318527"},
+    {"id":"co-pse","country":"CO","date":"2026-05-28","type":"transfers","title":"Fallas digitales en Bancolombia y Nequi","summary":"Se reportaron dificultades para ingresar a las apps, transferir dinero y completar pagos en línea mediante PSE.","source":"Infobae","url":"https://www.infobae.com/colombia/2026/05/28/usuarios-de-las-plataformas-de-bancolombia-y-nequi-registran-fallas-en-servicios-digitales/"},
+    {"id":"mx-spei-2026","country":"MX","date":"2026-10-30","type":"transfers","title":"Reportes de demoras en transferencias SPEI","summary":"Durante el cierre de quincena, clientes de varios bancos informaron intermitencias y retrasos al enviar o recibir transferencias.","source":"N+","url":"https://www.nmas.com.mx/economia/falla-spei-usuarios-bancos-reportan-se-cayo-sistema-transferencias-hoy/"},
+    {"id":"mx-spei-2025","country":"MX","date":"2025-02-28","type":"transfers","title":"Problemas de transferencias en bancos mexicanos","summary":"Clientes de Santander, BBVA y otras entidades reportaron dificultades para completar transferencias interbancarias.","source":"El Financiero","url":"https://www.elfinanciero.com.mx/economia/2025/02/28/no-pasa-tu-pago-fallas-en-spei-afecta-transferencias-de-santander-bbva-y-otros-bancos/"},
+    {"id":"us-chase","country":"US","date":"2026-11-16","type":"access","title":"Una falla en Chase demoró operaciones bancarias","summary":"Un problema técnico provocó demoras de transacciones y dificultades de acceso a servicios en línea. También hubo reportes en otros bancos conectados.","source":"CBS News","url":"https://www.cbsnews.com/news/banks-online-service-outages-jpmorgan-chase-bank-of-america-wells-fargo/"},
+    {"id":"us-capital-one","country":"US","date":"2025-01-16","type":"balances","title":"Clientes de Capital One sufrieron demoras en depósitos","summary":"Una falla en un proveedor afectó el procesamiento de depósitos, pagos y transferencias. Algunos clientes seguían reportando demoras al día siguiente.","source":"Fox Business","url":"https://www.foxbusiness.com/lifestyle/capital-one-customers-not-getting-payments-amid-outage"},
+    {"id":"us-boa","country":"US","date":"2024-10-02","type":"balances","title":"Bank of America mostró saldos en blanco o en cero","summary":"Clientes informaron dificultades de acceso y pantallas con saldos inesperados. El caso afectó la visualización de los fondos.","source":"The Verge","url":"https://www.theverge.com/2024/10/2/24260615/bank-of-america-is-down-outage-account-balance-blank-zero"},
+    {"id":"gb-barclays","country":"GB","date":"2025-01-31","type":"access","title":"Barclays sufrió una interrupción bancaria","summary":"La interrupción afectó los servicios de Barclays entre el 31 de enero y el 2 de febrero. La defensoría financiera documentó reclamos por dificultades para operar durante ese período.","source":"Financial Ombudsman Service","url":"https://www.financial-ombudsman.org.uk/decision/DRN-5623979.pdf"},
+    {"id":"cl-bancoestado-oct","country":"CL","date":"2025-10-25","type":"cards","title":"BancoEstado registró fallas con tarjetas y en sus canales digitales","summary":"La interrupción afectó pagos con tarjetas de BancoEstado y el acceso a sus plataformas digitales.","source":"Chócale","url":"https://chocale.cl/2025/10/bancoestado-presenta-caida-para-pagos-con-tarjetas-y-plataformas-digitales/"},
+    {"id":"cl-bancoestado-abr","country":"CL","date":"2025-04-02","type":"transfers","title":"Reportaron fallas al comprar o transferir con BancoEstado","summary":"Clientes informaron dificultades para realizar compras y transferencias, con intermitencias en los canales del banco.","source":"T13","url":"https://www.t13.cl/noticia/nacional/reportan-caida-banco-estado-para-compras-transferencias-2-4-2025"},
+    {"id":"es-apagon","country":"ES","date":"2025-04-28","type":"infrastructure","title":"El apagón interrumpió pagos electrónicos y cajeros","summary":"El Banco de España documentó dificultades para cobrar con tarjeta y operar cajeros por la falta de energía y de conectividad.","source":"Banco de España","url":"https://www.bde.es/wbe/es/noticias-eventos/blog/como-pagamos-cuando-todo-se-apaga-la-experiencia-del-apagon-en-espana.html"},
+    {"id":"es-redsys-18","country":"ES","date":"2023-11-18","type":"infrastructure","title":"Una caída de Redsys afectó tarjetas y Bizum","summary":"Bancos españoles comunicaron dificultades en pagos con tarjeta, datáfonos y Bizum. Redsys reportó problemas en sus líneas de comunicación internas.","source":"RTVE","url":"https://www.rtve.es/noticias/20231118/bancos-espana-pagos-tarjeta/2461268.shtml"},
+    {"id":"es-redsys-23","country":"ES","date":"2023-11-23","type":"infrastructure","title":"Redsys volvió a fallar antes del Black Friday","summary":"En la segunda interrupción de la semana, hubo dificultades con pagos móviles, terminales de cobro y operaciones de cajero.","source":"20minutos","url":"https://www.20minutos.es/lainformacion/consumo/-por-que-se-ha-caido-plataforma-pago-redsys-dos-veces-menos-una-semana-no-ha-sido-por-un-ataque-informatico--5193280/"},
+    {"id":"in-upi","country":"IN","date":"2025-04-12","type":"transfers","title":"Una interrupción de UPI afectó los pagos digitales","summary":"Usuarios reportaron operaciones que no se completaban en apps conectadas a UPI. El operador de la red confirmó intermitencias técnicas.","source":"The Indian Express","url":"https://indianexpress.com/article/india/upi-outage-digital-payments-npci-users-9940354/"},
+    {"id":"sg-dbs-citi","country":"SG","date":"2023-10-14","type":"infrastructure","title":"DBS y Citibank sufrieron una interrupción de servicios","summary":"Según lo informado al Parlamento de Singapur, quedaron sin completar unos 2,5 millones de pagos y operaciones en cajeros. Se estimaron hasta 810.000 intentos de acceso fallidos.","source":"CNA","url":"https://www.channelnewsasia.com/singapore/dbs-citibank-digital-banking-outage-it-issue-3900031"},
+    {"id":"fr-worldline-nov","country":"FR","date":"2023-11-07","type":"cards","title":"Una nueva falla de Worldline afectó pagos con tarjeta","summary":"Clientes de varias cadenas comerciales tuvieron dificultades para pagar con tarjeta en una segunda interrupción del proveedor.","source":"Le Figaro","url":"https://www.lefigaro.fr/societes/des-pannes-repetees-affectent-le-geant-des-paiements-worldline-20231108"},
+    {"id":"fr-worldline-oct","country":"FR","date":"2023-10-21","type":"cards","title":"Comercios franceses tuvieron problemas para cobrar","summary":"Una falla del proveedor Worldline dejó fuera de servicio terminales de pago de algunas cadenas comerciales.","source":"Clubic","url":"https://www.clubic.com/actualite-506170-paiement-par-carte-bancaire-pourquoi-les-tpe-de-certaines-grandes-enseignes-ne-fonctionnaient-plus-hier.html"},
+    {"id":"pe-yape-0630","country":"PE","date":"2026-06-30","type":"access","title":"Fallas en Yape y Banca Móvil BCP a fin de mes","summary":"El banco confirmó una falla en los canales digitales. Usuarios reportaron dificultades para pagar transporte y consumos.","source":"La República Perú","url":"https://larepublica.pe/sociedad/2026/06/30/se-caen-yape-y-bcp-usuarios-reportan-problemas-para-acceder-a-aplicativos-este-30-de-junio-1577310"},
+    {"id":"pe-yape-0603","country":"PE","date":"2026-06-03","type":"transfers","title":"Intermitencias en transferencias de Yape y BCP","summary":"Los reportes de usuarios describieron problemas para ingresar a las apps, hacer transferencias y pagar.","source":"La República Perú","url":"https://larepublica.pe/sociedad/2026/06/03/usuarios-reportan-redes-la-caida-la-app-del-yape-y-bcp-habrian-problemas-para-hacer-transferencias-y-pagos-190728"},
+    {"id":"pe-yape-0510","country":"PE","date":"2026-05-10","type":"access","title":"Yape y BCP fallaron el Día de la Madre","summary":"Usuarios reportaron que no pudieron pagar o transferir desde las aplicaciones de Yape y del banco durante la noche de la celebración.","source":"La República Perú","url":"https://larepublica.pe/economia/2026/05/10/reportan-caida-de-yape-y-bcp-en-pleno-dia-de-la-madre-usuarios-reportan-problemas-para-hacer-transferencias-y-pagos-353920"},
+    {"id":"pe-yape-0421","country":"PE","date":"2026-04-21","type":"access","title":"Problemas de acceso tras un mantenimiento","summary":"Usuarios de Yape y Banca Móvil BCP reportaron dificultades para ingresar después de una ventana programada de mantenimiento.","source":"Infobae","url":"https://www.infobae.com/peru/2026/04/21/caida-de-yape-y-app-bcp-usuarios-reportan-que-no-pueden-acceder-a-billetera-digital/"},
+    {"id":"pe-yape-1026","country":"PE","date":"2025-10-26","type":"access","title":"BCP confirmó intermitencias en sus canales digitales","summary":"Los problemas afectaron la billetera Yape, la aplicación bancaria y el acceso a la banca por internet.","source":"El Comercio","url":"https://elcomercio.pe/economia/peru/bcp-confirma-intermitencias-en-sus-canales-digitales-usuarios-reportan-fallas-en-yape-app-y-banca-por-internet-bcp-yape-noticia/"},
+    {"id":"pe-yape-0702","country":"PE","date":"2025-07-02","type":"transfers","title":"Fallaron transferencias desde Yape y BCP","summary":"Clientes informaron dificultades para transferir dinero desde las aplicaciones. El servicio se restableció ese mismo día.","source":"Infobae","url":"https://www.infobae.com/peru/2025/07/02/caida-de-yape-y-bcp-usuarios-reportan-problemas-para-hacer-transferencias-desde-aplicativos/"},
+    {"id":"pe-yape-0417","country":"PE","date":"2025-04-17","type":"access","title":"Yape y BCP presentaron intermitencias en Semana Santa","summary":"El jueves de Semana Santa, usuarios reportaron problemas para operar mediante las aplicaciones del banco y la billetera.","source":"Infobae","url":"https://www.infobae.com/peru/2025/04/17/se-cayo-yape-y-bcp-en-jueves-santo-usuarios-reportaron-problemas-con-aplicativos/"},
+    {"id":"pe-yape-0228","country":"PE","date":"2025-02-28","type":"transfers","title":"Una caída de Yape afectó el envío y la recepción de dinero","summary":"Usuarios reportaron que la billetera quedó inaccesible y que no podían completar operaciones de envío o recepción.","source":"La República Perú","url":"https://larepublica.pe/economia/2025/02/28/yape-sufre-caida-usuarios-reportan-que-billetera-del-bcp-presenta-inconvenientes-y-no-funciona-a-nivel-nacional-atmp-1745884"},
+    {"id":"pe-yape-0629","country":"PE","date":"2024-06-29","type":"transfers","title":"Caída de pagos y transferencias de Yape","summary":"Los reportes de esa tarde describieron dificultades para pagar y enviar dinero con la billetera en distintas partes de Perú.","source":"Infobae","url":"https://www.infobae.com/peru/2024/06/29/yape-registra-caida-a-nivel-nacional-usuarios-reportan-que-no-se-pueden-realizar-ni-transferencias-ni-pagos/"},
+    {"id":"au-optus","country":"AU","date":"2023-11-08","type":"infrastructure","title":"Una caída de Optus dejó terminales de cobro sin conexión","summary":"El informe del Senado australiano documentó problemas en terminales de comercios y en canales de banca en línea por la interrupción de la red de telecomunicaciones.","source":"Parlamento australiano","url":"https://www.aph.gov.au/Parliamentary_Business/Committees/Senate/Environment_and_Communications/OptusNetworkOutage/Report/Chapter_2_-_The_Optus_network_outage"},
+    {"id":"de-card","country":"DE","date":"2024-09-12","type":"cards","title":"Una falla del procesador interrumpió pagos con tarjeta","summary":"Clientes de distintos comercios alemanes tuvieron dificultades para pagar con tarjetas de crédito y débito tras un incidente en el proveedor TeleCash.","source":"Handelsblatt","url":"https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/kartenzahlung-probleme-haendler-von-panne-bei-zahlungsfirma-betroffen/100068566.html"}
+  ]
+  </script>
+  <script type="application/json" id="land-data">
+  [
+    [-87.5,[-176.4,-140.4,-104.4,-68.4,-32.4,3.6,39.6,75.6,111.6,147.6]],
+    [-85.85,[-168.75,-146.25,-123.75,-101.25,-78.75,-56.25,-33.75,-11.25,11.25,33.75,56.25,78.75,101.25,123.75,146.25,168.75]],
+    [-84.2,[-145.64,-129.27,-112.91,-96.55,-80.18,-63.82,-47.45,-31.09,-14.73,1.64,18.0,34.36,50.73,67.09,83.45,99.82,116.18,132.55,148.91,165.27]],
+    [-82.55,[-147.86,-135.0,-122.14,-109.29,-96.43,-83.57,-70.71,-45.0,-32.14,-19.29,-6.43,6.43,19.29,32.14,45.0,57.86,70.71,83.57,96.43,109.29,122.14,135.0,147.86,160.71]],
+    [-80.9,[-148.11,-137.83,-127.54,-117.26,-106.97,-96.69,-86.4,-76.11,-24.69,-14.4,-4.11,6.17,16.46,26.74,37.03,47.31,57.6,67.89,78.17,88.46,98.74,109.03,119.31,129.6,139.89,150.17]],
+    [-79.25,[-149.27,-140.49,-131.71,-122.93,-114.15,-105.37,-96.59,-87.8,-79.02,-43.9,-35.12,-26.34,-17.56,-8.78,0.0,8.78,17.56,26.34,35.12,43.9,52.68,61.46,70.24,79.02,87.8,96.59,105.37,114.15,122.93,131.71,140.49,149.27,158.05]],
+    [-77.6,[-156.26,-148.6,-140.94,-133.28,-125.62,-117.96,-110.3,-102.64,-94.98,-87.32,-79.66,-26.04,-18.38,-10.72,-3.06,4.6,12.26,19.91,27.57,35.23,42.89,50.55,58.21,65.87,73.53,81.19,88.85,96.51,104.17,111.83,119.49,127.15,134.81,142.47,150.13,157.79]],
+    [-75.95,[-142.64,-135.85,-129.06,-122.26,-115.47,-108.68,-101.89,-95.09,-88.3,-81.51,-74.72,-20.38,-13.58,-6.79,0.0,6.79,13.58,20.38,27.17,33.96,40.75,47.55,54.34,61.13,67.92,74.72,81.51,88.3,95.09,101.89,108.68,115.47,122.26,129.06,135.85,142.64,149.43,156.23,163.02]],
+    [-74.3,[-118.37,-100.07,-93.97,-87.86,-81.76,-75.66,-69.56,-63.46,-14.64,-8.54,-2.44,3.66,9.76,15.86,21.97,28.07,34.17,40.27,46.37,52.47,58.58,64.68,70.78,76.88,82.98,89.08,95.19,101.29,107.39,113.49,119.59,125.69,131.8,137.9,144.0,150.1,156.2,162.31]],
+    [-72.65,[-66.46,-11.08,-5.54,0.0,5.54,11.08,16.62,22.15,27.69,33.23,38.77,44.31,49.85,55.38,60.92,66.46,72.0,77.54,83.08,88.62,94.15,99.69,105.23,110.77,116.31,121.85,127.38,132.92,138.46,144.0,149.54,155.08,160.62,166.15]],
+    [-71.0,[-62.87,3.04,8.11,13.18,18.25,23.32,28.39,33.46,38.54,43.61,48.68,53.75,58.82,63.89,74.03,79.1,84.17,89.24,94.31,99.38,104.45,109.52,114.59,119.66,124.73,129.8,134.87,139.94,145.01,150.08,155.15,160.23,165.3]],
+    [-69.35,[-70.13,-65.45,37.4,42.08,46.75,51.43,56.1,60.78,65.45,79.48,84.16,88.83,93.51,98.18,102.86,107.53,112.21,116.88,121.56,126.23,130.91,135.58,140.26,144.94,149.61,154.29]],
+    [-67.7,[-66.8,50.31,54.65,58.99,85.01,89.35,93.69,98.02,102.36,106.7,111.04,115.37,119.71,124.05,128.39,132.72,137.06,141.4,145.73]],
+    [-66.05,[-64.72,113.26]],
+    [-64.4,[-60.89]],
+    [-54.5,[-72.0,-69.17,-66.33]],
+    [-52.85,[-72.27,-69.55]],
+    [-51.2,[-74.63,-72.0,-69.37]],
+    [-49.55,[-74.79,-72.25,-69.72,69.72]],
+    [-47.9,[-73.73,-71.26,-68.79,-66.33]],
+    [-46.25,[-73.91,-71.52,-69.14,169.27]],
+    [-44.6,[-72.93,-70.61,-68.28,-65.96,168.62,170.94]],
+    [-42.95,[-70.88,-68.62,-66.38,147.38,172.12]],
+    [-41.3,[-72.22,-70.02,-67.83,-65.63,145.1,147.29,173.63,175.83]],
+    [-39.65,[-71.79,-69.64,-67.5,-65.36,-63.21,174.64,176.79]],
+    [-38.0,[-73.05,-70.95,-68.86,-66.77,-64.67,-62.58,-60.49,-58.4,142.53,144.63,146.72,176.02,178.12]],
+    [-36.35,[-72.61,-70.57,-68.52,-66.48,-64.43,-62.39,-60.34,-58.3,140.11,142.16,144.2,146.25,148.3]],
+    [-34.7,[-71.2,-69.18,-67.17,-65.16,-63.15,-61.14,-59.13,-55.11,117.85,135.96,137.97,139.98,141.99,144.0,146.01,148.02,150.03]],
+    [-33.05,[-70.82,-68.85,-66.89,-64.92,-62.95,-60.98,-59.02,-57.05,-55.08,-53.11,19.67,21.64,23.61,25.57,27.54,116.07,118.03,120.0,121.97,123.93,135.74,139.67,141.64,143.61,145.57,147.54,149.51,151.48]],
+    [-31.4,[-71.42,-69.48,-67.55,-65.61,-63.68,-61.74,-59.81,-57.87,-55.94,-54.0,-52.06,19.55,21.48,23.42,25.35,27.29,29.23,116.32,118.26,120.19,122.13,124.06,126.0,127.94,129.87,131.81,133.74,135.68,137.61,139.55,141.48,143.42,145.35,147.29,149.23,151.16]],
+    [-29.75,[-70.48,-68.57,-66.67,-64.76,-62.86,-60.95,-59.05,-57.14,-55.24,-53.33,-51.43,17.14,19.05,20.95,22.86,24.76,26.67,28.57,30.48,116.19,118.1,120.0,121.9,123.81,125.71,127.62,129.52,131.43,133.33,135.24,137.14,139.05,140.95,142.86,144.76,146.67,148.57,150.48,152.38]],
+    [-28.1,[-71.06,-69.19,-67.31,-65.44,-63.56,-61.69,-59.81,-57.94,-56.06,-54.19,-52.31,-50.44,17.06,18.94,20.81,22.69,24.56,26.44,28.31,30.19,32.06,114.56,116.44,118.31,120.19,122.06,123.94,125.81,127.69,129.56,131.44,133.31,135.19,137.06,138.94,140.81,142.69,144.56,146.44,148.31,150.19,152.06]],
+    [-26.45,[-70.15,-68.31,-66.46,-64.62,-62.77,-60.92,-59.08,-57.23,-55.38,-53.54,-51.69,-49.85,16.62,18.46,20.31,22.15,24.0,25.85,27.69,29.54,31.38,114.46,116.31,118.15,120.0,121.85,123.69,125.54,127.38,129.23,131.08,132.92,134.77,136.62,138.46,140.31,142.15,144.0,145.85,147.69,149.54,151.38]],
+    [-24.8,[-68.91,-67.09,-65.27,-63.45,-61.64,-59.82,-58.0,-56.18,-54.36,-52.55,-50.73,-48.91,14.73,16.55,18.36,20.18,22.0,23.82,25.64,27.45,29.27,31.09,32.91,45.64,114.73,116.55,118.36,120.18,122.0,123.82,125.64,127.45,129.27,131.09,132.91,134.73,136.55,138.36,140.18,142.0,143.82,145.64,147.45,149.27,151.09]],
+    [-23.15,[-69.85,-68.06,-66.27,-64.48,-62.69,-60.9,-59.1,-57.31,-55.52,-53.73,-51.94,-50.15,-48.36,-46.57,-44.78,16.12,17.91,19.7,21.49,23.28,25.07,26.87,28.66,30.45,32.24,34.03,44.78,46.57,114.63,116.42,118.21,120.0,121.79,123.58,125.37,127.16,128.96,130.75,132.54,134.33,136.12,137.91,139.7,141.49,143.28,145.07,146.87,148.66,150.45]],
+    [-21.5,[-69.87,-68.1,-66.33,-64.55,-62.78,-61.0,-59.23,-57.46,-55.68,-53.91,-52.14,-50.36,-48.59,-46.82,-45.04,-43.27,-41.5,15.25,17.02,18.8,20.57,22.34,24.12,25.89,27.67,29.44,31.21,32.99,34.76,43.63,45.4,47.17,116.33,118.11,119.88,121.66,123.43,125.2,126.98,128.75,130.52,132.3,134.07,135.84,137.62,139.39,141.16,142.94,144.71,146.48,148.26,165.99]],
+    [-19.85,[-68.49,-66.73,-64.98,-63.22,-61.46,-59.71,-57.95,-56.2,-54.44,-52.68,-50.93,-49.17,-47.41,-45.66,-43.9,-42.15,-40.39,14.05,15.8,17.56,19.32,21.07,22.83,24.59,26.34,28.1,29.85,31.61,33.37,45.66,47.41,121.17,122.93,124.68,126.44,128.2,129.95,131.71,133.46,135.22,136.98,138.73,140.49,142.24,144.0,145.76,147.51]],
+    [-18.2,[-70.26,-68.52,-66.78,-65.04,-63.3,-61.57,-59.83,-58.09,-56.35,-54.61,-52.87,-51.13,-49.39,-47.65,-45.91,-44.17,-42.43,-40.7,13.22,14.96,16.7,18.43,20.17,21.91,23.65,25.39,27.13,28.87,30.61,32.35,34.09,35.83,44.52,46.26,48.0,122.78,124.52,126.26,128.0,129.74,131.48,133.22,134.96,136.7,138.43,140.17,141.91,143.65,145.39]],
+    [-16.55,[-72.34,-70.62,-68.9,-67.18,-65.45,-63.73,-62.01,-60.29,-58.56,-56.84,-55.12,-53.4,-51.67,-49.95,-48.23,-46.51,-44.78,-43.06,-41.34,-39.62,12.06,13.78,15.5,17.22,18.95,20.67,22.39,24.11,25.84,27.56,29.28,31.0,32.73,34.45,36.17,37.89,39.62,44.78,46.51,48.23,124.02,125.74,127.46,129.19,130.91,132.63,134.35,136.08,137.8,141.24,142.97,144.69,179.14]],
+    [-14.9,[-74.05,-72.34,-70.64,-68.93,-67.22,-65.52,-63.81,-62.1,-60.4,-58.69,-56.99,-55.28,-53.57,-51.87,-50.16,-48.45,-46.75,-45.04,-43.34,-41.63,-39.92,12.97,14.67,16.38,18.09,19.79,21.5,23.2,24.91,26.62,28.32,30.03,31.73,33.44,35.15,36.85,38.56,40.27,48.8,125.57,127.28,128.99,130.69,132.4,134.1,142.64,144.34]],
+    [-13.25,[-75.57,-73.87,-72.17,-70.47,-68.77,-67.08,-65.38,-63.68,-61.98,-60.28,-58.58,-56.89,-55.19,-53.49,-51.79,-50.09,-48.4,-46.7,-45.0,-43.3,-41.6,-39.91,12.74,14.43,16.13,17.83,19.53,21.23,22.92,24.62,26.32,28.02,29.72,31.42,33.11,34.81,36.51,38.21,39.91,131.6,133.3,135.0,141.79,143.49]],
+    [-11.6,[-77.21,-75.53,-73.85,-72.17,-70.49,-68.8,-67.12,-65.44,-63.76,-62.07,-60.39,-58.71,-57.03,-55.35,-53.66,-51.98,-50.3,-48.62,-46.93,-45.25,-43.57,-41.89,-40.21,-38.52,15.31,16.99,18.67,20.36,22.04,23.72,25.4,27.08,28.77,30.45,32.13,33.81,35.5,37.18,38.86,133.07]],
+    [-9.95,[-77.02,-75.35,-73.67,-72.0,-70.33,-68.65,-66.98,-65.3,-63.63,-61.95,-60.28,-58.6,-56.93,-55.26,-53.58,-51.91,-50.23,-48.56,-46.88,-45.21,-43.53,-41.86,-40.19,-38.51,-36.84,13.4,15.07,16.74,18.42,20.09,21.77,23.44,25.12,26.79,28.47,30.14,31.81,33.49,35.16,36.84,38.51,120.56,123.91,149.02]],
+    [-8.3,[-78.17,-76.5,-74.83,-73.17,-71.5,-69.83,-68.17,-66.5,-64.83,-63.17,-61.5,-59.83,-58.17,-56.5,-54.83,-53.17,-51.5,-49.83,-48.17,-46.5,-44.83,-43.17,-41.5,-39.83,-38.17,-36.5,13.5,15.17,16.83,18.5,20.17,21.83,23.5,25.17,26.83,28.5,30.17,31.83,33.5,35.17,36.83,38.5,111.83,113.5,115.17,138.5,140.17,141.83,146.83]],
+    [-6.65,[-79.63,-77.97,-76.31,-74.65,-73.0,-71.34,-69.68,-68.02,-66.36,-64.7,-63.04,-61.38,-59.72,-58.06,-56.41,-54.75,-53.09,-51.43,-49.77,-48.11,-46.45,-44.79,-43.13,-41.47,-39.82,-38.16,-36.5,13.27,14.93,16.59,18.25,19.91,21.57,23.23,24.88,26.54,28.2,29.86,31.52,33.18,34.84,36.5,38.16,106.18,107.83,111.15,134.38,139.35,141.01,142.67,144.33,145.99,155.94]],
+    [-5.0,[-80.29,-78.64,-76.98,-75.32,-73.66,-72.0,-70.34,-68.68,-67.02,-65.36,-63.71,-62.05,-60.39,-58.73,-57.07,-55.41,-53.75,-52.09,-50.43,-48.77,-47.12,-45.46,-43.8,-42.14,-40.48,-38.82,-37.16,12.61,14.27,15.93,17.59,19.24,20.9,22.56,24.22,25.88,27.54,29.2,30.86,32.52,34.18,35.83,37.49,103.85,105.51,137.03,138.69,140.35,142.01,143.67,145.33,151.96]],
+    [-3.35,[-80.09,-78.44,-76.79,-75.14,-73.49,-71.83,-70.18,-68.53,-66.88,-65.23,-63.58,-61.93,-60.28,-58.62,-56.97,-55.32,-53.67,-52.02,-50.37,-48.72,-47.06,-45.41,-43.76,-42.11,-40.46,10.73,12.39,14.04,15.69,17.34,18.99,20.64,22.29,23.94,25.6,27.25,28.9,30.55,32.2,33.85,35.5,37.16,38.81,103.21,104.86,114.77,119.72,121.38,126.33,127.98,129.63,132.94,134.59,136.24,137.89,139.54,141.19,142.84]],
+    [-1.7,[-80.75,-79.1,-77.45,-75.8,-74.15,-72.5,-70.84,-69.19,-67.54,-65.89,-64.24,-62.59,-60.94,-59.28,-57.63,-55.98,-54.33,-52.68,-51.03,-49.38,-47.72,-46.07,10.07,11.72,13.38,15.03,16.68,18.33,19.98,21.63,23.28,24.94,26.59,28.24,29.89,31.54,33.19,34.84,36.5,38.15,39.8,41.45,100.9,102.55,104.2,110.81,112.46,114.11,115.76,120.72,132.28,133.93]],
+    [-0.05,[-80.09,-78.44,-76.79,-75.14,-73.49,-71.83,-70.18,-68.53,-66.88,-65.23,-63.58,-61.93,-60.28,-58.62,-56.97,-55.32,-53.67,-52.02,10.73,12.39,14.04,15.69,17.34,18.99,20.64,22.29,23.94,25.6,27.25,28.9,30.55,32.2,33.85,35.5,37.16,38.81,40.46,42.11,99.91,101.56,103.21,109.82,111.47,113.12,114.77,116.42,127.98]],
+    [1.6,[-77.45,-75.8,-74.15,-72.5,-70.84,-69.19,-67.54,-65.89,-64.24,-62.59,-60.94,-59.28,-57.63,-55.98,-54.33,-52.68,-51.03,10.07,11.72,13.38,15.03,16.68,18.33,19.98,21.63,23.28,24.94,26.59,28.24,29.89,31.54,33.19,34.84,36.5,38.15,39.8,41.45,43.1,44.75,99.25,100.9,104.2,110.81,112.46,114.11,115.76,117.41]],
+    [3.25,[-76.79,-75.14,-73.49,-71.83,-70.18,-68.53,-66.88,-65.23,-63.58,-61.93,-60.28,-58.62,-56.97,-55.32,-53.67,-52.02,10.73,12.39,14.04,15.69,17.34,18.99,20.64,22.29,23.94,25.6,27.25,28.9,30.55,32.2,33.85,35.5,37.16,38.81,40.46,42.11,43.76,45.41,98.26,101.56,103.21,114.77,116.42]],
+    [4.9,[-76.98,-75.32,-73.66,-72.0,-70.34,-68.68,-67.02,-65.36,-63.71,-62.05,-60.39,-58.73,-57.07,-55.41,-53.75,-8.96,-7.3,-2.32,5.97,7.63,9.29,10.95,12.61,14.27,15.93,17.59,19.24,20.9,22.56,24.22,25.88,27.54,29.2,30.86,32.52,34.18,35.83,37.49,39.15,40.81,42.47,44.13,45.79,47.45,95.56,97.22,100.53,102.19,115.47,117.12]],
+    [6.55,[-76.31,-74.65,-73.0,-71.34,-69.68,-68.02,-66.36,-64.7,-63.04,-61.38,-59.72,-58.06,-9.95,-8.29,-6.64,-4.98,-3.32,-1.66,0.0,1.66,3.32,4.98,6.64,8.29,9.95,11.61,13.27,14.93,16.59,18.25,19.91,21.57,23.23,24.88,26.54,28.2,29.86,31.52,33.18,34.84,36.5,38.16,39.82,41.47,43.13,44.79,46.45,48.11,81.29,101.2,124.42]],
+    [8.2,[-81.5,-78.17,-76.5,-74.83,-73.17,-71.5,-69.83,-68.17,-66.5,-64.83,-63.17,-61.5,-59.83,-11.5,-9.83,-8.17,-6.5,-4.83,-3.17,-1.5,0.17,1.83,3.5,5.17,6.83,8.5,10.17,11.83,13.5,15.17,16.83,18.5,20.17,21.83,23.5,25.17,26.83,28.5,30.17,31.83,33.5,35.17,36.83,38.5,40.17,41.83,43.5,45.17,46.83,48.5,80.17,100.17,123.5,125.17]],
+    [9.85,[-83.72,-75.35,-73.67,-70.33,-68.65,-66.98,-65.3,-63.63,-61.95,-13.4,-11.72,-10.05,-8.37,-6.7,-5.02,-3.35,-1.67,0.0,1.67,3.35,5.02,6.7,8.37,10.05,11.72,13.4,15.07,16.74,18.42,20.09,21.77,23.44,25.12,26.79,28.47,30.14,31.81,33.49,35.16,36.84,38.51,40.19,41.86,43.53,45.21,46.88,48.56,50.23,77.02,78.7,98.79,105.49,118.88]],
+    [11.5,[-85.63,-83.94,-72.17,-14.97,-13.29,-11.61,-9.93,-8.24,-6.56,-4.88,-3.2,-1.51,0.17,1.85,3.53,5.21,6.9,8.58,10.26,11.94,13.63,15.31,16.99,18.67,20.36,22.04,23.72,25.4,27.08,28.77,30.45,32.13,33.81,35.5,37.18,38.86,40.54,42.22,50.64,75.87,77.55,79.23,99.42,104.47,106.15,107.83,122.97]],
+    [13.15,[-85.75,-84.06,-16.13,-14.43,-12.74,-11.04,-9.34,-7.64,-5.94,-4.25,-2.55,-0.85,0.85,2.55,4.25,5.94,7.64,9.34,11.04,12.74,14.43,16.13,17.83,19.53,21.23,22.92,24.62,26.32,28.02,29.72,31.42,33.11,34.81,36.51,38.21,39.91,41.6,43.3,45.0,75.57,77.26,78.96,99.34,101.04,102.74,104.43,106.13,107.83,121.42]],
+    [14.8,[-91.11,-89.4,-87.7,-85.99,-84.28,-16.04,-14.33,-12.63,-10.92,-9.21,-7.51,-5.8,-4.09,-2.39,-0.68,1.02,2.73,4.44,6.14,7.85,9.55,11.26,12.97,14.67,16.38,18.09,19.79,21.5,23.2,24.91,26.62,28.32,30.03,31.73,33.44,35.15,36.85,38.56,40.27,43.68,45.38,47.09,48.8,74.39,76.09,77.8,79.51,98.27,99.98,101.69,103.39,105.1,106.81,108.51,120.45]],
+    [16.45,[-98.18,-96.46,-94.74,-93.01,-91.29,-89.57,-15.5,-13.78,-12.06,-10.33,-8.61,-6.89,-5.17,-3.44,-1.72,0.0,1.72,3.44,5.17,6.89,8.61,10.33,12.06,13.78,15.5,17.22,18.95,20.67,22.39,24.11,25.84,27.56,29.28,31.0,32.73,34.45,36.17,37.89,43.06,44.78,46.51,48.23,49.95,51.67,74.07,75.79,77.51,79.23,80.96,94.74,96.46,98.18,99.9,101.63,103.35,105.07,106.79,120.57,122.3]],
+    [18.1,[-101.57,-99.83,-98.09,-96.35,-94.61,-92.87,-91.13,-89.39,-77.22,-66.78,-14.61,-12.87,-11.13,-9.39,-7.65,-5.91,-4.17,-2.43,-0.7,1.04,2.78,4.52,6.26,8.0,9.74,11.48,13.22,14.96,16.7,18.43,20.17,21.91,23.65,25.39,27.13,28.87,30.61,32.35,34.09,35.83,37.57,42.78,44.52,46.26,48.0,49.74,51.48,53.22,54.96,74.09,75.83,77.57,79.3,81.04,82.78,94.96,96.7,98.43,100.17,101.91,103.65,105.39,121.04]],
+    [19.75,[-103.61,-101.85,-100.1,-98.34,-96.59,-89.56,-87.8,-72.0,-15.8,-14.05,-12.29,-10.54,-8.78,-7.02,-5.27,-3.51,-1.76,0.0,1.76,3.51,5.27,7.02,8.78,10.54,12.29,14.05,15.8,17.56,19.32,21.07,22.83,24.59,26.34,28.1,29.85,31.61,33.37,35.12,36.88,42.15,43.9,45.66,47.41,49.17,50.93,52.68,54.44,56.2,73.76,75.51,77.27,79.02,80.78,82.54,84.29,94.83,96.59,98.34,100.1,101.85,103.61,105.37,110.63]],
+    [21.4,[-103.57,-101.79,-100.02,-98.25,-87.61,-76.97,-16.67,-14.9,-13.12,-11.35,-9.58,-7.8,-6.03,-4.26,-2.48,-0.71,1.06,2.84,4.61,6.38,8.16,9.93,11.7,13.48,15.25,17.02,18.8,20.57,22.34,24.12,25.89,27.67,29.44,31.21,32.99,34.76,36.53,40.08,41.85,43.63,45.4,47.17,48.95,50.72,52.49,54.27,56.04,57.81,70.23,72.0,73.77,75.55,77.32,79.09,80.87,82.64,84.41,86.19,93.28,95.05,96.83,98.6,100.37,102.15,103.92,105.69,107.47]],
+    [23.05,[-105.67,-103.88,-102.09,-100.3,-98.51,-82.39,-80.6,-16.12,-14.33,-12.54,-10.75,-8.96,-7.16,-5.37,-3.58,-1.79,0.0,1.79,3.58,5.37,7.16,8.96,10.75,12.54,14.33,16.12,17.91,19.7,21.49,23.28,25.07,26.87,28.66,30.45,32.24,34.03,39.4,41.19,42.99,44.78,46.57,48.36,50.15,51.94,53.73,55.52,57.31,59.1,69.85,71.64,73.43,75.22,77.01,78.81,80.6,82.39,84.18,85.97,87.76,89.55,91.34,93.13,94.93,96.72,98.51,100.3,102.09,103.88,105.67,107.46,109.25,111.04,112.84,114.63]],
+    [24.7,[-110.73,-107.09,-105.27,-103.45,-101.64,-99.82,-98.0,-78.0,-14.36,-12.55,-10.73,-8.91,-7.09,-5.27,-3.45,-1.64,0.18,2.0,3.82,5.64,7.45,9.27,11.09,12.91,14.73,16.55,18.36,20.18,22.0,23.82,25.64,27.45,29.27,31.09,32.91,34.73,38.36,40.18,42.0,43.82,45.64,47.45,49.27,51.09,54.73,67.45,69.27,71.09,72.91,74.73,76.55,78.36,80.18,82.0,83.82,85.64,87.45,89.27,91.09,92.91,94.73,96.55,98.36,100.18,102.0,103.82,105.64,107.45,109.27,111.09,112.91,114.73,116.55,118.36]],
+    [26.35,[-109.29,-107.45,-105.61,-103.78,-101.94,-100.1,-98.27,-81.73,-13.78,-11.94,-10.1,-8.27,-6.43,-4.59,-2.76,-0.92,0.92,2.76,4.59,6.43,8.27,10.1,11.94,13.78,15.61,17.45,19.29,21.12,22.96,24.8,26.63,28.47,30.31,32.14,33.98,37.65,39.49,41.33,43.16,45.0,46.84,48.67,57.86,59.69,61.53,63.37,65.2,67.04,68.88,70.71,72.55,74.39,76.22,78.06,79.9,81.73,83.57,85.41,87.24,89.08,90.92,92.76,94.59,96.43,98.27,100.1,101.94,103.78,105.61,107.45,109.29,111.12,112.96,114.8,116.63,118.47]],
+    [28.0,[-110.8,-108.93,-107.07,-105.2,-103.34,-101.47,-99.61,-97.74,-82.82,-80.95,-11.94,-10.07,-8.21,-6.34,-4.48,-2.61,-0.75,1.12,2.98,4.85,6.72,8.58,10.45,12.31,14.18,16.04,17.91,19.77,21.64,23.5,25.37,27.23,29.1,30.96,32.83,36.56,38.42,40.29,42.16,44.02,45.89,47.75,51.48,53.35,55.21,57.08,58.94,60.81,62.67,64.54,66.4,68.27,70.13,72.0,73.87,75.73,77.6,79.46,81.33,83.19,85.06,86.92,88.79,90.65,92.52,94.38,96.25,98.11,99.98,101.84,103.71,105.58,107.44,109.31,111.17,113.04,114.9,116.77,118.63,120.5]],
+    [29.65,[-114.63,-110.84,-108.95,-107.05,-105.16,-103.26,-101.37,-99.47,-97.58,-95.68,-91.89,-90.0,-82.42,-8.53,-6.63,-4.74,-2.84,-0.95,0.95,2.84,4.74,6.63,8.53,10.42,12.32,14.21,16.11,18.0,19.89,21.79,23.68,25.58,27.47,29.37,31.26,33.16,35.05,36.95,38.84,40.74,42.63,44.53,46.42,52.11,54.0,55.89,57.79,59.68,61.58,63.47,65.37,67.26,69.16,71.05,72.95,74.84,76.74,78.63,80.53,82.42,84.32,86.21,88.11,90.0,91.89,93.79,95.68,97.58,99.47,101.37,103.26,105.16,107.05,108.95,110.84,112.74,114.63,116.53,118.42,120.32]],
+    [31.3,[-115.94,-112.06,-110.13,-108.19,-106.26,-104.32,-102.39,-100.45,-98.52,-96.58,-94.65,-92.71,-90.77,-88.84,-86.9,-84.97,-83.03,-9.48,-7.55,-5.61,-3.68,-1.74,0.19,2.13,4.06,6.0,7.94,9.87,11.81,13.74,15.68,21.48,23.42,25.35,27.29,31.16,35.03,36.97,38.9,40.84,42.77,44.71,46.65,48.58,50.52,52.45,54.39,56.32,58.26,60.19,62.13,64.06,66.0,67.94,69.87,71.81,73.74,75.68,77.61,79.55,81.48,83.42,85.35,87.29,89.23,91.16,93.1,95.03,96.97,98.9,100.84,102.77,104.71,106.65,108.58,110.52,112.45,114.39,116.32,118.26,120.19]],
+    [32.95,[-116.07,-114.1,-112.13,-110.16,-108.2,-106.23,-104.26,-102.3,-100.33,-98.36,-96.39,-94.43,-92.46,-90.49,-88.52,-86.56,-84.59,-82.62,-80.66,-7.87,-5.9,-3.93,-1.97,0.0,1.97,3.93,5.9,7.87,9.84,11.8,35.41,37.38,39.34,41.31,43.28,45.25,47.21,49.18,51.15,53.11,55.08,57.05,59.02,60.98,62.95,64.92,66.89,68.85,70.82,72.79,74.75,76.72,78.69,80.66,82.62,84.59,86.56,88.52,90.49,92.46,94.43,96.39,98.36,100.33,102.3,104.26,106.23,108.2,110.16,112.13,114.1,116.07,118.03,120.0,129.84,131.8]],
+    [34.6,[-119.8,-117.8,-115.8,-113.8,-111.8,-109.8,-107.8,-105.8,-103.8,-101.8,-99.8,-97.8,-95.8,-93.8,-91.8,-89.8,-87.8,-85.8,-83.8,-81.8,-79.8,-77.8,-5.8,-3.8,-1.8,0.2,2.2,4.2,6.2,8.2,10.2,36.2,38.2,40.2,42.2,44.2,46.2,48.2,50.2,52.2,54.2,56.2,58.2,60.2,62.2,64.2,66.2,68.2,70.2,72.2,74.2,76.2,78.2,80.2,82.2,84.2,86.2,88.2,90.2,92.2,94.2,96.2,98.2,100.2,102.2,104.2,106.2,108.2,110.2,112.2,114.2,116.2,118.2,132.2,134.2,136.2]],
+    [36.25,[-121.7,-119.66,-117.61,-115.57,-113.52,-111.48,-109.43,-107.39,-105.34,-103.3,-101.25,-99.2,-97.16,-95.11,-93.07,-91.02,-88.98,-86.93,-84.89,-82.84,-80.8,-78.75,-76.7,-5.11,1.02,3.07,5.11,7.16,9.2,29.66,33.75,37.84,39.89,41.93,43.98,46.02,48.07,50.11,52.16,54.2,56.25,58.3,60.34,62.39,64.43,66.48,68.52,70.57,72.61,74.66,76.7,78.75,80.8,82.84,84.89,86.93,88.98,91.02,93.07,95.11,97.16,99.2,101.25,103.3,105.34,107.39,109.43,111.48,113.52,115.57,117.61,119.66,127.84,138.07,140.11]],
+    [37.9,[-121.19,-119.09,-117.0,-114.91,-112.81,-110.72,-108.63,-106.53,-104.44,-102.35,-100.26,-98.16,-96.07,-93.98,-91.88,-89.79,-87.7,-85.6,-83.51,-81.42,-79.33,-77.23,-8.16,-6.07,-3.98,-1.88,12.77,14.86,23.23,27.42,29.51,31.6,33.7,35.79,37.88,39.98,42.07,44.16,46.26,48.35,54.63,56.72,58.81,60.91,63.0,65.09,67.19,69.28,71.37,73.47,75.56,77.65,79.74,81.84,83.93,86.02,88.12,90.21,92.3,94.4,96.49,98.58,100.67,102.77,104.86,106.95,109.05,111.14,113.23,115.33,117.42,127.88,140.44]],
+    [39.55,[-123.21,-121.07,-118.93,-116.79,-114.64,-112.5,-110.36,-108.21,-106.07,-103.93,-101.79,-99.64,-97.5,-95.36,-93.21,-91.07,-88.93,-86.79,-84.64,-82.5,-80.36,-78.21,-76.07,-7.5,-5.36,-3.21,-1.07,9.64,16.07,20.36,22.5,26.79,28.93,31.07,33.21,35.36,37.5,39.64,41.79,43.93,46.07,48.21,54.64,56.79,58.93,61.07,63.21,65.36,67.5,69.64,71.79,73.93,76.07,78.21,80.36,82.5,84.64,86.79,88.93,91.07,93.21,95.36,97.5,99.64,101.79,103.93,106.07,108.21,110.36,112.5,114.64,116.79,118.93,125.36,127.5,140.36]],
+    [41.2,[-122.71,-120.51,-118.32,-116.12,-113.93,-111.73,-109.54,-107.34,-105.15,-102.95,-100.76,-98.56,-96.37,-94.17,-91.98,-89.78,-87.59,-85.39,-83.2,-81.0,-78.8,-76.61,-74.41,-8.56,-6.37,-4.17,-1.98,0.22,15.59,19.98,22.17,24.37,26.56,28.76,33.15,35.34,41.93,44.12,46.32,48.51,55.1,57.29,59.49,61.68,63.88,66.07,68.27,70.46,72.66,74.85,77.05,79.24,81.44,83.63,85.83,88.02,90.22,92.41,94.61,96.8,99.0,101.2,103.39,105.59,107.78,109.98,112.17,114.37,116.56,118.76,120.95,123.15,125.34,127.54,140.71]],
+    [42.85,[-122.62,-120.38,-118.12,-115.88,-113.62,-111.38,-109.12,-106.88,-104.62,-102.38,-100.12,-97.88,-95.62,-93.38,-91.12,-88.88,-86.62,-84.38,-82.12,-79.88,-77.62,-75.38,-73.12,-70.88,-7.88,-5.62,-3.38,-1.12,1.12,12.38,19.12,21.38,23.62,25.88,41.62,43.88,46.12,52.88,55.12,57.38,59.62,61.88,64.12,66.38,68.62,70.88,73.12,75.38,77.62,79.88,82.12,84.38,86.62,88.88,91.12,93.38,95.62,97.88,100.12,102.38,104.62,106.88,109.12,111.38,113.62,115.88,118.12,120.38,122.62,124.88,127.12,129.38,140.62,142.88]],
+    [44.5,[-122.08,-119.77,-117.46,-115.15,-112.85,-110.54,-108.23,-105.92,-103.62,-101.31,-99.0,-96.69,-94.38,-92.08,-89.77,-87.46,-85.15,-82.85,-80.54,-78.23,-75.92,-73.62,-71.31,-69.0,-64.38,0.23,2.54,4.85,7.15,9.46,11.77,16.38,18.69,21.0,23.31,25.62,27.92,39.46,41.77,44.08,46.38,51.0,53.31,55.62,57.92,60.23,62.54,64.85,67.15,69.46,71.77,74.08,76.38,78.69,81.0,83.31,85.62,87.92,90.23,92.54,94.85,97.15,99.46,101.77,104.08,106.38,108.69,111.0,113.31,115.62,117.92,120.23,122.54,124.85,127.15,129.46,131.77,134.08]],
+    [46.15,[-123.97,-121.59,-119.21,-116.82,-114.44,-112.05,-109.67,-107.28,-104.9,-102.52,-100.13,-97.75,-95.36,-92.98,-90.6,-88.21,-85.83,-83.44,-81.06,-78.68,-76.29,-73.91,-71.52,-69.14,-66.75,-64.37,0.0,2.38,4.77,7.15,9.54,11.92,14.3,16.69,19.07,21.46,23.84,26.23,28.61,33.38,38.15,40.53,42.91,45.3,47.68,54.83,57.22,59.6,61.99,64.37,66.75,69.14,71.52,73.91,76.29,78.68,81.06,83.44,85.83,88.21,90.6,92.98,95.36,97.75,100.13,102.52,104.9,107.28,109.67,112.05,114.44,116.82,119.21,121.59,123.97,126.36,128.74,131.13,133.51,135.89]],
+    [47.8,[-123.43,-120.98,-118.53,-116.08,-113.63,-111.18,-108.73,-106.29,-103.84,-101.39,-98.94,-96.49,-94.04,-91.59,-89.14,-86.69,-84.24,-81.8,-79.35,-76.9,-74.45,-72.0,-67.1,-57.31,-54.86,-3.43,-0.98,1.47,3.92,6.37,8.82,11.27,13.71,16.16,18.61,21.06,23.51,25.96,28.41,30.86,33.31,35.76,38.2,40.65,43.1,45.55,48.0,50.45,52.9,55.35,57.8,60.24,62.69,65.14,67.59,70.04,72.49,74.94,77.39,79.84,82.29,84.73,87.18,89.63,92.08,94.53,96.98,99.43,101.88,104.33,106.78,109.22,111.67,114.12,116.57,119.02,121.47,123.92,126.37,128.82,131.27,133.71,136.16,138.61]],
+    [49.45,[-125.49,-122.96,-120.42,-117.89,-115.35,-112.82,-110.28,-107.75,-105.21,-102.68,-100.14,-97.61,-95.07,-92.54,-90.0,-87.46,-84.93,-82.39,-79.86,-77.32,-74.79,-72.25,-69.72,-57.04,-54.51,-1.27,1.27,3.8,6.34,8.87,11.41,13.94,16.48,19.01,21.55,24.08,26.62,29.15,31.69,34.23,36.76,39.3,41.83,44.37,46.9,49.44,51.97,54.51,57.04,59.58,62.11,64.65,67.18,69.72,72.25,74.79,77.32,79.86,82.39,84.93,87.46,90.0,92.54,95.07,97.61,100.14,102.68,105.21,107.75,110.28,112.82,115.35,117.89,120.42,122.96,125.49,128.03,130.56,133.1,135.63,138.17,143.24]],
+    [51.1,[-127.18,-124.55,-121.93,-119.3,-116.67,-114.04,-111.42,-108.79,-106.16,-103.53,-100.91,-98.28,-95.65,-93.02,-90.39,-87.77,-85.14,-82.51,-79.88,-77.26,-74.63,-72.0,-69.37,-66.74,-64.12,-61.49,-58.86,-56.23,-3.68,-1.05,4.2,6.83,9.46,12.09,14.72,17.34,19.97,22.6,25.23,27.85,30.48,33.11,35.74,38.36,40.99,43.62,46.25,48.88,51.5,54.13,56.76,59.39,62.01,64.64,67.27,69.9,72.53,75.15,77.78,80.41,83.04,85.66,88.29,90.92,93.55,96.18,98.8,101.43,104.06,106.69,109.31,111.94,114.57,117.2,119.82,122.45,125.08,127.71,130.34,132.96,135.59,138.22,143.47]],
+    [52.75,[-126.82,-124.09,-121.36,-118.64,-115.91,-113.18,-110.45,-107.73,-105.0,-102.27,-99.55,-96.82,-94.09,-91.36,-88.64,-85.91,-83.18,-77.73,-75.0,-72.27,-69.55,-66.82,-64.09,-61.36,-58.64,-55.91,-6.82,-4.09,-1.36,1.36,6.82,9.55,12.27,15.0,17.73,20.45,23.18,25.91,28.64,31.36,34.09,36.82,39.55,42.27,45.0,47.73,50.45,53.18,55.91,58.64,61.36,64.09,66.82,69.55,72.27,75.0,77.73,80.45,83.18,85.91,88.64,91.36,94.09,96.82,99.55,102.27,105.0,107.73,110.45,113.18,115.91,118.64,121.36,124.09,126.82,129.55,132.27,135.0,137.73,140.45,143.18,156.82]],
+    [54.4,[-128.69,-125.86,-123.02,-120.19,-117.35,-114.52,-111.69,-108.85,-106.02,-103.18,-100.35,-97.51,-94.68,-91.84,-89.01,-86.17,-83.34,-77.67,-74.83,-72.0,-69.17,-66.33,-63.5,-60.66,-57.83,-6.8,-1.13,10.2,18.71,21.54,24.38,27.21,30.05,32.88,35.72,38.55,41.39,44.22,47.06,49.89,52.72,55.56,58.39,61.23,64.06,66.9,69.73,72.57,75.4,78.24,81.07,83.91,86.74,89.57,92.41,95.24,98.08,100.91,103.75,106.58,109.42,112.25,115.09,117.92,120.76,123.59,126.43,129.26,132.09,134.93,157.61,160.44]],
+    [56.05,[-131.31,-128.36,-125.41,-122.46,-119.51,-116.56,-113.61,-110.66,-107.7,-104.75,-101.8,-98.85,-95.9,-92.95,-90.0,-75.25,-72.3,-69.34,-66.39,-63.44,-4.43,13.28,22.13,25.08,28.03,30.98,33.93,36.89,39.84,42.79,45.74,48.69,51.64,54.59,57.54,60.49,63.44,66.39,69.34,72.3,75.25,78.2,81.15,84.1,87.05,90.0,92.95,95.9,98.85,101.8,104.75,107.7,110.66,113.61,116.56,119.51,122.46,125.41,128.36,131.31,134.26,137.21,157.87,160.82]],
+    [57.7,[-133.54,-130.46,-127.38,-124.31,-121.23,-118.15,-115.08,-112.0,-108.92,-105.85,-102.77,-99.69,-96.62,-93.54,-75.08,-72.0,-68.92,-65.85,-62.77,-4.31,14.15,26.46,29.54,32.62,35.69,38.77,41.85,44.92,48.0,51.08,54.15,57.23,60.31,63.38,66.46,69.54,72.62,75.69,78.77,81.85,84.92,88.0,91.08,94.15,97.23,100.31,103.38,106.46,109.54,112.62,115.69,118.77,121.85,124.92,128.0,131.08,134.15,137.23,158.77,161.85]],
+    [59.35,[-158.92,-155.68,-139.46,-136.22,-132.97,-129.73,-126.49,-123.24,-120.0,-116.76,-113.51,-110.27,-107.03,-103.78,-100.54,-97.3,-77.84,-74.59,-71.35,-64.86,6.49,9.73,12.97,16.22,25.95,29.19,32.43,35.68,38.92,42.16,45.41,48.65,51.89,55.14,58.38,61.62,64.86,68.11,71.35,74.59,77.84,81.08,84.32,87.57,90.81,94.05,97.3,100.54,103.78,107.03,110.27,113.51,116.76,120.0,123.24,126.49,129.73,132.97,136.22,139.46,142.7,145.95,152.43,162.16]],
+    [61.0,[-162.68,-159.28,-155.89,-152.49,-149.09,-145.7,-142.3,-138.91,-135.51,-132.11,-128.72,-125.32,-121.92,-118.53,-115.13,-111.74,-108.34,-104.94,-101.55,-98.15,-94.75,-77.77,-74.38,-70.98,-47.21,-43.81,7.13,10.53,13.92,17.32,24.11,27.51,30.91,34.3,37.7,41.09,44.49,47.89,51.28,54.68,58.08,61.47,64.87,68.26,71.66,75.06,78.45,81.85,85.25,88.64,92.04,95.43,98.83,102.23,105.62,109.02,112.42,115.81,119.21,122.6,126.0,129.4,132.79,136.19,139.58,142.98,146.38,149.77,153.17,159.96,163.36,166.75,170.15]],
+    [62.65,[-163.8,-160.2,-156.6,-153.0,-149.4,-145.8,-142.2,-138.6,-135.0,-131.4,-127.8,-124.2,-120.6,-117.0,-113.4,-109.8,-106.2,-102.6,-99.0,-95.4,-48.6,-45.0,9.0,12.6,16.2,23.4,27.0,30.6,34.2,37.8,41.4,45.0,48.6,52.2,55.8,59.4,63.0,66.6,70.2,73.8,77.4,81.0,84.6,88.2,91.8,95.4,99.0,102.6,106.2,109.8,113.4,117.0,120.6,124.2,127.8,131.4,135.0,138.6,142.2,145.8,149.4,153.0,156.6,160.2,163.8,167.4,171.0,174.6,178.2]],
+    [64.3,[-160.67,-156.88,-153.09,-149.31,-145.52,-141.73,-137.94,-134.15,-130.36,-126.57,-122.78,-118.99,-115.2,-111.41,-107.62,-103.83,-100.04,-96.25,-92.46,-88.67,-84.88,-77.31,-73.52,-69.73,-65.94,-50.78,-46.99,-43.2,-20.46,-16.67,13.64,17.43,25.01,28.8,32.59,40.17,43.96,47.75,51.54,55.33,59.12,62.91,66.69,70.48,74.27,78.06,81.85,85.64,89.43,93.22,97.01,100.8,104.59,108.38,112.17,115.96,119.75,123.54,127.33,131.12,134.91,138.69,142.48,146.27,150.06,153.85,157.64,161.43,165.22,169.01,172.8,176.59]],
+    [65.95,[-177.98,-173.93,-165.84,-161.8,-157.75,-153.71,-149.66,-145.62,-141.57,-137.53,-133.48,-129.44,-125.39,-121.35,-117.3,-113.26,-109.21,-105.17,-101.12,-97.08,-93.03,-88.99,-72.81,-68.76,-64.72,-52.58,-48.54,-44.49,-40.45,-16.18,16.18,20.22,24.27,28.31,32.36,44.49,48.54,52.58,56.63,60.67,64.72,68.76,72.81,76.85,80.9,84.94,88.99,93.03,97.08,101.12,105.17,109.21,113.26,117.3,121.35,125.39,129.44,133.48,137.53,141.57,145.62,149.66,153.71,157.75,161.8,165.84,169.89,173.93,177.98]],
+    [67.6,[-179.57,-162.22,-157.88,-153.54,-149.2,-144.87,-140.53,-136.19,-131.86,-127.52,-123.18,-118.84,-114.51,-110.17,-105.83,-101.49,-97.16,-92.82,-88.48,-84.14,-75.47,-71.13,-66.8,-49.45,-45.11,-40.77,-36.43,15.61,19.95,24.29,28.63,32.96,37.3,50.31,54.65,58.99,63.33,67.66,72.0,76.34,80.67,85.01,89.35,93.69,98.02,102.36,106.7,111.04,115.37,119.71,124.05,128.39,132.72,137.06,141.4,145.73,150.07,154.41,158.75,163.08,167.42,171.76,176.1]],
+    [69.25,[-158.96,-154.29,-149.61,-144.94,-140.26,-135.58,-130.91,-126.23,-121.56,-112.21,-107.53,-102.86,-98.18,-93.51,-84.16,-74.81,-70.13,-46.75,-42.08,-37.4,-32.73,-28.05,18.7,23.38,28.05,32.73,60.78,70.13,74.81,79.48,84.16,88.83,93.51,98.18,102.86,107.53,112.21,116.88,121.56,126.23,130.91,135.58,140.26,144.94,149.61,154.29,158.96,163.64,168.31,172.99,177.66]],
+    [70.9,[-179.49,-113.58,-108.51,-93.3,-88.23,-83.15,-78.08,-73.01,-47.66,-42.59,-37.52,-32.45,-27.38,-22.31,28.39,53.75,68.96,74.03,79.1,84.17,89.24,94.31,99.38,104.45,109.52,114.59,119.66,124.73,129.8,134.87,139.94,145.01,150.08,155.15]],
+    [72.55,[-121.85,-116.31,-110.77,-99.69,-94.15,-88.62,-83.08,-77.54,-49.85,-44.31,-38.77,-33.23,-27.69,55.38,72.0,83.08,88.62,94.15,99.69,105.23,110.77,116.31,121.85,127.38,144.0]],
+    [74.2,[-124.47,-118.37,-51.25,-45.15,-39.05,-32.95,-26.85,89.08,95.19,101.29,107.39]],
+    [75.85,[-115.47,-108.68,-101.89,-54.34,-47.55,-40.75,-33.96,-27.17,-20.38,61.13,95.09,101.89,108.68,142.64]],
+    [77.5,[-117.96,-87.32,-79.66,-64.34,-56.68,-49.02,-41.36,-33.7,-26.04,104.17]],
+    [79.15,[-105.37,-87.8,-79.02,-61.46,-52.68,-43.9,-35.12,-26.34,17.56,96.59]],
+    [80.8,[-86.4,-76.11,-55.54,-45.26,-34.97,-24.69]],
+    [82.45,[-74.48,-62.07,-37.24,-24.83]]
+  ]
+  </script>
+  <script>
+    "use strict";
+
+    const byId = (id) => document.getElementById(id);
+    const embedded = (id) => JSON.parse(byId(id).textContent);
+    const integer = new Intl.NumberFormat("es-AR", { useGrouping: "always", maximumFractionDigits: 0 });
+    const decimal = new Intl.NumberFormat("es-AR", { useGrouping: "always", maximumFractionDigits: 1 });
+    const oneDecimal = new Intl.NumberFormat("es-AR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    const shortDate = new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+    const formatDate = (date) => shortDate.format(new Date(`${date}T12:00:00Z`));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const services = {
+      point: { label: "Point", color: "#4876d5", description: "Terminales de cobro que usan los comercios." },
+      qr: { label: "Pagos QR", color: "#087f74", description: "Pagos que se inician al escanear un código QR." },
+      online: { label: "Pagos online", color: "#7952b0", description: "Cobros en línea, incluidos los realizados a través de Checkout Pro." },
+      notifications: { label: "Notificaciones a comercios", color: "#b76836", description: "Avisos que reciben las integraciones al cambiar el estado de un pago." },
+      payments: { label: "API de pagos", color: "#63789d", description: "Servicio de pagos que utilizan las integraciones." }
+    };
+    const cases = embedded("world-data").sort((a, b) => b.date.localeCompare(a.date));
+    const incidents = embedded("incident-data").map((record) => ({
+      ...record,
+      day: Number(record.reported.slice(8, 10)),
+      minutes: (Date.parse(record.resolved) - Date.parse(record.reported)) / 60000
+    })).sort((a, b) => b.reported.localeCompare(a.reported));
+    const argentina = incidents.filter(({ scope }) => scope === "ar");
+    const scopes = {
+      ar: "Argentina (MLA)",
+      all: "Todos los sitios",
+      unspecified: "Sin país indicado",
+      other: "Otros países",
+      sample: "Muestra completa"
+    };
+    const trend = [
+      [2019, 5.8, 2.9], [2020, 6.3, 2.7], [2021, 8.8, 2.7], [2022, 11.8, 2.8],
+      [2023, 16.7, 2.7], [2024, 25.2, 2.9], [2025, 28.6, 1.9], [2026, 32.8, 1.3]
+    ];
+    const volume = [
+      { label: "Transferencias inmediatas de envío", amount: 791.6, growth: 21.9, month: "Septiembre" },
+      { label: "Pagos con tarjeta de débito", amount: 190.7, growth: 7.1, month: "Agosto" },
+      { label: "Pagos con tarjeta de crédito", amount: 147.8, growth: -18.1, month: "Agosto" },
+      { label: "Pagos con transferencia por QR", amount: 122.8, growth: 71.5, month: "Septiembre" },
+      { label: "Pagos con tarjeta prepaga", amount: 48.7, growth: 9.9, month: "Agosto" },
+      { label: "Transferencias inmediatas de ingreso", amount: 44.4, growth: 17.9, month: "Septiembre" },
+      { label: "Extracciones por cajero automático", amount: 37.3, growth: -29, month: "Agosto" },
+      { label: "Viajes pagados con QR", amount: 26.9, growth: null, month: "Septiembre" }
+    ];
+
+    function node(tag, className, text) {
+      const item = document.createElement(tag);
+      if (className) item.className = className;
+      if (text !== undefined) item.textContent = text;
+      return item;
+    }
+
+    function externalLink(url, text, className) {
+      const link = node("a", className, text);
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      return link;
+    }
+
+    function button(className, text) {
+      const item = node("button", className, text);
+      item.type = "button";
+      return item;
+    }
+
+    function press(item, isPressed) {
+      item.setAttribute("aria-pressed", isPressed);
+    }
+
+    function setSegment(id, dataAttribute, update) {
+      const group = byId(id);
+      group.addEventListener("click", (event) => {
+        const target = event.target.closest("button");
+        if (!target || target.getAttribute("aria-pressed") === "true") return;
+        group.querySelectorAll("button").forEach((item) => press(item, item === target));
+        update(target.dataset[dataAttribute]);
+      });
+    }
+
+    function addOptions(select, options) {
+      for (const [value, label] of options) select.add(new Option(label, value));
+    }
+
+    function median(values) {
+      const ordered = [...values].sort((a, b) => a - b);
+      const middle = Math.floor(ordered.length / 2);
+      return ordered.length % 2 ? ordered[middle] : (ordered[middle - 1] + ordered[middle]) / 2;
+    }
+
+    function duration(minutes) {
+      const rounded = Math.round(minutes);
+      const hours = Math.floor(rounded / 60);
+      const remainder = rounded % 60;
+      if (!hours) return `${remainder} min`;
+      return remainder ? `${hours} h ${remainder} min` : `${hours} h`;
+    }
+
+    function countLabel(count, singular, plural) {
+      return `${integer.format(count)} ${count === 1 ? singular : plural}`;
+    }
+
+    function scopedRecords(scope) {
+      return scope === "sample" ? incidents : incidents.filter((record) => record.scope === scope);
+    }
+
+    const sections = {
+      "vista-general": "Vista General",
+      disponibilidad: "Disponibilidad",
+      criticidad: "Criticidad",
+      impacto: "Impacto",
+      "uso-digital": "Uso Digital",
+      "situacion-mundial": "Situación Mundial"
+    };
+    const nav = document.querySelector(".sidebar nav");
+
+    function showSection(focusHeading = false) {
+      const fragment = location.hash.slice(1);
+      if (fragment === "contenido" && focusHeading) return;
+      const active = Object.hasOwn(sections, fragment) ? fragment : "vista-general";
+      for (const id of Object.keys(sections)) byId(id).hidden = id !== active;
+      const selectedLink = nav.querySelector(`a[href="#${active}"]`);
+      nav.querySelectorAll("a").forEach((link) => {
+        if (link === selectedLink) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      });
+      byId("current-view").textContent = sections[active];
+      const world = active === "situacion-mundial";
+      byId("area-title").textContent = world ? "Internacional" : "Argentina";
+      byId("context-flag").hidden = world;
+      document.title = `${sections[active]} | Data4Quality`;
+      requestAnimationFrame(() => {
+        const bounds = nav.getBoundingClientRect();
+        const current = selectedLink.getBoundingClientRect();
+        if (current.left < bounds.left) nav.scrollLeft += current.left - bounds.left - 3;
+        if (current.right > bounds.right) nav.scrollLeft += current.right - bounds.right + 3;
+        if (focusHeading) {
+          window.scrollTo({ top: 0, behavior: "instant" });
+          byId(active).querySelector("h1").focus({ preventScroll: true });
+        }
+      });
+    }
+
+    window.addEventListener("hashchange", () => showSection(true));
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest("a[data-view]");
+      if (link?.hash === location.hash && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
+        event.preventDefault();
+        showSection(true);
+      }
+    });
+    byId("sources-button").addEventListener("click", () => byId("sources-dialog").showModal());
+    byId("overview-incident-count").textContent = argentina.length;
+    byId("overview-point-median").textContent = decimal.format(median(argentina.filter((record) => record.service === "point").map((record) => record.minutes)));
+
+    function canvasArea(canvas) {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      if (!width || !height) return null;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const pixelsWide = Math.round(width * ratio);
+      const pixelsHigh = Math.round(height * ratio);
+      if (canvas.width !== pixelsWide || canvas.height !== pixelsHigh) {
+        canvas.width = pixelsWide;
+        canvas.height = pixelsHigh;
+      }
+      const context = canvas.getContext("2d");
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      context.clearRect(0, 0, width, height);
+      return { context, width, height };
+    }
+
+    function drawTrend(container) {
+      const series = [
+        { label: "Pagos electrónicos", color: "#315fc3", column: 1, shown: true },
+        { label: "Extracciones de efectivo", color: "#087d72", column: 2, shown: true }
+      ];
+      const legend = node("div", "legend");
+      const plot = node("div", "trend-plot");
+      const canvas = node("canvas");
+      canvas.setAttribute("aria-hidden", "true");
+      const targets = node("div", "year-targets");
+      const tooltip = node("div", "trend-tooltip");
+      tooltip.hidden = true;
+      tooltip.setAttribute("aria-hidden", "true");
+      const readout = node("p", "chart-value");
+      readout.setAttribute("aria-live", "polite");
+      plot.append(canvas, targets, tooltip);
+      container.append(legend, plot, readout);
+
+      let pinned = trend.length - 1;
+      let hovered = null;
+      let focused = null;
+      let repaint = 0;
+      const yearButtons = [];
+
+      function valuesFor(index) {
+        return series.filter((line) => line.shown).map((line) => `${line.label} · ${oneDecimal.format(trend[index][line.column])}`);
+      }
+
+      function updateReadout() {
+        readout.textContent = `${trend[pinned][0]} · ${valuesFor(pinned).join(" / ")}`;
+        yearButtons.forEach((item, index) => press(item, index === pinned));
+      }
+
+      function paint() {
+        repaint = 0;
+        const area = canvasArea(canvas);
+        if (!area) return;
+        const { context: ctx, width, height } = area;
+        const left = 26;
+        const right = width - 12;
+        const top = 12;
+        const bottom = height - 28;
+        const upper = series[0].shown ? 36 : 4;
+        const ticks = series[0].shown ? [0, 10, 20, 30] : [0, 1, 2, 3, 4];
+        const x = (index) => left + (index + 0.5) * (right - left) / trend.length;
+        const y = (value) => bottom - value / upper * (bottom - top);
+        const active = hovered ?? focused ?? pinned;
+        ctx.font = "12px Segoe UI, system-ui, sans-serif";
+        ctx.fillStyle = "#536681";
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "right";
+        for (const tick of ticks) {
+          const row = y(tick);
+          ctx.fillText(tick, left - 7, row);
+          ctx.beginPath();
+          ctx.strokeStyle = "#dfe7f3";
+          ctx.lineWidth = 1;
+          ctx.moveTo(left, row);
+          ctx.lineTo(right, row);
+          ctx.stroke();
+        }
+        ctx.textAlign = "center";
+        trend.forEach(([year], index) => {
+          if (width < 285 && index % 2 && index !== trend.length - 1) return;
+          ctx.fillText(year, x(index), bottom + 16);
+        });
+        for (const line of series.filter((item) => item.shown)) {
+          const points = trend.map((row, index) => [x(index), y(row[line.column])]);
+          ctx.beginPath();
+          ctx.moveTo(...points[0]);
+          for (const point of points.slice(1)) ctx.lineTo(...point);
+          if (line.column === 1) {
+            ctx.save();
+            ctx.lineTo(x(trend.length - 1), bottom);
+            ctx.lineTo(x(0), bottom);
+            ctx.closePath();
+            const gradient = ctx.createLinearGradient(0, top, 0, bottom);
+            gradient.addColorStop(0, "#b9d0fc88");
+            gradient.addColorStop(1, "#dfeaff36");
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            ctx.restore();
+            ctx.beginPath();
+            ctx.moveTo(...points[0]);
+            for (const point of points.slice(1)) ctx.lineTo(...point);
+          }
+          ctx.lineJoin = "round";
+          ctx.strokeStyle = line.color;
+          ctx.lineWidth = 2.75;
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.moveTo(x(active), top);
+        ctx.lineTo(x(active), bottom);
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = "#8295b5";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+        for (const line of series.filter((item) => item.shown)) {
+          trend.forEach((year, index) => {
+            ctx.beginPath();
+            ctx.arc(x(index), y(year[line.column]), index === active ? 5 : 2.65, 0, 2 * Math.PI);
+            ctx.fillStyle = line.color;
+            ctx.fill();
+            if (index === active) {
+              ctx.strokeStyle = "#fff";
+              ctx.lineWidth = 1.6;
+              ctx.stroke();
+            }
+          });
+        }
+        tooltip.hidden = hovered === null && focused === null;
+        if (!tooltip.hidden) {
+          tooltip.replaceChildren(node("strong", "", trend[active][0]), ...valuesFor(active).map((value) => node("span", "", value)));
+          const place = active < trend.length / 2 ? x(active) + 8 : x(active) - tooltip.offsetWidth - 8;
+          tooltip.style.left = `${Math.max(0, Math.min(place, width - tooltip.offsetWidth))}px`;
+        }
+      }
+
+      function schedule() {
+        if (!repaint) repaint = requestAnimationFrame(paint);
+      }
+
+      for (const line of series) {
+        const toggle = button("legend-toggle");
+        const key = node("i", "swatch");
+        key.style.setProperty("--swatch", line.color);
+        toggle.append(key, document.createTextNode(line.label));
+        press(toggle, true);
+        toggle.addEventListener("click", () => {
+          if (line.shown && series.filter((item) => item.shown).length === 1) return;
+          line.shown = !line.shown;
+          press(toggle, line.shown);
+          updateReadout();
+          schedule();
+        });
+        legend.append(toggle);
+      }
+      trend.forEach(([year, payments, withdrawals], index) => {
+        const target = button("");
+        target.setAttribute("aria-label", `${year}. Pagos electrónicos ${decimal.format(payments)}. Extracciones ${decimal.format(withdrawals)}.`);
+        target.addEventListener("pointerenter", (event) => {
+          if (event.pointerType === "touch") return;
+          hovered = index;
+          schedule();
+        });
+        target.addEventListener("focus", () => { focused = index; schedule(); });
+        target.addEventListener("blur", () => { focused = null; schedule(); });
+        target.addEventListener("click", () => {
+          pinned = index;
+          updateReadout();
+          schedule();
+        });
+        yearButtons.push(target);
+        targets.append(target);
+      });
+      plot.addEventListener("pointerleave", () => { hovered = null; schedule(); });
+      new ResizeObserver(schedule).observe(canvas);
+      updateReadout();
+      schedule();
+    }
+
+    drawTrend(byId("overview-trend"));
+    drawTrend(byId("usage-trend"));
+
+    const availabilityScope = byId("availability-scope");
+    const availabilityService = byId("availability-service");
+    const dayButtons = new Map();
+    let selectedDay = null;
+    addOptions(availabilityService, Object.entries(services).map(([key, service]) => [key, service.label]));
+
+    function fillTrack(value, color) {
+      const track = node("span", "track");
+      track.setAttribute("aria-hidden", "true");
+      const fill = node("span", "fill");
+      fill.style.setProperty("--amount", `${value}%`);
+      fill.style.setProperty("--bar", color);
+      track.append(fill);
+      return track;
+    }
+
+    function incidentLink(record, largest) {
+      const item = externalLink(`https://status.mercadopago.com/incidents/${record.id}`, "", "incident-row");
+      const time = node("span", "incident-date", `${record.day} nov. · ${record.reported.slice(11, 16)} · ${record.market ?? scopes[record.scope]}`);
+      const headline = node("span", "incident-title");
+      headline.append(node("b", "", services[record.service].label), node("b", "", duration(record.minutes)));
+      item.append(time, headline, node("span", "", record.title), fillTrack(record.minutes / largest * 100, services[record.service].color));
+      return item;
+    }
+
+    function renderAvailability() {
+      const scope = availabilityScope.value;
+      const service = availabilityService.value;
+      const items = scopedRecords(scope).filter((record) => !service || service === record.service);
+      const countsByDay = new Map();
+      items.forEach(({ day }) => countsByDay.set(day, (countsByDay.get(day) ?? 0) + 1));
+      byId("availability-count").textContent = integer.format(items.length);
+      byId("availability-scope-label").textContent = service ? `${scopes[scope]} · ${services[service].label}` : scopes[scope];
+      byId("availability-duration").textContent = duration(items.reduce((total, record) => total + record.minutes, 0));
+      byId("availability-days").textContent = `${countsByDay.size} / 21`;
+      for (const [day, dayButton] of dayButtons) {
+        const amount = countsByDay.get(day) ?? 0;
+        dayButton.lastElementChild.textContent = amount;
+        dayButton.dataset.count = amount ? "some" : "zero";
+        dayButton.setAttribute("aria-label", `${day} de noviembre. ${countLabel(amount, "incidente", "incidentes")}.`);
+        press(dayButton, day === selectedDay);
+      }
+      const list = selectedDay === null ? items : items.filter(({ day }) => day === selectedDay);
+      const largest = Math.max(1, ...items.map((record) => record.minutes));
+      const label = selectedDay === null ? "Todo el período" : `${selectedDay} de noviembre`;
+      byId("incident-list-label").textContent = `${label} · ${countLabel(list.length, "aviso", "avisos")}`;
+      const rows = list.length ? list.map((record) => incidentLink(record, largest)) : [node("p", "small", "No hay avisos para esta selección.")];
+      const listArea = byId("incident-list");
+      listArea.replaceChildren(...rows);
+      listArea.scrollTop = 0;
+      byId("availability-reset-day").hidden = selectedDay === null;
+    }
+
+    const calendar = byId("calendar");
+    for (const dayName of ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]) {
+      calendar.append(node("span", "dow", dayName));
+    }
+    calendar.append(node("span"), node("span"));
+    for (let day = 4; day <= 24; day++) {
+      const target = button("");
+      target.append(node("span", "", day), node("span", "calendar-amount"));
+      target.addEventListener("click", () => {
+        selectedDay = selectedDay === day ? null : day;
+        renderAvailability();
+      });
+      calendar.append(target);
+      dayButtons.set(day, target);
+    }
+    for (const select of [availabilityScope, availabilityService]) {
+      select.addEventListener("change", renderAvailability);
+    }
+    byId("availability-reset-day").addEventListener("click", () => {
+      const previousDay = selectedDay;
+      selectedDay = null;
+      renderAvailability();
+      dayButtons.get(previousDay)?.focus();
+    });
+    renderAvailability();
+
+    function labeledBar(label, value, visualization) {
+      const item = button("bar-row");
+      const row = node("span", "bar-label");
+      row.append(node("span", "", label), node("strong", "", value));
+      item.append(row, visualization);
+      return item;
+    }
+
+    const criticalityBars = byId("criticality-bars");
+    const criticalityScope = byId("criticality-scope");
+    const criticalityDetail = byId("criticality-detail");
+    let criticalityMode = "median";
+    let selectedService = "point";
+
+    function statLine(list, label, value) {
+      const row = node("div");
+      row.append(node("dt", "", label), node("dd", "", value));
+      list.append(row);
+    }
+
+    function severityLegend(label, count, color) {
+      const entry = node("span");
+      const swatch = node("i", "swatch");
+      swatch.style.setProperty("--swatch", color);
+      entry.append(swatch, document.createTextNode(`${label} · ${count}`));
+      return entry;
+    }
+
+    function renderCriticalityDetail(entry, all) {
+      const { key, records, durations, middle } = entry;
+      const service = services[key];
+      const largest = records.reduce((longest, record) => record.minutes > longest.minutes ? record : longest);
+      const statistics = node("dl", "stat-list");
+      statLine(statistics, "Avisos publicados", records.length);
+      statLine(statistics, "Mediana de resolución", `${decimal.format(middle)} min`);
+      statLine(statistics, "Intervalo más corto", duration(Math.min(...durations)));
+      statLine(statistics, "Intervalo más largo", duration(largest.minutes));
+      const link = externalLink(`https://status.mercadopago.com/incidents/${largest.id}`, "Consultar el aviso de mayor duración");
+      const major = all.filter((record) => record.impact === "major").length;
+      const minor = all.length - major;
+      const split = node("div", "stack");
+      split.setAttribute("aria-hidden", "true");
+      const severity = node("div", "stack-key");
+      for (const [label, count, color] of [["Mayor", major, "#7853a7"], ["Menor", minor, "#478aab"]]) {
+        const segment = node("span");
+        segment.style.setProperty("--amount", `${count / all.length * 100}%`);
+        segment.style.setProperty("--segment-color", color);
+        split.append(segment);
+        severity.append(severityLegend(label, count, color));
+      }
+      criticalityDetail.replaceChildren(
+        node("h2", "", service.label), node("p", "small", service.description),
+        statistics, link, node("hr"),
+        node("h3", "small", "Impacto en el alcance seleccionado"), split, severity
+      );
+    }
+
+    function renderCriticality() {
+      const items = scopedRecords(criticalityScope.value);
+      byId("criticality-chart-description").textContent = criticalityMode === "median"
+        ? "Mediana del tiempo entre el aviso y la resolución informada."
+        : "Cantidad de incidentes publicados por servicio.";
+      const groups = [];
+      for (const key of Object.keys(services)) {
+        const records = items.filter((record) => record.service === key);
+        if (!records.length) continue;
+        const durations = records.map((record) => record.minutes);
+        groups.push({ key, records, durations, middle: median(durations) });
+      }
+      const metric = (entry) => criticalityMode === "median" ? entry.middle : entry.records.length;
+      groups.sort((a, b) => metric(b) - metric(a));
+      const largest = metric(groups[0]);
+      const buttons = new Map();
+      const detail = (entry) => {
+        selectedService = entry.key;
+        for (const [key, item] of buttons) press(item, key === selectedService);
+        renderCriticalityDetail(entry, items);
+      };
+      for (const entry of groups) {
+        const service = services[entry.key];
+        const label = criticalityMode === "median"
+          ? `${decimal.format(entry.middle)} min`
+          : countLabel(entry.records.length, "aviso", "avisos");
+        const row = labeledBar(service.label, label, fillTrack(metric(entry) / largest * 100, service.color));
+        row.addEventListener("click", () => detail(entry));
+        buttons.set(entry.key, row);
+      }
+      criticalityBars.replaceChildren(...buttons.values());
+      detail(groups.find((entry) => entry.key === selectedService) ?? groups[0]);
+    }
+
+    criticalityScope.addEventListener("change", renderCriticality);
+    setSegment("criticality-mode", "mode", (mode) => { criticalityMode = mode; renderCriticality(); });
+    renderCriticality();
+
+    const monthlyQr = 122800000;
+    const qrPeriods = {
+      month: [1, "pagos en el mes"],
+      day: [30, "pagos por día en promedio"],
+      hour: [30 * 24, "pagos por hora en promedio"],
+      minute: [30 * 24 * 60, "pagos por minuto en promedio"],
+      second: [30 * 24 * 60 * 60, "pagos por segundo en promedio"]
+    };
+    setSegment("qr-period", "period", (period) => {
+      const [divisor, label] = qrPeriods[period];
+      const value = integer.format(monthlyQr / divisor);
+      byId("qr-value").textContent = period === "month" ? value : `≈ ${value}`;
+      byId("qr-unit").textContent = label;
+    });
+    const accountText = {
+      "origin-cbu": "El 52,8 % de los pagos QR se inició desde cuentas bancarias (CBU).",
+      "origin-cvu": "El 47,2 % de los pagos QR se inició desde cuentas de pago (CVU).",
+      "destination-cbu": "El 45,3 % de los pagos QR se acreditó en cuentas bancarias de los comercios (CBU).",
+      "destination-cvu": "El 54,7 % de los pagos QR se acreditó en cuentas de pago de los comercios (CVU)."
+    };
+    const accountButtons = document.querySelectorAll("[data-account]");
+    function selectAccount(target) {
+      accountButtons.forEach((item) => press(item, item === target));
+      byId("account-detail").textContent = accountText[target.dataset.account];
+    }
+    accountButtons.forEach((item) => item.addEventListener("click", () => selectAccount(item)));
+    selectAccount(document.querySelector('[data-account="destination-cvu"]'));
+
+    function changeText(growth) {
+      return growth === null ? "Sin dato interanual" : `${growth > 0 ? "+" : ""}${decimal.format(growth)} %`;
+    }
+
+    function signedTrack(value) {
+      const track = node("span", "signed-bar");
+      const minimum = -30;
+      const span = 110;
+      track.style.setProperty("--zero", `${-minimum / span * 100}%`);
+      track.setAttribute("aria-hidden", "true");
+      if (value === null) return track;
+      const fill = node("span", "fill");
+      fill.style.setProperty("--left", `${(Math.min(value, 0) - minimum) / span * 100}%`);
+      fill.style.setProperty("--amount", `${Math.abs(value) / span * 100}%`);
+      fill.style.setProperty("--bar", value < 0 ? "#bd7044" : "#087f74");
+      track.append(fill);
+      return track;
+    }
+
+    let selectedVolume = volume[0];
+    function renderVolume(mode) {
+      const chart = byId("volume-bars");
+      const maximum = Math.max(...volume.map((item) => item.amount));
+      const buttons = new Map();
+      function select(entry) {
+        selectedVolume = entry;
+        for (const [item, target] of buttons) press(target, item === entry);
+        byId("volume-detail").textContent = `${entry.month} de 2026 · ${entry.label} · ${decimal.format(entry.amount)} millones · ${changeText(entry.growth)}${entry.growth === null ? "" : " interanual"}`;
+      }
+      for (const entry of volume) {
+        const quantity = `${decimal.format(entry.amount)} M`;
+        const row = mode === "amount"
+          ? labeledBar(entry.label, quantity, fillTrack(entry.amount / maximum * 100, "#4a78d8"))
+          : labeledBar(entry.label, changeText(entry.growth), signedTrack(entry.growth));
+        row.addEventListener("click", () => select(entry));
+        buttons.set(entry, row);
+      }
+      chart.replaceChildren(...buttons.values());
+      select(selectedVolume);
+    }
+    setSegment("volume-mode", "mode", renderVolume);
+    renderVolume("amount");
+
+    const countries = {
+      AR: { name: "Argentina", longitude: -64, latitude: -35 },
+      AU: { name: "Australia", longitude: 134, latitude: -25 },
+      BR: { name: "Brasil", longitude: -52, latitude: -12 },
+      CL: { name: "Chile", longitude: -71, latitude: -30 },
+      CO: { name: "Colombia", longitude: -73, latitude: 4 },
+      DE: { name: "Alemania", longitude: 10.5, latitude: 51 },
+      ES: { name: "España", longitude: -4, latitude: 39 },
+      FR: { name: "Francia", longitude: 2, latitude: 46.3 },
+      GB: { name: "Reino Unido", longitude: -3, latitude: 54 },
+      IN: { name: "India", longitude: 79, latitude: 22 },
+      MX: { name: "México", longitude: -102, latitude: 24 },
+      PE: { name: "Perú", longitude: -75, latitude: -10 },
+      SG: { name: "Singapur", longitude: 103.82, latitude: 1.35 },
+      US: { name: "Estados Unidos", longitude: -97, latitude: 39 }
+    };
+    const caseTypes = {
+      access: "Acceso y billeteras",
+      transfers: "Transferencias",
+      cards: "Pagos con tarjeta",
+      balances: "Depósitos y saldos",
+      infrastructure: "Infraestructura"
+    };
+    const collator = new Intl.Collator("es-AR");
+    const coveredCountries = [...new Set(cases.map((item) => item.country))]
+      .sort((a, b) => collator.compare(countries[a].name, countries[b].name));
+    const countryFilter = byId("country-filter");
+    const typeFilter = byId("type-filter");
+    const worldRows = byId("world-rows");
+    const mapCase = byId("map-case");
+    document.querySelectorAll("[data-country-total]").forEach((item) => { item.textContent = coveredCountries.length; });
+    byId("world-incident-total").textContent = cases.length;
+    addOptions(countryFilter, coveredCountries.map((key) => [key, countries[key].name]));
+    addOptions(typeFilter, Object.entries(caseTypes));
+    let selectedCase = null;
+
+    function filteredCases() {
+      return cases.filter((item) => (
+        (!countryFilter.value || item.country === countryFilter.value)
+        && (!typeFilter.value || item.type === typeFilter.value)
+      ));
+    }
+
+    function revealMapCase() {
+      const bounds = mapCase.getBoundingClientRect();
+      if (bounds.top < 110 || bounds.bottom > window.innerHeight) {
+        mapCase.scrollIntoView({ block: "nearest", behavior: reducedMotion.matches ? "instant" : "smooth" });
+      }
+    }
+
+    function renderMapCase() {
+      if (selectedCase) {
+        const item = selectedCase;
+        mapCase.replaceChildren(
+          node("div", "case-meta", `${countries[item.country].name} · ${formatDate(item.date)} · ${caseTypes[item.type]}`),
+          node("h3", "", item.title),
+          node("p", "", item.summary),
+          externalLink(item.url, `Leer en ${item.source}`)
+        );
+      } else {
+        const text = countryFilter.value
+          ? "Este país no tiene casos con el tipo de incidente elegido."
+          : "Elegí un país en el globo, en el filtro o desde una noticia de la tabla.";
+        mapCase.replaceChildren(node("p", "", text));
+      }
+      worldRows.querySelectorAll("tr[data-case]").forEach((row) => {
+        const chosen = row.dataset.case === selectedCase?.id;
+        row.classList.toggle("selected", chosen);
+        press(row.querySelector("button"), chosen);
+      });
+    }
+
+    function caseRow(item) {
+      const row = node("tr");
+      row.dataset.case = item.id;
+      const place = node("td");
+      place.append(node("strong", "", countries[item.country].name), node("span", "cell-detail", formatDate(item.date)));
+      const information = node("td");
+      const title = button("news-title", item.title);
+      title.addEventListener("click", () => {
+        selectedCase = item;
+        renderMapCase();
+        centerGlobe(countries[item.country]);
+        revealMapCase();
+      });
+      information.append(title, node("span", "cell-detail", caseTypes[item.type]), externalLink(item.url, item.source, "news-source"));
+      row.append(place, information);
+      return row;
+    }
+
+    function renderWorld() {
+      const results = filteredCases();
+      if (!results.includes(selectedCase)) selectedCase = countryFilter.value ? results[0] ?? null : null;
+      const rows = results.map(caseRow);
+      if (!rows.length) {
+        const empty = node("tr");
+        const cell = node("td", "small", "No hay casos que coincidan con estos filtros.");
+        cell.colSpan = 2;
+        empty.append(cell);
+        rows.push(empty);
+      }
+      worldRows.replaceChildren(...rows);
+      worldRows.closest(".table-scroll").scrollTop = 0;
+      byId("world-result-count").textContent = `${countLabel(results.length, "caso", "casos")} de ${cases.length}`;
+      renderMapCase();
+      scheduleGlobe();
+    }
+
+    const radians = Math.PI / 180;
+    function cartesian(longitude, latitude) {
+      const lon = longitude * radians;
+      const lat = latitude * radians;
+      return [Math.cos(lat) * Math.sin(lon), Math.sin(lat), Math.cos(lat) * Math.cos(lon)];
+    }
+
+    // Land samples from the public-domain Natural Earth 1:110m dataset.
+    const land = embedded("land-data").flatMap(([latitude, longitudes]) => longitudes.map((longitude) => cartesian(longitude, latitude)));
+    const graticule = [];
+    for (let latitude = -60; latitude <= 60; latitude += 30) {
+      const parallel = Array.from({ length: 121 }, (_, i) => cartesian(-180 + i * 3, latitude));
+      graticule.push(parallel);
+    }
+    for (let longitude = -180; longitude < 180; longitude += 30) {
+      const meridian = Array.from({ length: 61 }, (_, i) => cartesian(longitude, -90 + i * 3));
+      graticule.push(meridian);
+    }
+
+    function drawPlanet(canvas, longitude, latitude) {
+      const area = canvasArea(canvas);
+      if (!area) return null;
+      const { context: ctx, width, height } = area;
+      const radius = Math.min(width, height) * 0.443;
+      const cx = width / 2;
+      const cy = height / 2;
+      const sinLon = Math.sin(longitude * radians);
+      const cosLon = Math.cos(longitude * radians);
+      const sinLat = Math.sin(latitude * radians);
+      const cosLat = Math.cos(latitude * radians);
+
+      function project([east, north, front]) {
+        const x = east * cosLon - front * sinLon;
+        const distance = east * sinLon + front * cosLon;
+        const y = north * cosLat - distance * sinLat;
+        const depth = north * sinLat + distance * cosLat;
+        return [cx + radius * x, cy - radius * y, depth];
+      }
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius + 7, 0, Math.PI * 2);
+      ctx.strokeStyle = "#93e4ed28";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      const ocean = ctx.createRadialGradient(cx - radius * .35, cy - radius * .46, 0, cx, cy, radius * 1.08);
+      ocean.addColorStop(0, "#245675");
+      ocean.addColorStop(.7, "#153858");
+      ocean.addColorStop(1, "#10263e");
+      ctx.fillStyle = ocean;
+      ctx.shadowBlur = 22;
+      ctx.shadowColor = "#66c7d654";
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = "#7ddbe88c";
+      ctx.stroke();
+
+      ctx.save();
+      ctx.clip();
+      ctx.beginPath();
+      for (const line of graticule) {
+        let visible = false;
+        for (const vector of line) {
+          const [x, y, depth] = project(vector);
+          if (depth < 0) { visible = false; continue; }
+          if (visible) ctx.lineTo(x, y);
+          else ctx.moveTo(x, y);
+          visible = true;
+        }
+      }
+      ctx.strokeStyle = "#8ddde331";
+      ctx.lineWidth = .75;
+      ctx.stroke();
+      const near = [];
+      const far = [];
+      for (const vector of land) {
+        const [x, y, depth] = project(vector);
+        if (depth <= 0) continue;
+        (depth < .38 ? far : near).push([x, y, depth]);
+      }
+      for (const [points, color] of [[far, "#67afb686"], [near, "#86d5c9cc"]]) {
+        ctx.beginPath();
+        for (const [x, y, depth] of points) {
+          const dot = (0.72 + depth * .52) * Math.min(1.18, radius / 138);
+          ctx.moveTo(x + dot, y);
+          ctx.arc(x, y, dot, 0, Math.PI * 2);
+        }
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+      ctx.restore();
+      return project;
+    }
+
+    const globeStage = byId("globe-stage");
+    const initialPosition = { longitude: -62, latitude: 7 };
+    let position = { ...initialPosition };
+    let globeFrame = 0;
+    let globeMotion = 0;
+    let drag = null;
+    const markers = coveredCountries.map((code) => {
+      const country = countries[code];
+      const item = button("marker");
+      item.dataset.country = code;
+      const label = node("span", "", country.name);
+      label.setAttribute("aria-hidden", "true");
+      item.setAttribute("aria-label", `Ver casos de ${country.name}`);
+      item.append(label);
+      item.addEventListener("click", (event) => {
+        const chosen = nearestMarker(event, code);
+        countryFilter.value = chosen;
+        selectedCase = filteredCases()[0] ?? null;
+        renderWorld();
+        centerGlobe(countries[chosen]);
+        revealMapCase();
+      });
+      byId("globe-markers").append(item);
+      return { code, item, vector: cartesian(country.longitude, country.latitude) };
+    });
+
+    function nearestMarker(event, fallback) {
+      if (event.detail === 0) return fallback;
+      let nearest = fallback;
+      let distance = Infinity;
+      for (const { code, item } of markers) {
+        if (item.hidden) continue;
+        const rect = item.getBoundingClientRect();
+        const delta = Math.hypot(event.clientX - rect.left - rect.width / 2, event.clientY - rect.top - rect.height / 2);
+        if (delta < distance) {
+          nearest = code;
+          distance = delta;
+        }
+      }
+      return nearest;
+    }
+
+    function paintGlobe() {
+      globeFrame = 0;
+      const project = drawPlanet(byId("main-globe"), position.longitude, position.latitude);
+      if (!project) return;
+      const countriesForType = new Set(cases.filter((item) => !typeFilter.value || item.type === typeFilter.value).map((item) => item.country));
+      const visible = [];
+      for (const { code, item, vector } of markers) {
+        const [x, y, depth] = project(vector);
+        item.hidden = depth < .1 || !countriesForType.has(code);
+        if (!item.hidden) visible.push({ code, item, x, y });
+      }
+      for (const { code, item, x, y } of visible) {
+        const separation = Math.min(...visible.filter((point) => point.code !== code).map((point) => Math.hypot(point.x - x, point.y - y)));
+        item.style.setProperty("--marker-size", `${Math.max(10, Math.min(30, separation * 1.7))}px`);
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
+        press(item, (countryFilter.value || selectedCase?.country) === code);
+      }
+    }
+
+    function scheduleGlobe() {
+      if (!globeFrame) globeFrame = requestAnimationFrame(paintGlobe);
+    }
+
+    function wrapLongitude(longitude) {
+      return ((longitude + 180) % 360 + 360) % 360 - 180;
+    }
+
+    function centerGlobe(destination = initialPosition) {
+      cancelAnimationFrame(globeMotion);
+      if (reducedMotion.matches || byId("situacion-mundial").hidden) {
+        position = { longitude: destination.longitude, latitude: destination.latitude };
+        scheduleGlobe();
+        return;
+      }
+      const start = { ...position };
+      const difference = wrapLongitude(destination.longitude - start.longitude);
+      const begin = performance.now();
+      function frame(now) {
+        const time = Math.min(1, (now - begin) / 380);
+        const progress = 1 - (1 - time) ** 3;
+        position = {
+          longitude: wrapLongitude(start.longitude + difference * progress),
+          latitude: start.latitude + (destination.latitude - start.latitude) * progress
+        };
+        scheduleGlobe();
+        if (time < 1) globeMotion = requestAnimationFrame(frame);
+      }
+      globeMotion = requestAnimationFrame(frame);
+    }
+
+    function rotateGlobe(longitude, latitude) {
+      position.longitude = wrapLongitude(longitude);
+      position.latitude = Math.max(-76, Math.min(76, latitude));
+      scheduleGlobe();
+    }
+
+    globeStage.addEventListener("pointerdown", (event) => {
+      if (drag || event.button !== 0 || event.target.closest(".marker")) return;
+      cancelAnimationFrame(globeMotion);
+      drag = { pointer: event.pointerId, x: event.clientX, y: event.clientY, ...position };
+      globeStage.setPointerCapture(event.pointerId);
+      globeStage.classList.add("dragging");
+    });
+    globeStage.addEventListener("pointermove", (event) => {
+      if (drag?.pointer !== event.pointerId) return;
+      const sensitivity = 152 / Math.min(globeStage.clientWidth, globeStage.clientHeight);
+      rotateGlobe(
+        drag.longitude - (event.clientX - drag.x) * sensitivity,
+        drag.latitude + (event.clientY - drag.y) * sensitivity
+      );
+    });
+    globeStage.addEventListener("lostpointercapture", () => {
+      drag = null;
+      globeStage.classList.remove("dragging");
+    });
+    globeStage.addEventListener("keydown", (event) => {
+      const directions = { ArrowLeft: [14, 0], ArrowRight: [-14, 0], ArrowUp: [0, -12], ArrowDown: [0, 12] };
+      if (!Object.hasOwn(directions, event.key) || event.altKey || event.metaKey || event.ctrlKey) return;
+      event.preventDefault();
+      cancelAnimationFrame(globeMotion);
+      const [horizontal, vertical] = directions[event.key];
+      rotateGlobe(position.longitude + horizontal, position.latitude + vertical);
+    });
+    byId("globe-reset").addEventListener("click", () => centerGlobe(countries[countryFilter.value || selectedCase?.country]));
+    countryFilter.addEventListener("change", () => {
+      selectedCase = countryFilter.value ? filteredCases()[0] ?? null : null;
+      renderWorld();
+      centerGlobe(countries[countryFilter.value]);
+    });
+    typeFilter.addEventListener("change", renderWorld);
+    byId("reset-filters").addEventListener("click", () => {
+      countryFilter.value = "";
+      typeFilter.value = "";
+      selectedCase = null;
+      renderWorld();
+      centerGlobe();
+    });
+    new ResizeObserver(scheduleGlobe).observe(globeStage);
+    const preview = byId("preview-globe");
+    new ResizeObserver(() => drawPlanet(preview, -53, 8)).observe(preview);
+    renderWorld();
+    showSection();
+    window.addEventListener("load", () => {
+      if (Object.hasOwn(sections, location.hash.slice(1))) {
+        requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "instant" }));
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
