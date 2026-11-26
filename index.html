@@ -8,20 +8,8 @@
     content="Tenés dinero. Pero… ¿podés usarlo? Una historia interactiva sobre pagos cotidianos, incidentes documentados y calidad del software.">
   <link rel="icon" href="data:,">
   <title>Data4Quality | Pagos digitales y disponibilidad</title>
+  <link rel="stylesheet" href="brand.css">
   <style>
-    :root {
-      color-scheme: light;
-      font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
-      --ink: #14223b;
-      --muted: #52637d;
-      --paper: #fff;
-      --background: #f2f5fa;
-      --line: #dce4ef;
-      --blue: #285ed0;
-      --radius: 20px;
-      --shadow: 0 7px 24px #15284608, 0 2px 5px #15284603;
-    }
-
     *,
     *::before,
     *::after {
@@ -35,8 +23,9 @@
     body {
       margin: 0;
       min-width: 300px;
-      background: var(--background);
-      color: var(--ink);
+      background: var(--color-base);
+      color: var(--color-ink);
+      line-height: 1.55;
     }
 
     h1,
@@ -53,8 +42,8 @@
     }
 
     a {
-      color: var(--blue);
-      text-underline-offset: 3px;
+      color: var(--color-brand);
+      text-underline-offset: .18em;
     }
 
     button,
@@ -67,7 +56,7 @@
     }
 
     :focus-visible {
-      outline: 3px solid #2283ee;
+      outline: 3px solid var(--focus-ring, var(--color-focus));
       outline-offset: 3px;
     }
 
@@ -77,7 +66,7 @@
       top: 10px;
       left: 10px;
       padding: .6rem 1rem;
-      background: white;
+      background: var(--color-surface);
       border-radius: 8px;
       clip-path: inset(50%);
     }
@@ -88,9 +77,9 @@
 
     main {
       width: 100%;
-      max-width: 1560px;
+      max-width: var(--max-data);
       margin: 0 auto;
-      padding: var(--content-top-padding) clamp(1rem, 2.8vw, 2.25rem) 2rem;
+      padding: var(--content-top-padding) clamp(var(--space-4), 3vw, var(--space-8)) var(--space-8);
     }
 
     .view {
@@ -105,19 +94,20 @@
     }
 
     .page-heading h1 {
-      font-size: clamp(2rem, 3.25vw, 3.05rem);
-      letter-spacing: -.055em;
+      font-size: clamp(var(--font-5), 3.25vw, var(--font-7));
+      font-weight: var(--weight-display);
+      letter-spacing: -.03em;
     }
 
     .page-heading p {
-      max-width: 60ch;
-      font-size: 1.03rem;
-      line-height: 1.5;
-      color: var(--muted);
+      max-width: 68ch;
+      font-size: var(--font-2);
+      line-height: 1.55;
+      color: var(--color-muted);
     }
 
     .kicker {
-      color: var(--blue);
+      color: var(--color-brand);
       font-size: .79rem;
       font-weight: 750;
       letter-spacing: .08em;
@@ -125,15 +115,15 @@
     }
 
     .small {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .875rem;
       line-height: 1.55;
     }
 
     .source {
-      color: var(--muted);
-      font-size: .81rem;
-      line-height: 1.55;
+      color: var(--color-muted);
+      font-size: var(--font-1);
+      line-height: 1.45;
     }
 
     .source a {
@@ -142,11 +132,11 @@
 
     .panel {
       min-width: 0;
-      padding: clamp(1.05rem, 1.9vw, 1.55rem);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-      box-shadow: var(--shadow);
+      padding: clamp(var(--space-4), 1.9vw, var(--space-6));
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-panel);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-panel);
     }
 
     .panel-header {
@@ -156,20 +146,23 @@
 
     .panel-header :is(h2, h3),
     .panel :is(h2, h3) {
-      font-size: 1.27rem;
-      letter-spacing: -.025em;
+      font-size: var(--font-3);
+      line-height: 1.25;
+      letter-spacing: -.03em;
     }
 
+    .panel-header h2 { font-size: var(--font-4); line-height: 1.2; }
+
     .panel-header p {
-      font-size: .9rem;
-      color: var(--muted);
+      font-size: var(--font-2);
+      color: var(--color-muted);
       line-height: 1.45;
     }
 
     .panel-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
-      gap: 1.2rem;
+      gap: var(--space-5);
     }
 
     .balanced {
@@ -180,32 +173,33 @@
       display: flex;
       align-items: end;
       flex-wrap: wrap;
-      gap: .65rem;
+      gap: var(--space-3);
     }
 
     .controls label,
     .filter-grid label {
       display: grid;
       gap: .35rem;
-      color: var(--ink);
-      font-size: .875rem;
-      font-weight: 650;
+      color: var(--color-ink);
+      font-size: var(--font-2);
+      font-weight: var(--weight-semibold);
     }
 
     select {
       width: 100%;
+      min-width: 0;
       appearance: none;
       padding: .58rem 2.15rem .58rem .7rem;
-      border: 1px solid #c5d2e4;
-      border-radius: 9px;
-      background-color: #fff;
-      background-image: linear-gradient(45deg, transparent 50%, #516581 50%), linear-gradient(135deg, #516581 50%, transparent 50%);
+      border: 1px solid var(--color-control-line);
+      border-radius: var(--radius-control);
+      background-color: var(--color-surface);
+      background-image: linear-gradient(45deg, transparent 50%, var(--color-muted) 50%), linear-gradient(135deg, var(--color-muted) 50%, transparent 50%);
       background-position: right 15px center, right 10px center;
       background-size: 5px 5px;
       background-repeat: no-repeat;
-      color: var(--ink);
+      color: var(--color-ink);
       font-weight: 500;
-      min-height: 40px;
+      min-height: var(--target-min);
     }
 
     .button,
@@ -214,24 +208,25 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: .4rem;
-      min-height: 38px;
-      padding: .4rem .74rem;
-      border: 1px solid #c9d6e7;
-      border-radius: 9px;
-      background: white;
-      color: var(--ink);
-      font-size: .875rem;
-      font-weight: 650;
+      gap: var(--space-2);
+      min-height: var(--target-min);
+      min-width: var(--target-min);
+      padding: .4rem var(--space-3);
+      border: 1px solid var(--color-control-line);
+      border-radius: var(--radius-control);
+      background: var(--color-surface);
+      color: var(--color-ink);
+      font-size: var(--font-2);
+      font-weight: var(--weight-semibold);
       text-decoration: none;
-      line-height: 1.3;
+      line-height: 1.25;
     }
 
     .button:hover,
     .segment button:hover,
     .legend-toggle:hover {
-      border-color: #7197dc;
-      background: #edf4ff;
+      border-color: var(--color-control-line);
+      background: var(--color-hover);
     }
 
     .segment {
@@ -239,40 +234,37 @@
       flex-wrap: wrap;
       gap: .26rem;
       padding: .22rem;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      background: #f2f6fc;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-control);
+      background: var(--color-base);
     }
 
     .segment button {
-      min-height: 33px;
-      border-color: transparent;
-      background: transparent;
-      color: var(--muted);
+      color: var(--color-muted);
     }
 
     .segment button[aria-pressed="true"] {
-      border-color: #c9d9f3;
-      background: white;
-      color: #234fa5;
-      box-shadow: 0 1px 4px #234fa516;
+      border-color: var(--color-brand);
+      background: var(--color-tint);
+      color: var(--color-brand);
+      box-shadow: 0 1px 4px rgb(157 23 86 / .08);
     }
 
     .note {
       display: grid;
       gap: .28rem;
       padding: .95rem 1rem;
-      border: 1px solid #d4e3fa;
-      border-left: 4px solid #6a98e6;
+      border: 1px solid var(--color-line);
+      border-left: 4px solid var(--color-accent);
       border-radius: 10px;
-      background: #eaf2ff;
-      color: #30466c;
+      background: var(--color-tint);
+      color: var(--color-muted);
       font-size: .9rem;
       line-height: 1.55;
     }
 
     .note strong {
-      color: #21385e;
+      color: var(--color-ink);
     }
 
     .hero {
@@ -285,11 +277,12 @@
       gap: 1rem;
       min-height: 262px;
       padding: clamp(1.35rem, 3.1vw, 2.6rem);
-      border-radius: 23px;
+      border-radius: var(--radius-hero);
       background:
-        radial-gradient(ellipse at 94% -5%, #226c84 0, transparent 50%),
-        linear-gradient(116deg, #15234a 6%, #152c5b 56%, #163c62 100%);
-      color: #fff;
+        radial-gradient(ellipse at 94% -5%, rgb(157 23 86 / .34), transparent 54%),
+        var(--gradient-inverse);
+      color: var(--color-on-inverse);
+      --focus-ring: var(--color-focus-inverse);
     }
 
     .hero::before {
@@ -297,31 +290,31 @@
       position: absolute;
       z-index: -1;
       inset: 0 0 0 49%;
-      background: radial-gradient(#9dcaeb3c 1px, transparent 1.3px) 0 0/13px 13px;
+      background: var(--pattern-dots) 0 0/16px 16px;
       mask-image: linear-gradient(90deg, transparent, #000);
     }
 
     .hero .kicker {
-      color: #91eade;
+      color: var(--color-accent-soft);
     }
 
     .hero h1 {
       margin: .55rem 0 .7rem;
-      font-size: clamp(2rem, 4.05vw, 3.7rem);
-      font-weight: 720;
-      letter-spacing: -.065em;
-      line-height: 1.04;
+      font-size: clamp(var(--font-5), 1.45rem + 2.15vw, var(--font-7));
+      font-weight: var(--weight-display);
+      letter-spacing: -.03em;
+      line-height: 1.1;
     }
 
     .hero h1 span {
-      color: #a0eee4;
+      color: var(--color-accent-soft);
     }
 
     .hero-copy > p:last-child {
-      max-width: 53ch;
-      color: #e0eafa;
-      font-size: clamp(.96rem, 1.2vw, 1.08rem);
-      line-height: 1.5;
+      max-width: 68ch;
+      color: var(--color-muted-inverse);
+      font-size: var(--font-2);
+      line-height: 1.55;
     }
 
     .hero-figure {
@@ -332,29 +325,29 @@
       width: min(100%, 219px);
       aspect-ratio: 1;
       padding: .8rem;
-      border: 1px solid #b1fff775;
+      border: 1px solid rgb(245 182 209 / .46);
       border-radius: 50%;
-      background: radial-gradient(circle, #143758 24%, #175e73bb 100%);
-      color: #fff;
+      background: var(--gradient-inverse);
+      color: var(--color-surface);
       text-align: center;
       text-decoration: none;
-      box-shadow: 0 0 0 12px #92efe417, 0 0 0 26px #92efe40b, 0 0 55px #68d9e34d;
+      box-shadow: 0 0 0 12px rgb(245 182 209 / .09), 0 0 0 26px rgb(245 182 209 / .04), 0 0 55px rgb(245 182 209 / .30);
     }
 
     .hero-figure::before {
       content: "";
       position: absolute;
       inset: 8px;
-      border: 1px dashed #c1fff46a;
+      border: 1px dashed rgb(245 182 209 / .42);
       border-radius: inherit;
     }
 
     .hero-figure:hover {
-      background: radial-gradient(circle, #1b4667 24%, #1e7083 100%);
+      background: var(--color-inverse-raised);
     }
 
     .hero-figure strong {
-      color: #a0f3e6;
+      color: var(--color-accent-soft);
       font-size: clamp(2rem, 3.6vw, 3.1rem);
       line-height: 1;
       letter-spacing: -.06em;
@@ -369,7 +362,7 @@
 
     .hero-figure small {
       margin-top: .3rem;
-      color: #badeec;
+      color: var(--color-muted-inverse);
       font-size: .78rem;
     }
 
@@ -389,12 +382,12 @@
       gap: .32rem;
       min-width: 0;
       padding: .95rem 1rem .98rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 16px;
-      background: white;
-      color: var(--ink);
+      background: var(--color-surface);
+      color: var(--color-ink);
       text-decoration: none;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-panel);
     }
 
     a.metric {
@@ -402,15 +395,15 @@
     }
 
     a.metric:hover {
-      border-color: #91afe9;
-      box-shadow: 0 8px 20px #285ed018;
+      border-color: var(--color-control-line);
+      box-shadow: 0 8px 20px rgb(157 23 86 / .09);
     }
 
     .metric-name {
       display: flex;
       align-items: center;
       gap: .46rem;
-      color: #344969;
+      color: var(--color-muted);
       font-size: .89rem;
       font-weight: 700;
     }
@@ -422,25 +415,25 @@
       height: 29px;
       flex: none;
       border-radius: 8px;
-      background: #e8f0ff;
-      color: #2355b7;
+      background: var(--color-tint);
+      color: var(--color-brand);
       font-size: 1.1rem;
       line-height: 1;
     }
 
     .metric-icon.violet {
-      background: #f1eafa;
-      color: #6939a8;
+      background: color-mix(in srgb, var(--data-violet) 10%, var(--color-surface));
+      color: var(--data-violet);
     }
 
     .metric-icon.mint {
-      background: #e0f5ef;
-      color: #06796a;
+      background: var(--color-success-bg);
+      color: var(--color-success);
     }
 
     .metric-icon.sand {
-      background: #fff0e4;
-      color: #9b4c22;
+      background: var(--color-warning-bg);
+      color: var(--color-warning);
     }
 
     .metric strong {
@@ -456,13 +449,13 @@
     }
 
     .metric>span:not(.metric-name) {
-      color: #354764;
+      color: var(--color-muted);
       font-size: .88rem;
       line-height: 1.35;
     }
 
     .metric>small {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .78rem;
       line-height: 1.38;
     }
@@ -474,16 +467,16 @@
       display: grid;
       align-content: end;
       gap: .55rem;
-      border-radius: var(--radius);
+      border-radius: var(--radius-panel);
       padding: 1.25rem;
       min-height: 296px;
-      background: radial-gradient(ellipse at 92% 18%, #236178 0, #173751 47%, #122542 85%);
-      color: white;
+      background: var(--gradient-inverse);
+      color: var(--color-surface);
       text-decoration: none;
     }
 
     .world-preview:hover {
-      box-shadow: inset 0 0 0 2px #9de9e6ae;
+      box-shadow: inset 0 0 0 2px rgb(245 182 209 / .68);
     }
 
     .world-preview canvas {
@@ -497,7 +490,7 @@
     }
 
     .world-preview .kicker {
-      color: #9ef4e6;
+      color: var(--color-accent-soft);
     }
 
     .world-preview h2 {
@@ -507,7 +500,7 @@
 
     .world-preview p {
       max-width: 28ch;
-      color: #deedfb;
+      color: var(--color-muted-inverse);
       line-height: 1.45;
       font-size: .95rem;
     }
@@ -516,7 +509,7 @@
       font-size: 2.5rem;
       line-height: 1;
       letter-spacing: -.06em;
-      color: #9ef4e6;
+      color: var(--color-accent-soft);
     }
 
     .world-preview .world-total small {
@@ -537,16 +530,14 @@
     }
 
     .legend-toggle {
-      min-height: 30px;
       justify-content: flex-start;
       gap: .42rem;
       padding: .35rem .48rem;
-      font-size: .83rem;
     }
 
     .legend-toggle[aria-pressed="false"] {
-      color: var(--muted);
-      background: #f1f4f9;
+      color: var(--color-on-disabled);
+      background: var(--color-disabled);
       text-decoration: line-through;
     }
 
@@ -556,7 +547,7 @@
       width: 9px;
       height: 9px;
       border-radius: 3px;
-      background: var(--swatch, #326bd9);
+      background: var(--swatch, var(--color-brand));
     }
 
     .trend-plot {
@@ -595,11 +586,11 @@
       width: max-content;
       max-width: 66%;
       padding: .45rem .55rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 9px;
-      background: #fffffffa;
-      color: var(--ink);
-      box-shadow: 0 3px 10px #182b4e1a;
+      background: var(--color-surface);
+      color: var(--color-ink);
+      box-shadow: 0 3px 10px rgb(57 23 45 / .10);
       pointer-events: none;
       font-size: .79rem;
       line-height: 1.35;
@@ -607,7 +598,7 @@
 
     .chart-value {
       margin: .22rem 0 .55rem;
-      color: #31496e;
+      color: var(--color-muted);
       font-size: .86rem;
       font-variant-numeric: tabular-nums;
       line-height: 1.45;
@@ -621,7 +612,7 @@
     }
 
     .dow {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .81rem;
       font-weight: 650;
       text-align: center;
@@ -634,30 +625,32 @@
       gap: .3rem;
       min-height: 61px;
       padding: .38rem .35rem;
-      border: 1px solid #dbe4f0;
-      border-radius: 9px;
-      background: #f7f9fd;
-      color: var(--ink);
+      border: 1px solid var(--color-control-line);
+      border-radius: var(--radius-control);
+      background: var(--color-base);
+      color: var(--color-ink);
       text-align: left;
       font-size: .84rem;
       font-variant-numeric: tabular-nums;
     }
 
     .calendar button[data-count="some"] {
-      background: #e7efff;
-      border-color: #b9cef3;
-      color: #163e8c;
+      background: var(--color-tint);
+      border-color: var(--color-control-line);
+      color: var(--color-brand);
     }
 
     .calendar button[aria-pressed="true"] {
-      border-color: #3c6cca;
-      background: #2c5fca;
-      color: white;
+      border-color: var(--color-brand);
+      background: var(--color-brand);
+      color: var(--color-on-brand);
     }
 
     .calendar button:hover {
-      border-color: #7197dc;
+      border-color: var(--color-brand);
     }
+
+    .calendar button:not([aria-pressed="true"]):hover { background: var(--color-hover); }
 
     .calendar-amount {
       justify-self: end;
@@ -668,7 +661,7 @@
     }
 
     .calendar button[data-count="zero"]:not([aria-pressed="true"]) .calendar-amount {
-      color: #687891;
+      color: var(--color-muted);
       font-weight: 500;
     }
 
@@ -692,21 +685,21 @@
     .incident-row {
       display: grid;
       gap: .28rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 11px;
       padding: .65rem .7rem;
-      color: var(--ink);
+      color: var(--color-ink);
       text-decoration: none;
       font-size: .88rem;
     }
 
     .incident-row:hover {
-      border-color: #9ab9ec;
-      background: #f4f8ff;
+      border-color: var(--color-control-line);
+      background: var(--color-hover);
     }
 
     .incident-date {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .81rem;
     }
 
@@ -719,7 +712,7 @@
     }
 
     .incident-title b:last-child {
-      color: #244b99;
+      color: var(--color-brand);
       white-space: nowrap;
     }
 
@@ -729,7 +722,7 @@
       width: 100%;
       overflow: hidden;
       border-radius: 8px;
-      background: #e7edf7;
+      background: var(--data-track);
     }
 
     .fill {
@@ -738,7 +731,7 @@
       min-width: 2px;
       width: var(--amount);
       border-radius: 8px;
-      background: var(--bar, #4d7ce0);
+      background: var(--bar, var(--color-brand));
     }
 
     .bars {
@@ -751,22 +744,23 @@
       display: grid;
       gap: .42rem;
       width: 100%;
+      min-height: var(--target-min);
       border: 1px solid transparent;
-      border-radius: 11px;
+      border-radius: var(--radius-control);
       background: transparent;
-      color: var(--ink);
+      color: var(--color-ink);
       padding: .45rem .55rem;
       text-align: left;
       font-size: .9rem;
     }
 
     .bar-row:hover {
-      background: #f2f6fe;
+      background: var(--color-hover);
     }
 
     .bar-row[aria-pressed="true"] {
-      background: #eef4ff;
-      border-color: #c9daf6;
+      background: var(--color-tint);
+      border-color: var(--color-brand);
     }
 
     .bar-label {
@@ -777,7 +771,7 @@
     }
 
     .bar-label strong {
-      color: #28497f;
+      color: var(--color-brand);
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
@@ -795,7 +789,7 @@
     .detail-panel hr {
       width: 100%;
       border: 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--color-line);
       margin: .15rem 0;
     }
 
@@ -811,7 +805,7 @@
       justify-content: space-between;
       gap: .55rem;
       padding-bottom: .52rem;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--color-line);
     }
 
     .stat-list div:last-child {
@@ -820,7 +814,7 @@
     }
 
     .stat-list dt {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .88rem;
       line-height: 1.4;
     }
@@ -828,7 +822,7 @@
     .stat-list dd {
       margin: 0;
       text-align: right;
-      color: var(--ink);
+      color: var(--color-ink);
       font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
@@ -838,7 +832,7 @@
       height: 13px;
       overflow: hidden;
       border-radius: 8px;
-      background: #e5edf7;
+      background: var(--data-track);
     }
 
     .stack span {
@@ -846,12 +840,14 @@
       background: var(--segment-color);
     }
 
+    .stack > :not(:last-child) { border-inline-end: 1px solid var(--color-surface); }
+
     .stack-key {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: .4rem .7rem;
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .84rem;
       line-height: 1.35;
     }
@@ -867,10 +863,10 @@
       gap: .28rem;
       margin: .92rem 0;
       padding: 1rem;
-      border: 1px solid #cde9e5;
+      border: 1px solid color-mix(in srgb, var(--color-success) 20%, var(--color-surface));
       border-radius: 14px;
-      background: #eaf8f4;
-      color: #15564f;
+      background: var(--color-success-bg);
+      color: var(--color-success);
     }
 
     .impact-value strong {
@@ -891,20 +887,22 @@
     }
 
     .accounts-chart .stack {
-      height: 23px;
+      height: var(--target-min);
       margin-top: .25rem;
     }
 
     .stack button {
       width: var(--amount);
-      border: 0;
+      border-block: 0;
+      border-inline-start: 0;
+      border-inline-end-width: 0;
       padding: 0;
       background: var(--segment-color);
     }
 
     .stack button:hover,
     .stack button:focus-visible {
-      box-shadow: inset 0 0 0 3px #ffffff;
+      box-shadow: inset 0 0 0 3px var(--color-surface);
       outline: none;
     }
 
@@ -925,7 +923,7 @@
       position: relative;
       height: 12px;
       border-radius: 8px;
-      background: #e7edf7;
+      background: var(--data-track);
     }
 
     .signed-bar::after {
@@ -933,7 +931,7 @@
       position: absolute;
       inset: 0 auto 0 var(--zero);
       width: 1px;
-      background: #627596;
+      background: var(--color-icon);
     }
 
     .signed-bar .fill {
@@ -950,11 +948,12 @@
     .globe-panel {
       overflow: hidden;
       min-width: 0;
-      border: 1px solid #263d5c;
-      border-radius: var(--radius);
-      color: #f5fbff;
-      background: radial-gradient(ellipse at 60% 27%, #1a4261 0, #112741 55%, #102039 100%);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--color-inverse);
+      border-radius: var(--radius-panel);
+      color: var(--color-on-inverse);
+      background: var(--gradient-inverse);
+      --focus-ring: var(--color-focus-inverse);
+      box-shadow: var(--shadow-panel);
     }
 
     .globe-head {
@@ -972,20 +971,20 @@
 
     .globe-head p {
       margin-top: .35rem;
-      color: #c5d7ec;
+      color: var(--color-muted-inverse);
       font-size: .86rem;
       line-height: 1.48;
     }
 
     .globe-head .button {
       flex: none;
-      background: #244663;
-      color: #e7f5ff;
-      border-color: #577999;
+      background: var(--color-inverse-raised);
+      color: var(--color-on-inverse);
+      border-color: var(--color-muted-inverse);
     }
 
     .globe-head .button:hover {
-      background: #305878;
+      background: var(--color-inverse-raised);
     }
 
     .globe-stage {
@@ -1027,7 +1026,7 @@
       border: 0;
       border-radius: 50%;
       background: transparent;
-      color: white;
+      color: var(--color-surface);
       pointer-events: auto;
     }
 
@@ -1036,19 +1035,19 @@
       display: block;
       width: 10px;
       height: 10px;
-      border: 1px solid #fff0cf;
+      border: 1px solid var(--color-on-inverse);
       border-radius: 50%;
-      background: #ffbe72;
-      box-shadow: 0 0 0 4px #ffc5743b, 0 0 14px #ffbb66bd;
+      background: var(--color-accent-soft);
+      box-shadow: 0 0 0 4px rgb(245 182 209 / .24), 0 0 14px rgb(245 182 209 / .59);
     }
 
     .marker:hover::before,
     .marker[aria-pressed="true"]::before {
       width: 13px;
       height: 13px;
-      background: #abf4e5;
-      border-color: #fff;
-      box-shadow: 0 0 0 5px #80ddcf50, 0 0 18px #80ddcfcf;
+      background: var(--color-on-inverse);
+      border-color: var(--color-surface);
+      box-shadow: 0 0 0 5px rgb(255 159 203 / .36), 0 0 18px rgb(255 159 203 / .75);
     }
 
     .marker span {
@@ -1058,10 +1057,10 @@
       left: 50%;
       transform: translateX(-50%);
       padding: .26rem .46rem;
-      border: 1px solid #77a6bb;
+      border: 1px solid var(--color-muted-inverse);
       border-radius: 7px;
-      background: #0e233c;
-      color: #fff;
+      background: var(--color-inverse);
+      color: var(--color-surface);
       white-space: nowrap;
       font-size: .81rem;
       pointer-events: none;
@@ -1070,7 +1069,6 @@
     .marker:hover,
     .marker:focus-visible {
       z-index: 2;
-      outline-color: #94fff1;
     }
 
     .marker:hover span,
@@ -1083,9 +1081,9 @@
       gap: .42rem;
       padding: .95rem 1rem;
       margin: 0 .95rem .95rem;
-      border: 1px solid #476781;
+      border: 1px solid var(--color-muted-inverse);
       border-radius: 13px;
-      background: #19344ee8;
+      background: var(--color-inverse-raised);
       font-size: .93rem;
       line-height: 1.48;
       scroll-margin-top: 7rem;
@@ -1096,18 +1094,18 @@
     }
 
     .map-case p {
-      color: #d8e7f7;
+      color: var(--color-muted-inverse);
     }
 
     .map-case a {
-      color: #97f1e3;
+      color: var(--color-muted-inverse);
       font-weight: 650;
       justify-self: start;
     }
 
     .map-case .case-meta {
       font-size: .81rem;
-      color: #a7d4e0;
+      color: var(--color-muted-inverse);
     }
 
     .world-catalog {
@@ -1131,13 +1129,13 @@
     }
 
     .filter-info .button {
-      min-height: 33px;
+      min-height: var(--target-min);
     }
 
     .table-scroll {
       max-height: 410px;
       overflow: auto;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 11px;
     }
 
@@ -1154,15 +1152,15 @@
       padding: .57rem .63rem;
       text-align: left;
       vertical-align: top;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--color-line);
     }
 
     th {
       position: sticky;
       top: 0;
       z-index: 1;
-      color: #344b6e;
-      background: #edf3fc;
+      color: var(--color-muted);
+      background: var(--color-tint);
       font-size: .83rem;
     }
 
@@ -1172,7 +1170,7 @@
 
     tr:hover td,
     tr.selected td {
-      background: #eef5ff;
+      background: var(--color-hover);
     }
 
     td:first-child {
@@ -1182,7 +1180,7 @@
     .cell-detail {
       display: block;
       margin-top: .28rem;
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .8rem;
     }
 
@@ -1190,7 +1188,8 @@
       border: 0;
       background: none;
       padding: 0;
-      color: #234e9e;
+      min-height: var(--target-min);
+      color: var(--color-brand);
       font-weight: 680;
       text-align: left;
       font-size: .9rem;
@@ -1211,15 +1210,15 @@
       width: min(650px, calc(100% - 2rem));
       max-height: calc(100dvh - 2rem);
       padding: 0;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: white;
-      color: var(--ink);
-      box-shadow: 0 18px 90px #0d1c4360;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-panel);
+      background: var(--color-surface);
+      color: var(--color-ink);
+      box-shadow: 0 18px 90px rgb(57 23 45 / .38);
     }
 
     dialog::backdrop {
-      background: #09152db0;
+      background: rgb(57 23 45 / .69);
     }
 
     .dialog-header {
@@ -1228,7 +1227,7 @@
       align-items: center;
       gap: 1rem;
       padding: 1rem 1.2rem;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--color-line);
     }
 
     .dialog-header h2 {
@@ -1239,7 +1238,7 @@
       display: grid;
       gap: .72rem;
       padding: 1rem 1.2rem 1.25rem;
-      color: #334561;
+      color: var(--color-muted);
       line-height: 1.55;
     }
 
@@ -1253,7 +1252,7 @@
     }
 
     .dialog-content h3 {
-      color: var(--ink);
+      color: var(--color-ink);
       font-size: 1rem;
     }
 
@@ -1267,7 +1266,7 @@
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 760px) {
       .hero {
         grid-template-columns: 1fr;
         align-items: start;
@@ -1348,8 +1347,7 @@
 
     @media (max-width: 420px) {
       main {
-        padding-left: .78rem;
-        padding-right: .78rem;
+        padding-inline: var(--space-4);
       }
 
       .panel {
@@ -1382,6 +1380,7 @@
       *,
       *::before,
       *::after {
+        animation: none !important;
         scroll-behavior: auto !important;
         transition: none !important;
       }
@@ -1394,26 +1393,50 @@
   <a class="skip-link" href="#contenido">Ir al contenido</a>
   <nav class="bottom-bar" aria-label="Accesos">
     <button class="dock-item" type="button" disabled>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM9 21v-7h6v7"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+        <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      </svg>
       <span>Inicio</span>
     </button>
     <button class="dock-item" type="button" disabled>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 12h2l2-3 2 6 2-3h2"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <path d="M12 16v5" />
+        <path d="M16 14v7" />
+        <path d="M20 10v11" />
+        <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15" />
+        <path d="M4 18v3" />
+        <path d="M8 14v7" />
+      </svg>
       <span>Actividad</span>
     </button>
     <a class="dock-item dock-world" id="world-shortcut" href="#situacion-mundial" aria-label="Casos en otros países">
       <span class="dock-orb" aria-hidden="true">
         <img class="dock-qr" src="casos-qr.png" alt="" width="44" height="44">
-        <svg class="dock-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon dock-globe">
+          <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
+          <path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
+          <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
+          <circle cx="12" cy="12" r="10" />
+        </svg>
       </span>
       <span id="world-shortcut-label">Casos</span>
     </a>
     <button class="dock-item" type="button" disabled>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16a1 1 0 0 1 1 1v1a2 2 0 0 0 0 4v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1a2 2 0 0 0 0-4V9a1 1 0 0 1 1-1ZM15 9.5v1m0 3v1"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+        <path d="M13 5v2" />
+        <path d="M13 17v2" />
+        <path d="M13 11v2" />
+      </svg>
       <span>Beneficios</span>
     </button>
     <button class="dock-item" type="button" disabled>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <line x1="4" x2="20" y1="12" y2="12" />
+        <line x1="4" x2="20" y1="6" y2="6" />
+        <line x1="4" x2="20" y1="18" y2="18" />
+      </svg>
       <span>Más</span>
     </button>
   </nav>
@@ -1430,9 +1453,9 @@
           aria-label="Simulación ilustrativa de un pago">
           <div class="payment-header">
             <span class="payment-terminal" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <rect x="3" y="5" width="18" height="14" rx="3"/>
-                <path d="M3 10h18m-13 5h3"/>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <line x1="2" x2="22" y1="10" y2="10" />
               </svg>
             </span>
             <div>
@@ -1443,9 +1466,14 @@
           <div class="payment-stage">
             <div class="payment-visual" aria-hidden="true">
               <span class="payment-ready-mark">
-                <svg viewBox="0 0 24 24"><path d="m6 12 4 4 8-8"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
               </span>
-              <span class="payment-spinner"></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon payment-spinner">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+              </svg>
               <img class="payment-error-art" src="pago-interrumpido.png" alt="" width="116" height="77">
             </div>
             <div class="payment-announcement" role="status" aria-atomic="true">
@@ -1478,8 +1506,8 @@
           <div><span>0</span><span>30</span><span>60</span><span>90</span><span>120</span><span>150</span></div>
         </div>
         <div id="story-intervals" class="intervals" aria-label="Intervalos de los incidentes argentinos"></div>
-        <div class="interval-key"><span><i class="swatch" style="--swatch:#285ed0" aria-hidden="true"></i>Sin
-            resolución</span><span><i class="swatch" style="--swatch:#8d9bb0" aria-hidden="true"></i>Resolución
+        <div class="interval-key"><span><i class="swatch" style="--swatch:var(--data-primary)" aria-hidden="true"></i>Sin
+            resolución</span><span><i class="swatch" style="--swatch:var(--data-resolved)" aria-hidden="true"></i>Resolución
             informada</span><span>Tocá una barra para ver el aviso.</span></div>
         <details id="incident-disclosure">
           <summary>Horarios y fuente del aviso seleccionado</summary>
@@ -1551,6 +1579,11 @@
                   <option value="">Todos los servicios</option>
                 </select></label>
             </div>
+            <label class="calendar-date-control">Fecha
+              <select id="availability-date">
+                <option value="">Todo el período</option>
+              </select>
+            </label>
             <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
             <div class="calendar-footer">
               <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank"
@@ -1737,24 +1770,24 @@
             <div class="accounts-chart">
               <strong>Desde dónde se paga</strong>
               <div class="stack" aria-label="Cuenta de origen">
-                <button type="button" style="--amount:52.8%;--segment-color:#4776d6" data-account="origin-cbu"
+                <button type="button" style="--amount:52.8%;--segment-color:var(--data-primary)" data-account="origin-cbu"
                   aria-label="52,8 % de pagos desde cuentas bancarias"></button>
-                <button type="button" style="--amount:47.2%;--segment-color:#0b8578" data-account="origin-cvu"
+                <button type="button" style="--amount:47.2%;--segment-color:var(--data-teal)" data-account="origin-cvu"
                   aria-label="47,2 % de pagos desde cuentas de pago"></button>
               </div>
-              <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 52,8 %</span><span><i
-                    class="swatch" style="--swatch:#0b8578"></i>CVU 47,2 %</span></div>
+              <div class="stack-key"><span><i class="swatch" style="--swatch:var(--data-primary)"></i>CBU 52,8 %</span><span><i
+                    class="swatch" style="--swatch:var(--data-teal)"></i>CVU 47,2 %</span></div>
             </div>
             <div class="accounts-chart">
               <strong>Dónde cobra el comercio</strong>
               <div class="stack" aria-label="Cuenta de destino">
-                <button type="button" style="--amount:45.3%;--segment-color:#4776d6" data-account="destination-cbu"
+                <button type="button" style="--amount:45.3%;--segment-color:var(--data-primary)" data-account="destination-cbu"
                   aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
-                <button type="button" style="--amount:54.7%;--segment-color:#0b8578" data-account="destination-cvu"
+                <button type="button" style="--amount:54.7%;--segment-color:var(--data-teal)" data-account="destination-cvu"
                   aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
               </div>
-              <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 45,3 %</span><span><i
-                    class="swatch" style="--swatch:#0b8578"></i>CVU 54,7 %</span></div>
+              <div class="stack-key"><span><i class="swatch" style="--swatch:var(--data-primary)"></i>CBU 45,3 %</span><span><i
+                    class="swatch" style="--swatch:var(--data-teal)"></i>CVU 54,7 %</span></div>
             </div>
             <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas
               de pago de los comercios (CVU).</p>
@@ -2055,11 +2088,11 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const services = {
-      point: { label: "Point", color: "#4876d5", description: "Terminales de cobro que usan los comercios." },
-      qr: { label: "Pagos QR", color: "#087f74", description: "Pagos que se inician al escanear un código QR." },
-      online: { label: "Pagos online", color: "#7952b0", description: "Cobros en línea, incluidos los realizados a través de Checkout Pro." },
-      notifications: { label: "Notificaciones a comercios", color: "#b76836", description: "Avisos que reciben las integraciones al cambiar el estado de un pago." },
-      payments: { label: "API de pagos", color: "#63789d", description: "Servicio de pagos que utilizan las integraciones." }
+      point: { label: "Point", color: "var(--data-point)", description: "Terminales de cobro que usan los comercios." },
+      qr: { label: "Pagos QR", color: "var(--data-teal)", description: "Pagos que se inician al escanear un código QR." },
+      online: { label: "Pagos online", color: "var(--data-violet)", description: "Cobros en línea, incluidos los realizados a través de Checkout Pro." },
+      notifications: { label: "Notificaciones a comercios", color: "var(--data-amber)", description: "Avisos que reciben las integraciones al cambiar el estado de un pago." },
+      payments: { label: "API de pagos", color: "var(--data-slate)", description: "Servicio de pagos que utilizan las integraciones." }
     };
     const cases = embedded("world-data").sort((a, b) => b.date.localeCompare(a.date));
     const incidents = embedded("incident-data").map((record) => ({
@@ -2177,15 +2210,23 @@
       if (atStoryAnchor) target.scrollIntoView({ block: "start", behavior: "instant" });
       else window.scrollTo({ top: 0, behavior: "instant" });
 
-      if (worldOpen && !reducedMotion.matches) {
-        worldView.animate(
-          [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "none" }],
-          { duration: 320, easing: "cubic-bezier(.2, .7, .25, 1)" }
+      if (!reducedMotion.matches) {
+        const view = worldOpen ? worldView : storyView;
+        view.getAnimations().forEach(animation => animation.cancel());
+        view.animate(
+          [{ opacity: .55, transform: `translateY(${worldOpen ? 14 : -8}px)` }, { opacity: 1, transform: "none" }],
+          { duration: 360, easing: "cubic-bezier(.22, 1, .36, 1)" }
         );
       }
     }
 
     window.addEventListener("hashchange", () => syncView(true));
+    reducedMotion.addEventListener("change", () => {
+      if (!reducedMotion.matches) return;
+      for (const view of [storyView, worldView]) {
+        view.getAnimations().forEach(animation => animation.cancel());
+      }
+    });
 
     function canvasArea(canvas) {
       const width = canvas.clientWidth;
@@ -2206,10 +2247,14 @@
 
     function drawTrend(container) {
       const series = [
-        { label: "Pagos electrónicos", color: "#315fc3", column: 1, shown: true },
-        { label: "Extracciones de efectivo", color: "#087d72", column: 2, shown: true }
+        { label: "Pagos electrónicos", color: "--data-primary", column: 1, shown: true },
+        { label: "Extracciones de efectivo", color: "--data-teal", column: 2, shown: true }
       ];
       const legend = node("div", "legend");
+      const yearControl = node("label", "trend-year-control", "Año");
+      const yearSelect = node("select");
+      addOptions(yearSelect, trend.map(([year], index) => [index, year]));
+      yearControl.append(yearSelect);
       const plot = node("div", "trend-plot");
       const canvas = node("canvas");
       canvas.setAttribute("aria-hidden", "true");
@@ -2220,7 +2265,7 @@
       const readout = node("p", "chart-value");
       readout.setAttribute("aria-live", "polite");
       plot.append(canvas, targets, tooltip);
-      container.append(legend, plot, readout);
+      container.append(legend, yearControl, plot, readout);
 
       let pinned = trend.length - 1;
       let hovered = null;
@@ -2234,7 +2279,14 @@
 
       function updateReadout() {
         readout.textContent = `${trend[pinned][0]} · ${valuesFor(pinned).join(" / ")}`;
+        yearSelect.value = String(pinned);
         yearButtons.forEach((item, index) => press(item, index === pinned));
+      }
+
+      function pinYear(index) {
+        pinned = index;
+        updateReadout();
+        schedule();
       }
 
       function paint() {
@@ -2242,6 +2294,8 @@
         const area = canvasArea(canvas);
         if (!area) return;
         const { context: ctx, width, height } = area;
+        const theme = getComputedStyle(canvas);
+        const color = (token) => theme.getPropertyValue(token).trim();
         const left = 26;
         const right = width - 12;
         const top = 12;
@@ -2251,15 +2305,15 @@
         const x = (index) => left + (index + 0.5) * (right - left) / trend.length;
         const y = (value) => bottom - value / upper * (bottom - top);
         const active = hovered ?? focused ?? pinned;
-        ctx.font = "12px Segoe UI, system-ui, sans-serif";
-        ctx.fillStyle = "#536681";
+        ctx.font = `${color("--font-1")} ${color("--font-ui")}`;
+        ctx.fillStyle = color("--color-muted");
         ctx.textBaseline = "middle";
         ctx.textAlign = "right";
         for (const tick of ticks) {
           const row = y(tick);
           ctx.fillText(tick, left - 7, row);
           ctx.beginPath();
-          ctx.strokeStyle = "#dfe7f3";
+          ctx.strokeStyle = color("--color-line");
           ctx.lineWidth = 1;
           ctx.moveTo(left, row);
           ctx.lineTo(right, row);
@@ -2281,8 +2335,8 @@
             ctx.lineTo(x(0), bottom);
             ctx.closePath();
             const gradient = ctx.createLinearGradient(0, top, 0, bottom);
-            gradient.addColorStop(0, "#b9d0fc88");
-            gradient.addColorStop(1, "#dfeaff36");
+            gradient.addColorStop(0, color("--data-area-top"));
+            gradient.addColorStop(1, color("--data-area-bottom"));
             ctx.fillStyle = gradient;
             ctx.fill();
             ctx.restore();
@@ -2291,7 +2345,8 @@
             for (const point of points.slice(1)) ctx.lineTo(...point);
           }
           ctx.lineJoin = "round";
-          ctx.strokeStyle = line.color;
+          ctx.setLineDash(line.column === 2 ? [6, 4] : []);
+          ctx.strokeStyle = color(line.color);
           ctx.lineWidth = 2.75;
           ctx.stroke();
         }
@@ -2299,18 +2354,18 @@
         ctx.moveTo(x(active), top);
         ctx.lineTo(x(active), bottom);
         ctx.setLineDash([4, 4]);
-        ctx.strokeStyle = "#8295b5";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = color("--data-marker");
+        ctx.lineWidth = 1.5;
         ctx.stroke();
         ctx.setLineDash([]);
         for (const line of series.filter((item) => item.shown)) {
           trend.forEach((year, index) => {
             ctx.beginPath();
             ctx.arc(x(index), y(year[line.column]), index === active ? 5 : 2.65, 0, 2 * Math.PI);
-            ctx.fillStyle = line.color;
+            ctx.fillStyle = color(line.color);
             ctx.fill();
             if (index === active) {
-              ctx.strokeStyle = "#fff";
+              ctx.strokeStyle = color("--color-surface");
               ctx.lineWidth = 1.6;
               ctx.stroke();
             }
@@ -2331,7 +2386,7 @@
       for (const line of series) {
         const toggle = button("legend-toggle");
         const key = node("i", "swatch");
-        key.style.setProperty("--swatch", line.color);
+        key.style.setProperty("--swatch", `var(${line.color})`);
         toggle.append(key, document.createTextNode(line.label));
         press(toggle, true);
         toggle.addEventListener("click", () => {
@@ -2353,16 +2408,14 @@
         });
         target.addEventListener("focus", () => { focused = index; schedule(); });
         target.addEventListener("blur", () => { focused = null; schedule(); });
-        target.addEventListener("click", () => {
-          pinned = index;
-          updateReadout();
-          schedule();
-        });
+        target.addEventListener("click", () => pinYear(index));
         yearButtons.push(target);
         targets.append(target);
       });
       plot.addEventListener("pointerleave", () => { hovered = null; schedule(); });
+      yearSelect.addEventListener("change", () => pinYear(Number(yearSelect.value)));
       new ResizeObserver(schedule).observe(canvas);
+      document.fonts?.ready.then(schedule);
       updateReadout();
       schedule();
     }
@@ -2371,6 +2424,7 @@
 
     const availabilityScope = byId("availability-scope");
     const availabilityService = byId("availability-service");
+    const availabilityDate = byId("availability-date");
     const dayButtons = new Map();
     let selectedDay = null;
     addOptions(availabilityService, Object.entries(services).map(([key, service]) => [key, service.label]));
@@ -2414,6 +2468,7 @@
       const list = selectedDay === null ? items : items.filter(({ day }) => day === selectedDay);
       const largest = Math.max(1, ...items.map((record) => record.minutes));
       const label = selectedDay === null ? "Todo el período" : `${selectedDay} de noviembre`;
+      availabilityDate.value = selectedDay === null ? "" : String(selectedDay);
       byId("incident-list-label").textContent = `${label} · ${countLabel(list.length, "aviso", "avisos")}`;
       const rows = list.length ? list.map((record) => incidentLink(record, largest)) : [node("p", "small", "No hay avisos para esta selección.")];
       const listArea = byId("incident-list");
@@ -2435,8 +2490,13 @@
         renderAvailability();
       });
       calendar.append(target);
+      availabilityDate.add(new Option(`${day} de noviembre`, day));
       dayButtons.set(day, target);
     }
+    availabilityDate.addEventListener("change", () => {
+      selectedDay = availabilityDate.value ? Number(availabilityDate.value) : null;
+      renderAvailability();
+    });
     for (const select of [availabilityScope, availabilityService]) {
       select.addEventListener("change", renderAvailability);
     }
@@ -2491,7 +2551,7 @@
       const split = node("div", "stack");
       split.setAttribute("aria-hidden", "true");
       const severity = node("div", "stack-key");
-      for (const [label, count, color] of [["Mayor", major, "#7853a7"], ["Menor", minor, "#478aab"]]) {
+      for (const [label, count, color] of [["Mayor", major, "var(--data-violet)"], ["Menor", minor, "var(--data-slate)"]]) {
         const segment = node("span");
         segment.style.setProperty("--amount", `${count / records.length * 100}%`);
         segment.style.setProperty("--segment-color", color);
@@ -2585,7 +2645,8 @@
       const fill = node("span", "fill");
       fill.style.setProperty("--left", `${(Math.min(value, 0) - minimum) / span * 100}%`);
       fill.style.setProperty("--amount", `${Math.abs(value) / span * 100}%`);
-      fill.style.setProperty("--bar", value < 0 ? "#bd7044" : "#087f74");
+      fill.style.setProperty("--bar", value < 0 ? "var(--data-amber)" : "var(--data-teal)");
+      if (value < 0) fill.style.setProperty("--bar-origin", "right");
       track.append(fill);
       return track;
     }
@@ -2603,7 +2664,7 @@
       for (const entry of volume) {
         const quantity = `${decimal.format(entry.amount)} M`;
         const row = mode === "amount"
-          ? labeledBar(entry.label, quantity, fillTrack(entry.amount / maximum * 100, "#4a78d8"))
+          ? labeledBar(entry.label, quantity, fillTrack(entry.amount / maximum * 100, "var(--data-primary)"))
           : labeledBar(entry.label, changeText(entry.growth), signedTrack(entry.growth));
         row.addEventListener("click", () => select(entry));
         buttons.set(entry, row);
@@ -2689,7 +2750,7 @@
       mapCase.dataset.case = selectedCase?.id ?? "";
       if (previousId !== mapCase.dataset.case && !reducedMotion.matches && !byId("situacion-mundial").hidden) {
         mapCase.getAnimations().forEach(animation => animation.cancel());
-        mapCase.animate([{ opacity: .2, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 750, easing: "ease-out" });
+        mapCase.animate([{ opacity: .55, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 360, easing: "cubic-bezier(.22, 1, .36, 1)" });
       }
       document.dispatchEvent(new Event("world-case-change"));
     }
@@ -2753,6 +2814,9 @@
       const area = canvasArea(canvas);
       if (!area) return null;
       const { context: ctx, width, height } = area;
+      const theme = getComputedStyle(canvas);
+      const color = (token) => theme.getPropertyValue(token).trim();
+      const accent = color("--color-accent-soft");
       const radius = Math.min(width, height) * 0.443;
       const cx = width / 2;
       const cy = height / 2;
@@ -2771,22 +2835,26 @@
 
       ctx.beginPath();
       ctx.arc(cx, cy, radius + 7, 0, Math.PI * 2);
-      ctx.strokeStyle = "#93e4ed28";
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = .16;
       ctx.lineWidth = 1;
       ctx.stroke();
+      ctx.globalAlpha = 1;
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       const ocean = ctx.createRadialGradient(cx - radius * .35, cy - radius * .46, 0, cx, cy, radius * 1.08);
-      ocean.addColorStop(0, "#245675");
-      ocean.addColorStop(.7, "#153858");
-      ocean.addColorStop(1, "#10263e");
+      ocean.addColorStop(0, color("--color-inverse-raised"));
+      ocean.addColorStop(.7, color("--color-brand-active"));
+      ocean.addColorStop(1, color("--color-inverse"));
       ctx.fillStyle = ocean;
       ctx.shadowBlur = 22;
-      ctx.shadowColor = "#66c7d654";
+      ctx.shadowColor = color("--globe-glow");
       ctx.fill();
       ctx.shadowBlur = 0;
-      ctx.strokeStyle = "#7ddbe88c";
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = .52;
       ctx.stroke();
+      ctx.globalAlpha = 1;
 
       ctx.save();
       ctx.clip();
@@ -2801,7 +2869,8 @@
           visible = true;
         }
       }
-      ctx.strokeStyle = "#8ddde331";
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = .19;
       ctx.lineWidth = .75;
       ctx.stroke();
       const near = [];
@@ -2811,14 +2880,15 @@
         if (depth <= 0) continue;
         (depth < .38 ? far : near).push([x, y, depth]);
       }
-      for (const [points, color] of [[far, "#67afb686"], [near, "#86d5c9cc"]]) {
+      for (const [points, opacity] of [[far, .42], [near, .84]]) {
         ctx.beginPath();
         for (const [x, y, depth] of points) {
           const dot = (0.72 + depth * .52) * Math.min(1.18, radius / 138);
           ctx.moveTo(x + dot, y);
           ctx.arc(x, y, dot, 0, Math.PI * 2);
         }
-        ctx.fillStyle = color;
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = opacity;
         ctx.fill();
       }
       ctx.restore();

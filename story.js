@@ -133,7 +133,7 @@
   });
 
   if ("IntersectionObserver" in window) {
-    const storyBlocks = document.querySelectorAll("#vista-general > .hero, #vista-general > .story-block");
+    const storyBlocks = document.querySelectorAll("#vista-general > :is(.hero, .story-block, .story-data)");
     const reveal = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
@@ -142,7 +142,7 @@
         }
       }
     }, { threshold: 0.06 });
-    for (const block of storyBlocks) { block.classList.add("reveal-ready"); reveal.observe(block); }
+    for (const block of storyBlocks) reveal.observe(block);
     const clockVisibility = new IntersectionObserver(entries => {
       if (!entries[0].isIntersecting && playing) stopClock();
     });
