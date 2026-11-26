@@ -113,22 +113,27 @@
 
   const scene = byId("payment-scene");
   const payButton = byId("try-payment");
+  const paymentStatus = byId("payment-status");
+  const paymentMessage = byId("payment-message");
   payButton.addEventListener("click", () => {
+    if (scene.dataset.state === "pending") return;
     scene.dataset.state = "pending";
-    byId("payment-status").textContent = "Procesando…";
-    payButton.disabled = true;
+    paymentStatus.textContent = "Procesando el pago…";
+    paymentMessage.textContent = "Esperando respuesta del sistema.";
+    payButton.setAttribute("aria-disabled", "true");
     const finish = () => {
       scene.dataset.state = "failed";
-      byId("payment-status").textContent = "El pago no salió";
+      paymentStatus.textContent = "Algo salió mal";
+      paymentMessage.textContent = "El sistema no respondió a tiempo.";
       payButton.textContent = "Volver a probar";
-      payButton.disabled = false;
+      payButton.removeAttribute("aria-disabled");
     };
     if (reducedMotion.matches) finish();
     else setTimeout(finish, 1000);
   });
 
   if ("IntersectionObserver" in window) {
-    const chapters = document.querySelectorAll("#vista-general > .hero, #vista-general > .story-chapter");
+    const storyBlocks = document.querySelectorAll("#vista-general > .hero, #vista-general > .story-block");
     const reveal = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
@@ -137,19 +142,11 @@
         }
       }
     }, { threshold: 0.06 });
-    for (const chapter of chapters) { chapter.classList.add("reveal-ready"); reveal.observe(chapter); }
+    for (const block of storyBlocks) { block.classList.add("reveal-ready"); reveal.observe(block); }
     const clockVisibility = new IntersectionObserver(entries => {
       if (!entries[0].isIntersecting && playing) stopClock();
     });
     clockVisibility.observe(byId("story-intervals"));
-  }
-
-  for (const item of document.querySelectorAll("[data-story-target]")) {
-    item.addEventListener("click", () => {
-      const target = byId(item.dataset.storyTarget);
-      target.focus({ preventScroll: true });
-      target.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "start" });
-    });
   }
 
   byId("download-evidence").addEventListener("click", () => {

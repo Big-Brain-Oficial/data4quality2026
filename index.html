@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description"
     content="Tenés dinero. Pero… ¿podés usarlo? Una historia interactiva sobre pagos cotidianos, incidentes documentados y calidad del software.">
   <link rel="icon" href="data:,">
@@ -17,7 +17,6 @@
       --paper: #fff;
       --background: #f2f5fa;
       --line: #dce4ef;
-      --navy: #111f3d;
       --blue: #285ed0;
       --radius: 20px;
       --shadow: 0 7px 24px #15284608, 0 2px 5px #15284603;
@@ -87,169 +86,11 @@
       clip-path: none;
     }
 
-    .shell {
-      display: grid;
-      grid-template-columns: 223px minmax(0, 1fr);
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 0;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      gap: 2.15rem;
-      padding: 1.55rem 1rem 1.25rem;
-      background: var(--navy);
-      color: #d8e3f5;
-    }
-
-    .brand {
-      display: flex;
-      gap: .68rem;
-      align-items: center;
-      padding: 0 .3rem;
-      text-decoration: none;
-      color: white;
-    }
-
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      flex: 0 0 37px;
-      height: 37px;
-      border-radius: 11px;
-      background: #77e6d6;
-      color: #122941;
-      font-size: 1.22rem;
-      line-height: 1;
-    }
-
-    .brand strong {
-      display: block;
-      font-size: 1.05rem;
-      letter-spacing: -.025em;
-    }
-
-    .brand small {
-      display: block;
-      margin-top: .18rem;
-      color: #aebfdb;
-      font-size: .8rem;
-    }
-
-    .sidebar nav {
-      display: grid;
-      gap: .25rem;
-    }
-
-    .sidebar nav a {
-      display: flex;
-      align-items: center;
-      gap: .65rem;
-      padding: .72rem .62rem;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      color: #c5d3e8;
-      font-size: .91rem;
-      font-weight: 550;
-      letter-spacing: -.01em;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .sidebar nav a:hover {
-      background: #ffffff0b;
-      color: white;
-    }
-
-    .sidebar nav a[aria-current] {
-      background: #24395f;
-      border-color: #314b74;
-      color: #fff;
-    }
-
-    .sidebar nav a[aria-current] .nav-icon {
-      color: #86eadb;
-    }
-
-    .sidebar nav a:last-child {
-      margin-top: .55rem;
-    }
-
-    .nav-icon {
-      display: inline-grid;
-      place-items: center;
-      width: 1.26rem;
-      flex: none;
-      color: #a4b9d8;
-      font-size: 1.14rem;
-      line-height: 1;
-    }
-
-    .sidebar-foot {
-      display: grid;
-      gap: .3rem;
-      margin-top: auto;
-      padding: 1rem .3rem 0;
-      border-top: 1px solid #ffffff23;
-      color: #b0c0da;
-      font-size: .8rem;
-    }
-
-    .sidebar-foot strong {
-      color: #ecf4ff;
-      font-size: .85rem;
-    }
-
-    .workspace {
-      min-width: 0;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: .75rem;
-      min-height: 65px;
-      padding: .64rem clamp(1rem, 2.8vw, 2.25rem);
-      border-bottom: 1px solid var(--line);
-      background: #fcfdff;
-    }
-
-    .trail {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: .3rem .7rem;
-      color: var(--muted);
-      font-size: .88rem;
-    }
-
-    .trail strong {
-      color: var(--ink);
-    }
-
-    .trail-separator {
-      color: #8596ae;
-    }
-
-    .flag {
-      display: inline-block;
-      width: 19px;
-      height: 13px;
-      border: 1px solid #b2d5ef;
-      border-radius: 3px;
-      background: radial-gradient(circle, #f3b43e 0 1.4px, transparent 1.8px),
-        linear-gradient(#82bfea 33.3%, #fff 33.3% 66.6%, #82bfea 66.6%);
-    }
-
     main {
       width: 100%;
       max-width: 1560px;
       margin: 0 auto;
-      padding: clamp(1.1rem, 2.6vw, 2rem) clamp(1rem, 2.8vw, 2.25rem) 2rem;
+      padding: var(--content-top-padding) clamp(1rem, 2.8vw, 2.25rem) 2rem;
     }
 
     .view {
@@ -313,8 +154,8 @@
       gap: .35rem;
     }
 
-    .panel-header h2,
-    .panel h2 {
+    .panel-header :is(h2, h3),
+    .panel :is(h2, h3) {
       font-size: 1.27rem;
       letter-spacing: -.025em;
     }
@@ -476,7 +317,7 @@
       color: #a0eee4;
     }
 
-    .hero p:last-child {
+    .hero-copy > p:last-child {
       max-width: 53ch;
       color: #e0eafa;
       font-size: clamp(.96rem, 1.2vw, 1.08rem);
@@ -1417,67 +1258,12 @@
     }
 
     @media (max-width: 1120px) {
-      .shell {
-        grid-template-columns: 190px minmax(0, 1fr);
-      }
-
-      .sidebar {
-        padding-left: .68rem;
-        padding-right: .68rem;
-      }
-
       .world-layout {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       }
 
       .globe-head {
         flex-wrap: wrap;
-      }
-    }
-
-    @media (max-width: 920px) {
-      .shell {
-        display: block;
-      }
-
-      .sidebar {
-        z-index: 4;
-        height: auto;
-        gap: .65rem;
-        padding: .65rem 1rem .45rem;
-      }
-
-      .sidebar nav {
-        display: flex;
-        overflow-x: auto;
-        scrollbar-width: thin;
-        padding: 0 .12rem .2rem;
-      }
-
-      .sidebar nav a {
-        padding: .48rem .6rem;
-      }
-
-      .sidebar nav a:last-child {
-        margin-top: 0;
-      }
-
-      .sidebar-foot {
-        display: none;
-      }
-
-      .brand-mark {
-        flex-basis: 31px;
-        height: 31px;
-        border-radius: 8px;
-      }
-
-      .brand small {
-        display: none;
-      }
-
-      .topbar {
-        min-height: 52px;
       }
     }
 
@@ -1561,22 +1347,6 @@
     }
 
     @media (max-width: 420px) {
-      .nav-icon {
-        display: none;
-      }
-
-      .sidebar nav a {
-        padding: .5rem .56rem;
-      }
-
-      .trail>span:not(.flag) {
-        display: none;
-      }
-
-      .trail {
-        gap: .36rem;
-      }
-
       main {
         padding-left: .78rem;
         padding-right: .78rem;
@@ -1622,476 +1392,462 @@
 
 <body>
   <a class="skip-link" href="#contenido">Ir al contenido</a>
-  <div class="shell">
-    <aside class="sidebar" aria-label="Panel">
-      <a class="brand" href="#vista-general" data-view>
-        <span class="brand-mark" aria-hidden="true">◈</span>
-        <span><strong>Data4Quality</strong><small>Pagos digitales</small></span>
-      </a>
-      <nav aria-label="Secciones">
-        <a href="#vista-general" data-view aria-current="page">La historia</a>
-        <a href="#disponibilidad" data-view>¿Cuándo pasó?</a>
-        <a href="#criticidad" data-view>¿Cuánto duró?</a>
-        <a href="#impacto" data-view>¿Qué está en juego?</a>
-        <a href="#uso-digital" data-view>¿Cuánto los usamos?</a>
-        <a href="#situacion-mundial" data-view>Casos en otros países</a>
-      </nav>
-      <div class="sidebar-foot">
-        <strong>TPI · Big Brain</strong>
-        <span>Corte de datos · 26 nov. 2026</span>
+  <nav class="bottom-bar" aria-label="Accesos">
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM9 21v-7h6v7"/></svg>
+      <span>Inicio</span>
+    </button>
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 12h2l2-3 2 6 2-3h2"/></svg>
+      <span>Actividad</span>
+    </button>
+    <a class="dock-item dock-world" id="world-shortcut" href="#situacion-mundial" aria-label="Casos en otros países">
+      <span class="dock-orb" aria-hidden="true">
+        <img class="dock-qr" src="casos-qr.png" alt="" width="44" height="44">
+        <svg class="dock-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>
+      </span>
+      <span id="world-shortcut-label">Casos</span>
+    </a>
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16a1 1 0 0 1 1 1v1a2 2 0 0 0 0 4v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1a2 2 0 0 0 0-4V9a1 1 0 0 1 1-1ZM15 9.5v1m0 3v1"/></svg>
+      <span>Beneficios</span>
+    </button>
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14"/></svg>
+      <span>Más</span>
+    </button>
+  </nav>
+
+  <main id="contenido" tabindex="-1">
+    <div class="view story-flow" id="vista-general">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="kicker">Una historia sobre tu próximo pago</p>
+          <h1 id="overview-title" tabindex="-1">Tenés dinero. Pero…<br><span>¿podés usarlo?</span></h1>
+          <p>Estás en la caja. Tenés saldo.<br>Pero el pago no sale.</p>
+        </div>
+        <div class="scene-receipt" id="payment-scene" data-state="ready" role="group"
+          aria-label="Simulación ilustrativa de un pago">
+          <div class="payment-header">
+            <span class="payment-terminal" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="14" rx="3"/>
+                <path d="M3 10h18m-13 5h3"/>
+              </svg>
+            </span>
+            <div>
+              <p class="payment-label">Pago en caja</p>
+              <p class="payment-context">Simulación</p>
+            </div>
+          </div>
+          <div class="payment-stage">
+            <div class="payment-visual" aria-hidden="true">
+              <span class="payment-ready-mark">
+                <svg viewBox="0 0 24 24"><path d="m6 12 4 4 8-8"/></svg>
+              </span>
+              <span class="payment-spinner"></span>
+              <img class="payment-error-art" src="pago-interrumpido.png" alt="" width="116" height="77">
+            </div>
+            <div class="payment-announcement" role="status" aria-atomic="true">
+              <h2 id="payment-status">Todo listo para pagar</h2>
+              <p id="payment-message">Tenés saldo suficiente para este pago.</p>
+            </div>
+          </div>
+          <button class="button payment-button" id="try-payment" type="button">Probar el pago</button>
+        </div>
       </div>
-    </aside>
+      <div class="story-block">
+        <p class="kicker">De la situación a la evidencia</p>
+        <h2 id="story-evidence" tabindex="-1">El reloj sigue. ¿Y la solución?</h2>
+        <p class="evidence-scope" id="story-scope"></p>
+        <div class="clock-actions"><button class="button play-clock" type="button" id="play-clock"
+            aria-pressed="false">Reproducir el tiempo</button>
+          <div class="segment" aria-label="Saltar a un momento"><button type="button" data-minute="5"
+              aria-pressed="false">5 min</button><button type="button" data-minute="60" aria-pressed="false">1
+              hora</button><button type="button" data-minute="120" aria-pressed="false">2 horas</button></div>
+        </div>
+        <label class="wait-control" for="story-minutes">Desde el aviso: <output id="story-minutes-value"
+            for="story-minutes">15 minutos</output>
+          <input id="story-minutes" type="range" min="0" max="150" step="1" value="15"
+            aria-describedby="story-clock-note">
+        </label>
+        <p class="small" id="story-clock-note">Cada barra: del aviso a su resolución informada. Todos parten de cero
+          para compararlos.</p>
+        <p id="story-readout" class="story-readout" role="status"></p>
+        <div class="interval-axis" aria-hidden="true"><span>Minutos desde el aviso</span>
+          <div><span>0</span><span>30</span><span>60</span><span>90</span><span>120</span><span>150</span></div>
+        </div>
+        <div id="story-intervals" class="intervals" aria-label="Intervalos de los incidentes argentinos"></div>
+        <div class="interval-key"><span><i class="swatch" style="--swatch:#285ed0" aria-hidden="true"></i>Sin
+            resolución</span><span><i class="swatch" style="--swatch:#8d9bb0" aria-hidden="true"></i>Resolución
+            informada</span><span>Tocá una barra para ver el aviso.</span></div>
+        <details id="incident-disclosure">
+          <summary>Horarios y fuente del aviso seleccionado</summary>
+          <div id="story-incident-detail" class="note" aria-live="polite"></div>
+        </details>
+        <p class="source"><a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado
+            Pago Status</a> · Intervalos publicados, no tiempo de espera de una persona.</p>
+        <details>
+          <summary>Cómo leer estos tiempos</summary>
+          <p>Los avisos no ocurrieron simultáneamente. La comparación alinea sus publicaciones en el minuto cero. Se
+            muestran minutos redondeados y se calcula con marcas temporales completas.</p>
+          <p>Son avisos de servicios e integraciones: no implican que todos los pagos fallaron. Sin aviso tampoco
+            significa sin fallas. No permiten medir personas afectadas ni disponibilidad real.</p>
+        </details>
+      </div>
 
-    <div class="workspace">
-      <header class="topbar">
-        <div class="trail"><span class="flag" id="context-flag" aria-hidden="true"></span><span
-            id="area-title">Argentina</span><span class="trail-separator" aria-hidden="true">/</span><strong
-            id="current-view">Vista General</strong></div>
-      </header>
+      <div class="story-block">
+        <p class="kicker">El descubrimiento</p>
+        <h2 id="story-discovery" tabindex="-1">Un incidente no cuenta toda la historia.</h2>
+        <p id="story-finding" class="story-takeaway"></p>
+        <p class="small">En esta muestra, los avisos de Point tardaron más en resolverse. No es un ranking de
+          confiabilidad.</p>
+        <details>
+          <summary>Muestra, límites y descarga</summary>
+          <p id="story-sample"></p>
+          <p>Point es la terminal de cobro del comercio; QR inicia el pago al escanear un código. Faltan el volumen
+            de uso, los pagos fallidos y un monitoreo completo para comparar confiabilidad.</p>
+          <p>Los avisos globales o sin país no se atribuyen automáticamente a Argentina. La API muestra avisos
+            recientes y cambia con el tiempo.</p><button class="button" type="button"
+            id="download-evidence">Descargar los 50 registros</button>
+          <p class="small">JSON normalizado, con fuente y método. No es la respuesta íntegra de la API.</p><a
+            href="#disponibilidad">Revisar fechas y alcances</a>
+        </details>
+      </div>
 
-      <main id="contenido" tabindex="-1">
-        <section class="view" id="vista-general" aria-labelledby="overview-title">
-          <div class="hero">
-            <div>
-              <p class="kicker">Una historia sobre tu próximo pago</p>
-              <h1 id="overview-title" tabindex="-1">Tenés dinero. Pero…<br><span>¿podés usarlo?</span></h1>
-              <p>Estás en la caja. Tenés saldo.<br>Pero el pago no sale.</p>
-              <button class="button story-start" type="button" data-story-target="story-evidence">¿Qué dicen los
-                registros?</button>
-            </div>
-            <div class="scene-receipt" id="payment-scene" data-state="ready"
-              aria-label="Simulación ilustrativa de un pago">
-              <span>EN LA CAJA</span>
-              <p>Saldo suficiente</p>
-              <div class="payment-symbol" aria-hidden="true"><span></span></div>
-              <strong id="payment-status" role="status">Todo listo para pagar</strong>
-              <button class="button" id="try-payment" type="button">Probar el pago</button>
-            </div>
-          </div>
-          <article class="panel story-chapter" aria-labelledby="story-evidence">
-            <p class="kicker">De la situación a la evidencia</p>
-            <h2 id="story-evidence" tabindex="-1">El reloj sigue. ¿Y la solución?</h2>
-            <p class="evidence-scope" id="story-scope"></p>
-            <div class="clock-actions"><button class="button play-clock" type="button" id="play-clock"
-                aria-pressed="false">Reproducir el tiempo</button>
-              <div class="segment" aria-label="Saltar a un momento"><button type="button" data-minute="5"
-                  aria-pressed="false">5 min</button><button type="button" data-minute="60" aria-pressed="false">1
-                  hora</button><button type="button" data-minute="120" aria-pressed="false">2 horas</button></div>
-            </div>
-            <label class="wait-control" for="story-minutes">Desde el aviso: <output id="story-minutes-value"
-                for="story-minutes">15 minutos</output>
-              <input id="story-minutes" type="range" min="0" max="150" step="1" value="15"
-                aria-describedby="story-clock-note">
-            </label>
-            <p class="small" id="story-clock-note">Cada barra: del aviso a su resolución informada. Todos parten de cero
-              para compararlos.</p>
-            <p id="story-readout" class="story-readout" role="status"></p>
-            <div class="interval-axis" aria-hidden="true"><span>Minutos desde el aviso</span>
-              <div><span>0</span><span>30</span><span>60</span><span>90</span><span>120</span><span>150</span></div>
-            </div>
-            <div id="story-intervals" class="intervals" aria-label="Intervalos de los incidentes argentinos"></div>
-            <div class="interval-key"><span><i class="swatch" style="--swatch:#285ed0" aria-hidden="true"></i>Sin
-                resolución</span><span><i class="swatch" style="--swatch:#8d9bb0" aria-hidden="true"></i>Resolución
-                informada</span><span>Tocá una barra para ver el aviso.</span></div>
-            <details id="incident-disclosure">
-              <summary>Horarios y fuente del aviso seleccionado</summary>
-              <div id="story-incident-detail" class="note" aria-live="polite"></div>
-            </details>
-            <p class="source"><a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado
-                Pago Status</a> · Intervalos publicados, no tiempo de espera de una persona.</p>
-            <details>
-              <summary>Cómo leer estos tiempos</summary>
-              <p>Los avisos no ocurrieron simultáneamente. La comparación alinea sus publicaciones en el minuto cero. Se
-                muestran minutos redondeados y se calcula con marcas temporales completas.</p>
-              <p>Son avisos de servicios e integraciones: no implican que todos los pagos fallaron. Sin aviso tampoco
-                significa sin fallas. No permiten medir personas afectadas ni disponibilidad real.</p>
-            </details>
-            <button class="button chapter-next" type="button" data-story-target="story-discovery">Ver el
-              hallazgo</button>
-          </article>
-
-          <article class="panel story-chapter" aria-labelledby="story-discovery">
-            <p class="kicker">El descubrimiento</p>
-            <h2 id="story-discovery" tabindex="-1">Un incidente no cuenta toda la historia.</h2>
-            <p id="story-finding" class="story-takeaway"></p>
-            <p class="small">En esta muestra, los avisos de Point tardaron más en resolverse. No es un ranking de
-              confiabilidad.</p>
-            <details>
-              <summary>Muestra, límites y descarga</summary>
-              <p id="story-sample"></p>
-              <p>Point es la terminal de cobro del comercio; QR inicia el pago al escanear un código. Faltan el volumen
-                de uso, los pagos fallidos y un monitoreo completo para comparar confiabilidad.</p>
-              <p>Los avisos globales o sin país no se atribuyen automáticamente a Argentina. La API muestra avisos
-                recientes y cambia con el tiempo.</p><button class="button" type="button"
-                id="download-evidence">Descargar los 50 registros</button>
-              <p class="small">JSON normalizado, con fuente y método. No es la respuesta íntegra de la API.</p><a
-                href="#disponibilidad" data-view>Revisar fechas y alcances</a>
-            </details>
-            <button class="button chapter-next" type="button" data-story-target="story-context">¿Por qué nos
-              importa?</button>
-          </article>
-
-          <article class="panel story-chapter" aria-labelledby="story-context">
-            <p class="kicker">La escala cotidiana</p>
-            <h2 id="story-context" tabindex="-1">Pagamos digitalmente <span class="highlight-number">5,7 veces</span> lo
-              que pagábamos en 2019.</h2>
-            <p class="small">Operaciones mensuales por adulto · Elegí un año para comparar.</p>
-            <div class="chart" id="overview-trend"></div>
-            <p class="source">Argentina · Primer semestre de cada año · <a
-                href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
-                target="_blank" rel="noopener">BCRA, Inclusión Financiera</a>.</p>
-            <details>
-              <summary>Qué compara el gráfico</summary>
-              <p>Promedios mensuales por adulto: 5,8 pagos electrónicos en 2019 y 32,8 en 2026 (32,8 / 5,8 ≈ 5,7). El
-                eje horizontal muestra años; el vertical, operaciones desde cero. La leyenda permite aislar cada serie.
-              </p>
-              <p>Las extracciones bajan de 2,9 a 1,3. Esto no mide compras en efectivo ni su abandono. Los promedios
-                describen a la población, no a cada persona.</p>
-              <p>El BCRA mide todo el sistema argentino; los avisos son de Mercado Pago. Multiplicar operaciones por
-                minuto por la duración de un aviso no permite estimar pagos afectados.</p>
-            </details>
-            <button class="button chapter-next" type="button" data-story-target="story-quality">Ponerle nombre al
-              problema</button>
-          </article>
-
-          <article class="story-ending story-chapter" aria-labelledby="story-quality">
-            <p class="kicker">Ahora sí: la calidad del software</p>
-            <h2 id="story-quality" tabindex="-1">Tu dinero necesita un sistema que responda.</h2>
-            <p>Eso es <strong>disponibilidad</strong>: poder usar el sistema cuando lo necesitás.</p>
-            <p class="story-takeaway">La calidad también se juega en la caja.</p>
-            <p class="source">Parte de la confiabilidad en <a href="https://www.iso.org/standard/78176.html"
-                target="_blank" rel="noopener">ISO/IEC 25010:2023</a>. Explicación simplificada.</p>
-            <div class="story-links"><a class="button" href="#criticidad" data-view>Explorar otros servicios</a><a
-                class="button" href="#situacion-mundial" data-view>Leer otros casos</a><button class="button"
-                type="button" data-story-target="overview-title">Volver al comienzo</button></div>
-          </article>
-        </section>
-
-        <section class="view" id="disponibilidad" aria-labelledby="availability-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
-            <h1 id="availability-title" tabindex="-1">¿Cuándo se publicaron los avisos?</h1>
-            <p>Elegí un alcance y un servicio para localizar los reportes en el calendario. Un día sin avisos en esta
-              muestra no demuestra que el servicio funcionó sin fallas.</p>
-          </header>
-          <div class="metric-grid three" aria-label="Resumen del alcance seleccionado">
-            <div class="metric"><span class="metric-name">Incidentes publicados</span><strong
-                id="availability-count"></strong><span id="availability-scope-label"></span></div>
-            <div class="metric"><span class="metric-name">Suma de intervalos publicados</span><strong
-                id="availability-duration"></strong><span>Puede contar tiempos superpuestos; no es tiempo total de
-                caída</span></div>
-            <div class="metric"><span class="metric-name">Días con reportes</span><strong
-                id="availability-days"></strong><span>En la ventana de 21 días</span></div>
-          </div>
-          <div class="panel-grid balanced">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Incidentes por día</h2>
-                <p>Noviembre de 2026 · Tocá una fecha para ver sus reportes.</p>
-              </header>
-              <div class="controls" style="margin-top: .8rem">
-                <label>Alcance
-                  <select id="availability-scope">
-                    <option value="ar">Argentina (MLA)</option>
-                    <option value="all">Todos los sitios</option>
-                    <option value="unspecified">Sin país indicado</option>
-                    <option value="other">Otros países</option>
-                    <option value="sample">Muestra completa</option>
-                  </select>
-                </label>
-                <label>Servicio<select id="availability-service">
-                    <option value="">Todos los servicios</option>
-                  </select></label>
-              </div>
-              <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
-              <div class="calendar-footer">
-                <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank"
-                    rel="noopener">Mercado Pago Status</a></p>
-                <button class="button" id="availability-reset-day" type="button" hidden>Ver todo el período</button>
-              </div>
-            </article>
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Registro de incidentes</h2>
-                <p id="incident-list-label" aria-live="polite"></p>
-              </header>
-              <div class="incident-list" id="incident-list"></div>
-            </article>
-          </div>
-          <aside class="note">
-            <strong>Cómo interpretar los tiempos</strong>
-            <p>El reloj empieza con el aviso público y termina con la resolución informada, en hora argentina. Las
-              ventanas pueden superponerse. Calcular la disponibilidad real requeriría medir el tiempo operativo de cada
-              servicio.</p>
-          </aside>
-        </section>
-
-        <section class="view" id="criticidad" aria-labelledby="criticality-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
-            <h1 id="criticality-title" tabindex="-1">¿Cuánto pasó hasta la resolución?</h1>
-            <p>Compará cuántas veces se reportaron fallas en cada servicio y cuánto tardaron en darse por resueltas.</p>
-          </header>
-          <div class="panel-grid">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Comparación por servicio</h2>
-                <p>Seleccioná una barra para ver el detalle de ese servicio.</p>
-              </header>
-              <div class="controls" style="margin-top: .8rem">
-                <label>Alcance
-                  <select id="criticality-scope">
-                    <option value="ar">Argentina (MLA)</option>
-                    <option value="all">Todos los sitios</option>
-                    <option value="sample">Muestra completa</option>
-                  </select>
-                </label>
-                <div class="segment" id="criticality-mode" aria-label="Métrica del gráfico">
-                  <button type="button" data-mode="median" aria-pressed="true">Mediana</button>
-                  <button type="button" data-mode="count" aria-pressed="false">Cantidad</button>
-                </div>
-              </div>
-              <div class="bars" id="criticality-bars"></div>
-              <p class="source"><span id="criticality-chart-description"></span> <a
-                  href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado
-                  Pago Status</a></p>
-            </article>
-            <article class="panel detail-panel" id="criticality-detail" aria-live="polite"></article>
-          </div>
-          <aside class="note">
-            <strong>Impacto reportado por la plataforma</strong>
-            <p>Las categorías mayor y menor corresponden a la clasificación de Mercado Pago. Sus reportes describen qué
-              servicio falló y dejan sin cuantificar el alcance en personas o transacciones afectadas.</p>
-          </aside>
-        </section>
-
-        <section class="view" id="impacto" aria-labelledby="impact-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Argentina · BCRA</span>
-            <h1 id="impact-title" tabindex="-1">¿Qué está en juego cuando falla un pago?</h1>
-            <p>Estos datos dimensionan el uso del sistema argentino. No cuantifican el impacto de los incidentes de
-              Mercado Pago.</p>
-          </header>
-          <div class="metric-grid three" aria-label="Dinero en cuentas de pago y viajes con QR">
-            <div class="metric"><span class="metric-name">Cuentas de pago con saldo</span><strong>16,1
-                <small>M</small></strong><span>De 70,1 millones de cuentas · ago. 2026</span></div>
-            <div class="metric"><span class="metric-name">Saldo en cuentas de pago</span><strong>$900.000
-                <small>M</small></strong><span>Pesos argentinos · ago. 2026</span></div>
-            <div class="metric"><span class="metric-name">Viajes pagados con QR</span><strong>26,9
-                <small>M</small></strong><span>Colectivos y subte · sep. 2026</span></div>
-          </div>
-          <div class="panel-grid balanced">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Pagos con transferencia vía QR</h2>
-                <p>Septiembre de 2026 · QR interoperable en Argentina</p>
-              </header>
-              <div class="impact-value" aria-live="polite">
-                <strong id="qr-value">≈ 2.843</strong>
-                <span id="qr-unit">pagos por minuto en promedio</span>
-              </div>
-              <div class="segment" id="qr-period" aria-label="Unidad de tiempo">
-                <button type="button" data-period="month" aria-pressed="false">Mes</button>
-                <button type="button" data-period="day" aria-pressed="false">Día</button>
-                <button type="button" data-period="hour" aria-pressed="false">Hora</button>
-                <button type="button" data-period="minute" aria-pressed="true">Minuto</button>
-                <button type="button" data-period="second" aria-pressed="false">Segundo</button>
-              </div>
-              <p class="source" style="margin-top: .75rem">Base: 122,8 millones de pagos en septiembre, divididos por 30
-                días, 24 horas, 60 minutos y 60 segundos según la unidad. Es un promedio uniforme: no mide demanda por
-                horario ni pagos afectados por fallas. <a
-                  href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
-                  target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
-            </article>
-            <article class="panel detail-panel">
-              <header class="panel-header">
-                <h2>Cómo circulan los pagos QR</h2>
-                <p>De los 122,8 millones de pagos QR interoperables de septiembre de 2026, ¿desde qué cuenta se pagó y
-                  en cuál se cobró?</p>
-              </header>
-              <div class="accounts-chart">
-                <strong>Desde dónde se paga</strong>
-                <div class="stack" aria-label="Cuenta de origen">
-                  <button type="button" style="--amount:52.8%;--segment-color:#4776d6" data-account="origin-cbu"
-                    aria-label="52,8 % de pagos desde cuentas bancarias"></button>
-                  <button type="button" style="--amount:47.2%;--segment-color:#0b8578" data-account="origin-cvu"
-                    aria-label="47,2 % de pagos desde cuentas de pago"></button>
-                </div>
-                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 52,8 %</span><span><i
-                      class="swatch" style="--swatch:#0b8578"></i>CVU 47,2 %</span></div>
-              </div>
-              <div class="accounts-chart">
-                <strong>Dónde cobra el comercio</strong>
-                <div class="stack" aria-label="Cuenta de destino">
-                  <button type="button" style="--amount:45.3%;--segment-color:#4776d6" data-account="destination-cbu"
-                    aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
-                  <button type="button" style="--amount:54.7%;--segment-color:#0b8578" data-account="destination-cvu"
-                    aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
-                </div>
-                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 45,3 %</span><span><i
-                      class="swatch" style="--swatch:#0b8578"></i>CVU 54,7 %</span></div>
-              </div>
-              <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas
-                de pago de los comercios (CVU).</p>
-            </article>
-          </div>
-          <article class="panel story-card">
-            <div>
-              <p class="kicker">Caso documentado · Argentina</p>
-              <h2>Problemas para pagar o cobrar con Mercado Pago</h2>
-              <p class="small">El 7 de mayo de 2026 hubo reportes de demoras y fallas en operaciones de la billetera.
-              </p>
-            </div>
-            <a class="button"
-              href="https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html"
-              target="_blank" rel="noopener">Leer en La Gaceta</a>
-          </article>
-        </section>
-
-        <section class="view" id="uso-digital" aria-labelledby="usage-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Argentina · BCRA</span>
-            <h1 id="usage-title" tabindex="-1">¿Cuánto usamos los pagos digitales?</h1>
-            <p>El uso frecuente de pagos electrónicos muestra cuánto dependemos de estos sistemas para operar día a día.
-            </p>
-          </header>
-          <div class="metric-grid" aria-label="Alcance en la población argentina">
-            <div class="metric"><span class="metric-name">Personas con cuentas</span><strong>38,1
-                <small>M</small></strong><span>Junio de 2026</span></div>
-            <div class="metric"><span class="metric-name">Tenencia simultánea</span><strong>76,5
-                <small>%</small></strong><span>Titulares con cuenta bancaria y de pago</span></div>
-            <div class="metric"><span class="metric-name">Acceso digital bancario</span><strong>7 <small>de</small>
-                10</strong><span>Con usuario habilitado para canales electrónicos</span></div>
-            <div class="metric"><span class="metric-name">Nuevos usuarios</span><strong>Más de 2
-                <small>M</small></strong><span>En pagos electrónicos frente al primer semestre de 2025</span></div>
-          </div>
-          <div class="panel-grid">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Pagos electrónicos y retiros de efectivo</h2>
-                <p>Operaciones mensuales por adulto · Primer semestre de cada año</p>
-              </header>
-              <div class="chart" id="usage-trend"></div>
-              <p class="source">Fuente · <a
-                  href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
-                  target="_blank" rel="noopener">BCRA, Inclusión Financiera</a></p>
-            </article>
-            <article class="panel detail-panel">
-              <header class="panel-header">
-                <h2>Un ecosistema interconectado</h2>
-                <p>Pagos Minoristas · septiembre de 2026</p>
-              </header>
-              <dl class="stat-list">
-                <div>
-                  <dt>Billeteras digitales interoperables registradas</dt>
-                  <dd>93</dd>
-                </div>
-                <div>
-                  <dt>Aceptadores de pagos con transferencia</dt>
-                  <dd>67</dd>
-                </div>
-                <div>
-                  <dt>Transferencias inmediatas de envío en pesos con CVU de origen o destino</dt>
-                  <dd>75 %</dd>
-                </div>
-                <div>
-                  <dt>Pagos con transferencia interoperables en pesos iniciados con QR</dt>
-                  <dd>99,1 %</dd>
-                </div>
-              </dl>
-              <p class="source"><a
-                  href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
-                  target="_blank" rel="noopener">Consultar el informe del BCRA</a></p>
-            </article>
-          </div>
+      <div class="story-data" id="disponibilidad" tabindex="-1">
+        <header class="story-heading">
+          <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
+          <h2>¿Cuándo se publicaron los avisos?</h2>
+          <p>Elegí un alcance y un servicio para localizar los reportes en el calendario. Un día sin avisos en esta
+            muestra no demuestra que el servicio funcionó sin fallas.</p>
+        </header>
+        <div class="metric-grid three" aria-label="Resumen del alcance seleccionado">
+          <div class="metric"><span class="metric-name">Incidentes publicados</span><strong
+              id="availability-count"></strong><span id="availability-scope-label"></span></div>
+          <div class="metric"><span class="metric-name">Suma de intervalos publicados</span><strong
+              id="availability-duration"></strong><span>Puede contar tiempos superpuestos; no es tiempo total de
+              caída</span></div>
+          <div class="metric"><span class="metric-name">Días con reportes</span><strong
+              id="availability-days"></strong><span>En la ventana de 21 días</span></div>
+        </div>
+        <div class="panel-grid balanced">
           <article class="panel">
             <header class="panel-header">
-              <h2>Operaciones por medio de pago</h2>
-              <p>Argentina · Comparación de volúmenes y crecimiento interanual</p>
+              <h3>Incidentes por día</h3>
+              <p>Noviembre de 2026 · Tocá una fecha para ver sus reportes.</p>
             </header>
-            <div class="controls" style="margin-top: .75rem">
-              <div class="segment" id="volume-mode" aria-label="Métrica del gráfico">
-                <button type="button" data-mode="amount" aria-pressed="true">Cantidad mensual</button>
-                <button type="button" data-mode="growth" aria-pressed="false">Variación interanual</button>
+            <div class="controls" style="margin-top: .8rem">
+              <label>Alcance
+                <select id="availability-scope">
+                  <option value="ar">Argentina (MLA)</option>
+                  <option value="all">Todos los sitios</option>
+                  <option value="unspecified">Sin país indicado</option>
+                  <option value="other">Otros países</option>
+                  <option value="sample">Muestra completa</option>
+                </select>
+              </label>
+              <label>Servicio<select id="availability-service">
+                  <option value="">Todos los servicios</option>
+                </select></label>
+            </div>
+            <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
+            <div class="calendar-footer">
+              <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank"
+                  rel="noopener">Mercado Pago Status</a></p>
+              <button class="button" id="availability-reset-day" type="button" hidden>Ver todo el período</button>
+            </div>
+          </article>
+          <article class="panel">
+            <header class="panel-header">
+              <h3>Registro de incidentes</h3>
+              <p id="incident-list-label" aria-live="polite"></p>
+            </header>
+            <div class="incident-list" id="incident-list"></div>
+          </article>
+        </div>
+        <aside class="note">
+          <strong>Cómo interpretar los tiempos</strong>
+          <p>El reloj empieza con el aviso público y termina con la resolución informada, en hora argentina. Las
+            ventanas pueden superponerse. Calcular la disponibilidad real requeriría medir el tiempo operativo de cada
+            servicio.</p>
+        </aside>
+      </div>
+
+      <div class="story-data" id="criticidad" tabindex="-1">
+        <header class="story-heading">
+          <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
+          <h2>¿Cuánto pasó hasta la resolución?</h2>
+          <p>Compará cuántas veces se reportaron fallas en cada servicio y cuánto tardaron en darse por resueltas.</p>
+        </header>
+        <div class="panel-grid">
+          <article class="panel">
+            <header class="panel-header">
+              <h3>Comparación por servicio</h3>
+              <p>Seleccioná una barra para ver el detalle de ese servicio.</p>
+            </header>
+            <div class="controls" style="margin-top: .8rem">
+              <label>Alcance
+                <select id="criticality-scope">
+                  <option value="ar">Argentina (MLA)</option>
+                  <option value="all">Todos los sitios</option>
+                  <option value="sample">Muestra completa</option>
+                </select>
+              </label>
+              <div class="segment" id="criticality-mode" aria-label="Métrica del gráfico">
+                <button type="button" data-mode="median" aria-pressed="true">Mediana</button>
+                <button type="button" data-mode="count" aria-pressed="false">Cantidad</button>
               </div>
             </div>
-            <div class="bars" id="volume-bars"></div>
-            <p class="chart-value" id="volume-detail" aria-live="polite"></p>
-            <p class="source">Los datos de débito, crédito, prepaga y cajeros corresponden a agosto. Los demás
-              corresponden a septiembre de 2026. <a
+            <div class="bars" id="criticality-bars"></div>
+            <p class="source"><span id="criticality-chart-description"></span> <a
+                href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado
+                Pago Status</a></p>
+          </article>
+          <article class="panel detail-panel" id="criticality-detail" aria-live="polite"></article>
+        </div>
+        <aside class="note">
+          <strong>Impacto reportado por la plataforma</strong>
+          <p>Las categorías mayor y menor corresponden a la clasificación de Mercado Pago. Sus reportes describen qué
+            servicio falló y dejan sin cuantificar el alcance en personas o transacciones afectadas.</p>
+        </aside>
+      </div>
+
+      <div class="story-data" id="uso-digital" tabindex="-1">
+        <div class="story-block">
+          <h2 id="story-context" tabindex="-1">Pagamos digitalmente <span class="highlight-number">5,7 veces</span> lo
+            que pagábamos en 2019.</h2>
+          <p class="small">Operaciones mensuales por adulto · Elegí un año para comparar.</p>
+          <div class="panel"><div class="chart" id="overview-trend"></div></div>
+          <p class="source">Argentina · Primer semestre de cada año · <a
+              href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
+              target="_blank" rel="noopener">BCRA, Inclusión Financiera</a>.</p>
+          <details>
+            <summary>Qué compara el gráfico</summary>
+            <p>Promedios mensuales por adulto: 5,8 pagos electrónicos en 2019 y 32,8 en 2026 (32,8 / 5,8 ≈ 5,7). El
+              eje horizontal muestra años; el vertical, operaciones desde cero. La leyenda permite aislar cada serie.
+            </p>
+            <p>Las extracciones bajan de 2,9 a 1,3. Esto no mide compras en efectivo ni su abandono. Los promedios
+              describen a la población, no a cada persona.</p>
+            <p>El BCRA mide todo el sistema argentino; los avisos son de Mercado Pago. Multiplicar operaciones por
+              minuto por la duración de un aviso no permite estimar pagos afectados.</p>
+          </details>
+        </div>
+        <div class="metric-grid" aria-label="Alcance en la población argentina">
+          <div class="metric"><span class="metric-name">Personas con cuentas</span><strong>38,1
+              <small>M</small></strong><span>Junio de 2026</span></div>
+          <div class="metric"><span class="metric-name">Tenencia simultánea</span><strong>76,5
+              <small>%</small></strong><span>Titulares con cuenta bancaria y de pago</span></div>
+          <div class="metric"><span class="metric-name">Acceso digital bancario</span><strong>7 <small>de</small>
+              10</strong><span>Con usuario habilitado para canales electrónicos</span></div>
+          <div class="metric"><span class="metric-name">Nuevos usuarios</span><strong>Más de 2
+              <small>M</small></strong><span>En pagos electrónicos frente al primer semestre de 2025</span></div>
+        </div>
+        <article class="panel detail-panel">
+          <header class="panel-header">
+            <h3>Un ecosistema interconectado</h3>
+            <p>Pagos Minoristas · septiembre de 2026</p>
+          </header>
+          <dl class="stat-list">
+            <div>
+              <dt>Billeteras digitales interoperables registradas</dt>
+              <dd>93</dd>
+            </div>
+            <div>
+              <dt>Aceptadores de pagos con transferencia</dt>
+              <dd>67</dd>
+            </div>
+            <div>
+              <dt>Transferencias inmediatas de envío en pesos con CVU de origen o destino</dt>
+              <dd>75 %</dd>
+            </div>
+            <div>
+              <dt>Pagos con transferencia interoperables en pesos iniciados con QR</dt>
+              <dd>99,1 %</dd>
+            </div>
+          </dl>
+          <p class="source"><a
+              href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
+              target="_blank" rel="noopener">Consultar el informe del BCRA</a></p>
+        </article>
+        <article class="panel">
+          <header class="panel-header">
+            <h3>Operaciones por medio de pago</h3>
+            <p>Argentina · Comparación de volúmenes y crecimiento interanual</p>
+          </header>
+          <div class="controls" style="margin-top: .75rem">
+            <div class="segment" id="volume-mode" aria-label="Métrica del gráfico">
+              <button type="button" data-mode="amount" aria-pressed="true">Cantidad mensual</button>
+              <button type="button" data-mode="growth" aria-pressed="false">Variación interanual</button>
+            </div>
+          </div>
+          <div class="bars" id="volume-bars"></div>
+          <p class="chart-value" id="volume-detail" aria-live="polite"></p>
+          <p class="source">Los datos de débito, crédito, prepaga y cajeros corresponden a agosto. Los demás
+            corresponden a septiembre de 2026. <a
+              href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
+              target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
+        </article>
+      </div>
+
+      <div class="story-data" id="impacto" tabindex="-1">
+        <header class="story-heading">
+          <span class="kicker">Argentina · BCRA</span>
+          <h2>¿Qué está en juego cuando falla un pago?</h2>
+          <p>Estos datos dimensionan el uso del sistema argentino. No cuantifican el impacto de los incidentes de
+            Mercado Pago.</p>
+        </header>
+        <div class="metric-grid three" aria-label="Dinero en cuentas de pago y viajes con QR">
+          <div class="metric"><span class="metric-name">Cuentas de pago con saldo</span><strong>16,1
+              <small>M</small></strong><span>De 70,1 millones de cuentas · ago. 2026</span></div>
+          <div class="metric"><span class="metric-name">Saldo en cuentas de pago</span><strong>$900.000
+              <small>M</small></strong><span>Pesos argentinos · ago. 2026</span></div>
+          <div class="metric"><span class="metric-name">Viajes pagados con QR</span><strong>26,9
+              <small>M</small></strong><span>Colectivos y subte · sep. 2026</span></div>
+        </div>
+        <div class="panel-grid balanced">
+          <article class="panel">
+            <header class="panel-header">
+              <h3>Pagos con transferencia vía QR</h3>
+              <p>Septiembre de 2026 · QR interoperable en Argentina</p>
+            </header>
+            <div class="impact-value" aria-live="polite">
+              <strong id="qr-value">≈ 2.843</strong>
+              <span id="qr-unit">pagos por minuto en promedio</span>
+            </div>
+            <div class="segment" id="qr-period" aria-label="Unidad de tiempo">
+              <button type="button" data-period="month" aria-pressed="false">Mes</button>
+              <button type="button" data-period="day" aria-pressed="false">Día</button>
+              <button type="button" data-period="hour" aria-pressed="false">Hora</button>
+              <button type="button" data-period="minute" aria-pressed="true">Minuto</button>
+              <button type="button" data-period="second" aria-pressed="false">Segundo</button>
+            </div>
+            <p class="source" style="margin-top: .75rem">Base: 122,8 millones de pagos en septiembre, divididos por 30
+              días, 24 horas, 60 minutos y 60 segundos según la unidad. Es un promedio uniforme: no mide demanda por
+              horario ni pagos afectados por fallas. <a
                 href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
                 target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
           </article>
-        </section>
-
-        <section class="view" id="situacion-mundial" aria-labelledby="world-title" hidden>
-          <header class="page-heading">
-            <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span>
-              casos documentados</span>
-            <h1 id="world-title" tabindex="-1">¿Dónde más se documentaron problemas?</h1>
-            <p>Una selección de casos para leer sus consecuencias. No es un censo de fallas ni permite comparar la
-              confiabilidad de países o bancos.</p>
-          </header>
-          <div class="panel-grid world-layout">
-            <article class="globe-panel">
-              <header class="globe-head">
-                <div>
-                  <h2>Ubicá los casos documentados</h2>
-                  <p id="globe-instructions">Cada punto localiza un país con casos en la selección; su tamaño no indica
-                    cantidad ni gravedad. Arrastrá o usá las flechas y elegí un punto para leer.</p>
-                </div>
-                <button class="button" type="button" id="globe-reset">Centrar</button>
-              </header>
-              <div class="globe-stage" id="globe-stage" tabindex="0" role="group"
-                aria-label="Globo terráqueo interactivo" aria-describedby="globe-instructions">
-                <canvas id="main-globe" aria-hidden="true"></canvas>
-                <div class="markers" id="globe-markers"></div>
+          <article class="panel detail-panel">
+            <header class="panel-header">
+              <h3>Cómo circulan los pagos QR</h3>
+              <p>De los 122,8 millones de pagos QR interoperables de septiembre de 2026, ¿desde qué cuenta se pagó y
+                en cuál se cobró?</p>
+            </header>
+            <div class="accounts-chart">
+              <strong>Desde dónde se paga</strong>
+              <div class="stack" aria-label="Cuenta de origen">
+                <button type="button" style="--amount:52.8%;--segment-color:#4776d6" data-account="origin-cbu"
+                  aria-label="52,8 % de pagos desde cuentas bancarias"></button>
+                <button type="button" style="--amount:47.2%;--segment-color:#0b8578" data-account="origin-cvu"
+                  aria-label="47,2 % de pagos desde cuentas de pago"></button>
               </div>
-              <div class="map-case" id="map-case" tabindex="0" aria-live="off" aria-label="Caso destacado. El recorrido se pausa mientras leés esta placa.">
-                <p>Casos documentados alrededor del mundo.</p>
+              <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 52,8 %</span><span><i
+                    class="swatch" style="--swatch:#0b8578"></i>CVU 47,2 %</span></div>
+            </div>
+            <div class="accounts-chart">
+              <strong>Dónde cobra el comercio</strong>
+              <div class="stack" aria-label="Cuenta de destino">
+                <button type="button" style="--amount:45.3%;--segment-color:#4776d6" data-account="destination-cbu"
+                  aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
+                <button type="button" style="--amount:54.7%;--segment-color:#0b8578" data-account="destination-cvu"
+                  aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
               </div>
-            </article>
-            <article class="panel world-catalog">
-              <header class="panel-header">
-                <h2>Noticias e informes</h2>
-                <p>Elegí un caso para leer su resumen en el globo.</p>
-              </header>
-              <div class="filter-grid">
-                <label>País<select id="country-filter">
-                    <option value="">Todos los países</option>
-                  </select></label>
-                <label>Tipo de incidente<select id="type-filter">
-                    <option value="">Todos los tipos</option>
-                  </select></label>
-              </div>
-              <div class="filter-info">
-                <p class="small" id="world-result-count" aria-live="polite"></p>
-                <button class="button" id="reset-filters" type="button">Limpiar filtros</button>
-              </div>
-              <div class="table-scroll" tabindex="0" aria-label="Tabla de casos filtrados">
-                <table>
-                  <thead>
-                    <tr>
-                      <th scope="col">País y fecha</th>
-                      <th scope="col">Incidente</th>
-                    </tr>
-                  </thead>
-                  <tbody id="world-rows"></tbody>
-                </table>
-              </div>
-              <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a
-                  href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural
-                  Earth</a>.</p>
-            </article>
+              <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 45,3 %</span><span><i
+                    class="swatch" style="--swatch:#0b8578"></i>CVU 54,7 %</span></div>
+            </div>
+            <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas
+              de pago de los comercios (CVU).</p>
+          </article>
+        </div>
+        <article class="panel story-card">
+          <div>
+            <p class="kicker">Caso documentado · Argentina</p>
+            <h3>Problemas para pagar o cobrar con Mercado Pago</h3>
+            <p class="small">El 7 de mayo de 2026 hubo reportes de demoras y fallas en operaciones de la billetera.
+            </p>
           </div>
-        </section>
-      </main>
-    </div>
-  </div>
+          <a class="button"
+            href="https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html"
+            target="_blank" rel="noopener">Leer en La Gaceta</a>
+        </article>
+      </div>
 
+      <div class="story-ending story-block">
+        <p class="kicker">Ahora sí: la calidad del software</p>
+        <h2 id="story-quality" tabindex="-1">Tu dinero necesita un sistema que responda.</h2>
+        <p>Eso es <strong>disponibilidad</strong>: poder usar el sistema cuando lo necesitás.</p>
+        <p class="story-takeaway">La calidad también se juega en la caja.</p>
+        <p class="source">Parte de la confiabilidad en <a href="https://www.iso.org/standard/78176.html"
+            target="_blank" rel="noopener">ISO/IEC 25010:2023</a>. Explicación simplificada.</p>
+      </div>
+    </div>
+
+    <section class="view" id="situacion-mundial" aria-labelledby="world-title" hidden>
+      <header class="page-heading">
+        <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span>
+          casos documentados</span>
+        <h1 id="world-title" tabindex="-1">Casos en otros países</h1>
+        <p>Una selección de casos para leer sus consecuencias. No es un censo de fallas ni permite comparar la
+          confiabilidad de países o bancos.</p>
+      </header>
+      <div class="panel-grid world-layout">
+        <article class="globe-panel">
+          <header class="globe-head">
+            <div>
+              <h2>Ubicá los casos documentados</h2>
+              <p id="globe-instructions">Cada punto localiza un país con casos en la selección; su tamaño no indica
+                cantidad ni gravedad. Arrastrá o usá las flechas y elegí un punto para leer.</p>
+            </div>
+            <button class="button" type="button" id="globe-reset">Centrar</button>
+          </header>
+          <div class="globe-stage" id="globe-stage" tabindex="0" role="group"
+            aria-label="Globo terráqueo interactivo" aria-describedby="globe-instructions">
+            <canvas id="main-globe" aria-hidden="true"></canvas>
+            <div class="markers" id="globe-markers"></div>
+          </div>
+          <div class="map-case" id="map-case" tabindex="0" aria-live="off" aria-label="Caso destacado. El recorrido se pausa mientras leés esta placa.">
+            <p>Casos documentados alrededor del mundo.</p>
+          </div>
+        </article>
+        <article class="panel world-catalog">
+          <header class="panel-header">
+            <h2>Noticias e informes</h2>
+            <p>Elegí un caso para leer su resumen en el globo.</p>
+          </header>
+          <div class="filter-grid">
+            <label>País<select id="country-filter">
+                <option value="">Todos los países</option>
+              </select></label>
+            <label>Tipo de incidente<select id="type-filter">
+                <option value="">Todos los tipos</option>
+              </select></label>
+          </div>
+          <div class="filter-info">
+            <p class="small" id="world-result-count" aria-live="polite"></p>
+            <button class="button" id="reset-filters" type="button">Limpiar filtros</button>
+          </div>
+          <div class="table-scroll" tabindex="0" aria-label="Tabla de casos filtrados">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">País y fecha</th>
+                  <th scope="col">Incidente</th>
+                </tr>
+              </thead>
+              <tbody id="world-rows"></tbody>
+            </table>
+          </div>
+          <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a
+              href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural
+              Earth</a>.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
   <noscript>
-    <p class="note">Activá JavaScript en el navegador para usar los gráficos, las pestañas y el globo.</p>
+    <p class="note">Activá JavaScript en el navegador para usar los gráficos y abrir los casos en otros países.</p>
   </noscript>
 
   <script type="application/json" id="incident-data">
@@ -2395,51 +2151,41 @@
       return scope === "sample" ? incidents : incidents.filter((record) => record.scope === scope);
     }
 
-    const sections = {
-      "vista-general": "La historia",
-      disponibilidad: "¿Cuándo pasó?",
-      criticidad: "¿Cuánto duró?",
-      impacto: "¿Qué está en juego?",
-      "uso-digital": "¿Cuánto los usamos?",
-      "situacion-mundial": "Casos en otros países"
-    };
-    const nav = document.querySelector(".sidebar nav");
+    const storyView = byId("vista-general");
+    const worldView = byId("situacion-mundial");
+    const worldShortcut = byId("world-shortcut");
+    const worldShortcutLabel = byId("world-shortcut-label");
 
-    function showSection(focusHeading = false) {
-      const fragment = location.hash.slice(1);
-      if (fragment === "contenido" && focusHeading) return;
-      const active = Object.hasOwn(sections, fragment) ? fragment : "vista-general";
-      for (const id of Object.keys(sections)) byId(id).hidden = id !== active;
-      const selectedLink = nav.querySelector(`a[href="#${active}"]`);
-      nav.querySelectorAll("a").forEach((link) => {
-        if (link === selectedLink) link.setAttribute("aria-current", "page");
-        else link.removeAttribute("aria-current");
-      });
-      byId("current-view").textContent = sections[active];
-      const world = active === "situacion-mundial";
-      byId("area-title").textContent = world ? "Internacional" : "Argentina";
-      byId("context-flag").hidden = world;
-      document.title = `${sections[active]} | Data4Quality`;
-      requestAnimationFrame(() => {
-        const bounds = nav.getBoundingClientRect();
-        const current = selectedLink.getBoundingClientRect();
-        if (current.left < bounds.left) nav.scrollLeft += current.left - bounds.left - 3;
-        if (current.right > bounds.right) nav.scrollLeft += current.right - bounds.right + 3;
-        if (focusHeading) {
-          window.scrollTo({ top: 0, behavior: "instant" });
-          byId(active).querySelector("h1").focus({ preventScroll: true });
-        }
-      });
+    function syncView(navigating = false) {
+      const worldOpen = location.hash === "#situacion-mundial" || location.hash === "#mundo";
+      const changed = worldView.hidden === worldOpen;
+      storyView.hidden = worldOpen;
+      worldView.hidden = !worldOpen;
+
+      worldShortcut.href = worldOpen ? "#vista-general" : "#situacion-mundial";
+      worldShortcut.setAttribute("aria-label", worldOpen ? "Volver a la historia" : "Casos en otros países");
+      worldShortcut.toggleAttribute("data-world-open", worldOpen);
+      worldShortcutLabel.textContent = worldOpen ? "Volver" : "Casos";
+      document.title = worldOpen ? "Casos en otros países | Data4Quality" : "Data4Quality | Pagos digitales y disponibilidad";
+
+      if (!navigating || !changed) return;
+
+      const anchor = byId(location.hash.slice(1));
+      const atStoryAnchor = !worldOpen && anchor !== storyView && storyView.contains(anchor);
+      const target = atStoryAnchor ? anchor : byId(worldOpen ? "world-title" : "overview-title");
+      target.focus({ preventScroll: true });
+      if (atStoryAnchor) target.scrollIntoView({ block: "start", behavior: "instant" });
+      else window.scrollTo({ top: 0, behavior: "instant" });
+
+      if (worldOpen && !reducedMotion.matches) {
+        worldView.animate(
+          [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "none" }],
+          { duration: 320, easing: "cubic-bezier(.2, .7, .25, 1)" }
+        );
+      }
     }
 
-    window.addEventListener("hashchange", () => showSection(true));
-    document.addEventListener("click", (event) => {
-      const link = event.target.closest("a[data-view]");
-      if (link?.hash === location.hash && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
-        event.preventDefault();
-        showSection(true);
-      }
-    });
+    window.addEventListener("hashchange", () => syncView(true));
 
     function canvasArea(canvas) {
       const width = canvas.clientWidth;
@@ -2622,7 +2368,6 @@
     }
 
     drawTrend(byId("overview-trend"));
-    drawTrend(byId("usage-trend"));
 
     const availabilityScope = byId("availability-scope");
     const availabilityService = byId("availability-service");
@@ -3222,12 +2967,7 @@
     });
     new ResizeObserver(scheduleGlobe).observe(globeStage);
     renderWorld();
-    showSection();
-    window.addEventListener("load", () => {
-      if (Object.hasOwn(sections, location.hash.slice(1))) {
-        requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "instant" }));
-      }
-    }, { once: true });
+    syncView();
   </script>
   <script src="story.js"></script>
   <script src="world-tour.js"></script>
