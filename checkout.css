@@ -115,6 +115,7 @@ body.gate-closed #vista-general .hero {
 
 /* El caso real, al costado del celular */
 .case-panel {
+  --beat: 1s;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
