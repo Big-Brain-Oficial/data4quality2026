@@ -48,6 +48,9 @@ body.gate-closed #vista-general .hero {
   padding: var(--space-4) max(var(--space-4), calc((100% - var(--max-story)) / 2));
 }
 
+/* Aire arriba al llegar con "Ver el dashboard". */
+.story-block:has(> #story-evidence) { padding-block-start: clamp(2.5rem, 10svh, 6rem); }
+
 /* Primera pantalla: la situación, con tiempo para leer cada línea */
 .scene {
   position: relative;
