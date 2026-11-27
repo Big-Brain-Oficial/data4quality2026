@@ -1,0 +1,343 @@
+/* Portada: situación, celular simulado, caso real y acceso al resto de la historia. */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Primero se ve solo el celular. Cuando el pago falla, se corre y aparece el caso real. */
+#vista-general .hero {
+  --phone-height: clamp(31rem, calc(100svh - 2.5rem), 46rem);
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: center;
+}
+
+.phone-stage { display: grid; justify-items: center; width: 100%; }
+
+.story-flow .gate-button {
+  flex-direction: column;
+  gap: .1rem;
+  padding: .85rem 1.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-on-inverse);
+  color: var(--color-brand-active);
+  font-size: var(--font-3);
+  box-shadow: 0 10px 30px rgb(0 0 0 / .3);
+  animation: gate-arrive .5s var(--ease-out) var(--delay, 0s) both, gate-pulse 2.2s ease-out calc(var(--delay, 0s) + .6s) 3;
+}
+
+.story-flow .gate-button small { font-size: var(--font-1); font-weight: var(--weight-medium); }
+.story-flow .gate-button:hover { background: var(--color-surface); transform: translateY(-2px); }
+
+/* Mientras está cerrada, la portada ocupa toda la pantalla. */
+body.gate-closed { padding-block-end: 0; }
+body.gate-closed .bottom-bar { display: none; }
+body.gate-closed main { max-width: none; padding: 0; }
+body.gate-closed #vista-general > :not(.scene, .hero) { display: none !important; }
+body.gate-closed .story-flow { max-width: none; grid-template-rows: auto; gap: 0; }
+body.gate-closed #vista-general .hero {
+  min-height: 100svh;
+  margin: 0;
+  border-radius: 0;
+  padding: var(--space-4) max(var(--space-4), calc((100% - var(--max-story)) / 2));
+}
+
+/* Primera pantalla: la situación, con tiempo para leer cada línea */
+.scene {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(.7rem, 2.6svh, 1.5rem);
+  min-height: 100svh;
+  padding: clamp(1rem, 3.5svh, 2rem) var(--space-4);
+  background:
+    radial-gradient(ellipse at 50% -10%, rgb(157 23 86 / .55), transparent 62%),
+    var(--gradient-inverse);
+  color: var(--color-on-inverse);
+  text-align: center;
+  --focus-ring: var(--color-focus-inverse);
+}
+
+.scene::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--pattern-dots) 0 0 / 16px 16px;
+  mask-image: radial-gradient(ellipse at center, transparent 35%, #000);
+}
+
+.scene > *,
+.scene-lines li { animation: scene-arrive .6s var(--ease-out) var(--delay, 0s) both; }
+
+.scene h1 {
+  max-width: 20ch;
+  font-size: clamp(2rem, min(1rem + 3.4vw, 8svh), 4rem);
+  font-weight: var(--weight-display);
+  letter-spacing: -.035em;
+  line-height: 1.12;
+  text-wrap: balance;
+  --delay: .3s;
+}
+
+.scene h1:focus { outline: none; }
+
+.scene .scene-lines {
+  display: grid;
+  gap: .6rem;
+  max-width: 48ch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(1.1rem, .9rem + .7vw, 1.45rem);
+  line-height: 1.45;
+  text-wrap: balance;
+  animation: none;
+}
+
+/* Todos los textos entran con la misma pausa. Para cambiar el ritmo, ajustar --beat.
+   Enter adelanta el siguiente (ver checkout.js). */
+.story-flow { --beat: 2s; }
+.scene-lines li:nth-child(1) { --delay: calc(.3s + var(--beat)); }
+.scene-lines li:nth-child(2) { --delay: calc(.3s + var(--beat) * 2); }
+.scene-lines li:nth-child(3) { --delay: calc(.3s + var(--beat) * 3); }
+.scene .scene-punch { max-width: 30ch; color: var(--color-accent-soft); font-size: clamp(1.45rem, 1rem + 1.6vw, 2.2rem); font-weight: var(--weight-display); letter-spacing: -.025em; line-height: 1.2; --delay: calc(.3s + var(--beat) * 4); }
+.intro .gate-button { --delay: calc(.3s + var(--beat) * 5); }
+
+/* El caso real, al costado del celular */
+.case-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(.55rem, 1.8svh, 1rem);
+  max-width: 38rem;
+  scroll-margin-block-start: 1rem;
+  text-align: left;
+}
+
+.case-panel > * { animation: scene-arrive .8s var(--ease-out) var(--delay, 0s) both; }
+.hero .case-panel .kicker { color: var(--color-accent-soft); --delay: .6s; }
+
+.hero .case-panel h1 {
+  margin: 0;
+  color: var(--color-accent-soft);
+  font-size: clamp(1.9rem, min(1rem + 2.2vw, 7svh), 3.25rem);
+  --delay: .6s;
+}
+
+.case-panel h1:focus { outline: none; }
+.case-story { font-size: clamp(1rem, .9rem + .25vw, 1.1rem); line-height: 1.5; --delay: calc(.6s + var(--beat)); }
+.case-story + .case-story { --delay: calc(.6s + var(--beat) * 2); }
+.case-quote { margin: 0; font-size: clamp(1.2rem, 1rem + .7vw, 1.6rem); font-weight: var(--weight-bold); letter-spacing: -.02em; line-height: 1.25; --delay: calc(.6s + var(--beat) * 3); }
+.case-context { color: var(--color-muted-inverse); font-size: .95rem; line-height: 1.5; --delay: calc(.6s + var(--beat) * 4); }
+.case-panel .gate-button { --delay: calc(.6s + var(--beat) * 5); }
+.case-source { color: var(--color-muted-inverse); font-size: var(--font-1); line-height: 1.45; --delay: calc(.6s + var(--beat) * 5); }
+.case-source a { color: var(--color-muted-inverse); }
+
+/* Celular */
+.phone {
+  position: relative;
+  height: var(--phone-height);
+  width: min(100%, calc(var(--phone-height) * .5));
+  padding: .55rem;
+  border-radius: 3rem;
+  background: #170b12;
+  box-shadow: 0 0 0 2px #7a566a, 0 0 0 5px #24121c, 0 34px 70px rgb(0 0 0 / .48);
+  text-align: left;
+  --focus-ring: var(--color-focus);
+}
+
+.phone::before,
+.phone::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: #4d3342;
+}
+
+.phone::before { left: -8px; top: 22%; height: 13%; }
+.phone::after { right: -8px; top: 27%; height: 9%; }
+
+.phone[data-state="failed"] { animation: phone-shake .5s linear; }
+
+.phone-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2.5rem;
+  background: var(--color-base);
+  color: var(--color-ink);
+}
+
+.phone-status {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: .6rem 1.3rem .35rem;
+  font-size: .75rem;
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.phone-island { width: 5.2rem; height: 1.45rem; border-radius: 999px; background: #000; }
+.phone-status svg { justify-self: end; width: 3.3rem; height: .8rem; fill: currentColor; }
+
+.phone[data-state="failed"] .phone-screen { background: var(--color-surface); }
+
+.phone-homebar { flex: none; align-self: center; width: 7rem; height: .3rem; margin-block: .45rem; border-radius: 999px; background: currentColor; opacity: .85; }
+
+.app-screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: .6rem;
+  min-height: 0;
+  overflow: auto;
+  padding: .55rem 1rem .4rem;
+  animation: screen-arrive .32s var(--ease-out) both;
+}
+
+.app-screen:focus { outline: none; }
+.app-title { font-size: 1.1rem; font-weight: var(--weight-bold); letter-spacing: -.02em; }
+
+.app-header { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.app-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--color-tint);
+  color: var(--color-brand);
+  font-size: .8rem;
+  font-weight: var(--weight-bold);
+}
+
+.app-balance {
+  display: grid;
+  gap: .2rem;
+  padding: 1.1rem 1rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-inverse-raised));
+  color: #fff;
+}
+
+.app-balance span { font-size: .8rem; opacity: .85; }
+.app-balance strong { font-size: 1.9rem; letter-spacing: -.04em; line-height: 1.15; font-variant-numeric: tabular-nums; }
+
+.app-primary,
+.app-secondary {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 3.1rem;
+  padding: .5rem 1rem;
+  border: 1px solid var(--color-brand);
+  border-radius: 999px;
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  font-size: .95rem;
+  font-weight: var(--weight-bold);
+  transition: transform var(--motion-quick) var(--ease-out), background-color var(--motion-quick);
+}
+
+.app-primary:hover { background: var(--color-brand-hover); }
+.app-primary:active, .app-secondary:active { transform: scale(.97); }
+.app-secondary { border-color: transparent; background: transparent; color: var(--color-brand); }
+.app-secondary:hover { background: var(--color-hover); }
+
+.phone[data-state="home"] .app-primary { animation: tap-hint 1.8s ease-out 1s 4; }
+
+.app-list { display: grid; margin: 0; padding: 0 .85rem; border-radius: 1rem; background: var(--color-surface); list-style: none; font-size: .82rem; }
+.app-list li { display: flex; justify-content: space-between; gap: .6rem; padding-block: .55rem; font-variant-numeric: tabular-nums; }
+.app-list li + li { border-top: 1px solid var(--color-line); }
+.app-list li b { white-space: nowrap; }
+.app-list .income { color: var(--color-success); }
+.app-label { color: var(--color-muted); font-size: .76rem; font-weight: var(--weight-semibold); }
+
+.app-back { align-self: start; min-height: var(--target-min); padding: 0 .3rem; border: 0; background: none; color: inherit; font-size: .85rem; font-weight: var(--weight-semibold); }
+
+/* Confirmación */
+.merchant { display: grid; justify-items: center; gap: .15rem; text-align: center; }
+.merchant .app-avatar { width: 3rem; height: 3rem; }
+.amount { font-size: 2.6rem; font-weight: var(--weight-display); letter-spacing: -.05em; line-height: 1.15; text-align: center; font-variant-numeric: tabular-nums; }
+.app-screen .push { margin-top: auto; }
+
+/* Espera y error */
+.app-center { justify-content: center; align-items: center; text-align: center; }
+.app-spinner {
+  width: 4.5rem;
+  height: 4.5rem;
+  flex: none;
+  border: 6px solid var(--color-tint);
+  border-top-color: var(--color-brand);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+.pending-time { color: var(--color-muted); font-size: 2rem; font-weight: var(--weight-bold); font-variant-numeric: tabular-nums; }
+.app-note { color: var(--color-muted); font-size: .83rem; line-height: 1.45; }
+
+.error-mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: var(--color-danger);
+  color: #fff;
+  box-shadow: 0 0 0 .8rem var(--color-danger-bg);
+  animation: error-pop .45s var(--ease-out) both;
+}
+
+.error-mark svg { width: 2.8rem; height: 2.8rem; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; }
+.error-title { margin-top: .8rem; color: var(--color-danger); font-size: 1.45rem; font-weight: var(--weight-display); letter-spacing: -.03em; }
+.error-balance { display: grid; gap: .15rem; width: 100%; padding: .8rem; border-radius: 1rem; background: var(--color-base); }
+.error-balance strong { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.app-center .app-primary, .app-center .app-secondary { width: 100%; }
+.app-center .error-mark { margin-top: auto; }
+
+/* Con el resto abierto, el caso ya fue leído: no se vuelve a animar al regresar. */
+body:not(.gate-closed) .case-panel > * { animation: none; }
+
+/* Con el resto abierto, la portada deja lugar al menú inferior. */
+body:not(.gate-closed) #vista-general .hero { --phone-height: clamp(32rem, calc(100svh - 14rem), 40rem); }
+
+@media (min-width: 761px) {
+  #vista-general .hero.revealed {
+    grid-template-columns: calc(var(--phone-height) * .5) minmax(0, 36rem);
+    justify-content: center;
+    justify-items: start;
+    align-items: center;
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+}
+
+@media (max-width: 760px) {
+  #vista-general .hero { row-gap: var(--space-8); }
+  .case-panel { align-items: center; text-align: center; }
+}
+
+@keyframes scene-arrive { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes screen-arrive { from { opacity: .3; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes phone-shake { 20%, 60% { transform: translateX(-9px); } 40%, 80% { transform: translateX(9px); } }
+@keyframes error-pop { from { transform: scale(.4); } 70% { transform: scale(1.12); } to { transform: scale(1); } }
+@keyframes tap-hint { from { box-shadow: 0 0 0 0 rgb(157 23 86 / .5); } 70%, to { box-shadow: 0 0 0 .8rem rgb(157 23 86 / 0); } }
+@keyframes gate-arrive { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes gate-pulse { from { outline: 0 solid rgb(245 182 209 / .7); } to { outline: 1rem solid rgb(245 182 209 / 0); } }

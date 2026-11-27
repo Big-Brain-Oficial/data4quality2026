@@ -111,27 +111,6 @@
   updateClock();
   select(point[0] ?? rows[0], false);
 
-  const scene = byId("payment-scene");
-  const payButton = byId("try-payment");
-  const paymentStatus = byId("payment-status");
-  const paymentMessage = byId("payment-message");
-  payButton.addEventListener("click", () => {
-    if (scene.dataset.state === "pending") return;
-    scene.dataset.state = "pending";
-    paymentStatus.textContent = "Procesando el pago…";
-    paymentMessage.textContent = "Esperando respuesta del sistema.";
-    payButton.setAttribute("aria-disabled", "true");
-    const finish = () => {
-      scene.dataset.state = "failed";
-      paymentStatus.textContent = "Algo salió mal";
-      paymentMessage.textContent = "El sistema no respondió a tiempo.";
-      payButton.textContent = "Volver a probar";
-      payButton.removeAttribute("aria-disabled");
-    };
-    if (reducedMotion.matches) finish();
-    else setTimeout(finish, 1000);
-  });
-
   if ("IntersectionObserver" in window) {
     const storyBlocks = document.querySelectorAll("#vista-general > :is(.hero, .story-block, .story-data)");
     const reveal = new IntersectionObserver(entries => {

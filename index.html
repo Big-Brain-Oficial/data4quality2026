@@ -310,13 +310,6 @@
       color: var(--color-accent-soft);
     }
 
-    .hero-copy > p:last-child {
-      max-width: 68ch;
-      color: var(--color-muted-inverse);
-      font-size: var(--font-2);
-      line-height: 1.55;
-    }
-
     .hero-figure {
       position: relative;
       display: grid;
@@ -1387,6 +1380,7 @@
     }
   </style>
   <link rel="stylesheet" href="story.css">
+  <link rel="stylesheet" href="checkout.css">
 </head>
 
 <body>
@@ -1443,45 +1437,104 @@
 
   <main id="contenido" tabindex="-1">
     <div class="view story-flow" id="vista-general">
+      <div class="scene intro" id="intro">
+        <h1 id="intro-title" tabindex="-1">Tenés 39 años y hoy te mudás.</h1>
+        <ul class="scene-lines">
+          <li>Ya vendiste tu casa.</li>
+          <li>Todas tus cosas están en un camión de mudanza.</li>
+          <li>Estás en la puerta de la casa nueva, con tu pareja y tus dos hijas de 1 y 7 años.</li>
+        </ul>
+        <p class="scene-punch">Solo falta que salga el pago.</p>
+        <button class="button gate-button" id="start-sim" type="button">Hacer el pago<small>Abrir mi banco →</small></button>
+      </div>
+
       <div class="hero">
-        <div class="hero-copy">
-          <p class="kicker">Una historia sobre tu próximo pago</p>
-          <h1 id="overview-title" tabindex="-1">Tenés dinero. Pero…<br><span>¿podés usarlo?</span></h1>
-          <p>Estás en la caja. Tenés saldo.<br>Pero el pago no sale.</p>
-        </div>
-        <div class="scene-receipt" id="payment-scene" data-state="ready" role="group"
-          aria-label="Simulación ilustrativa de un pago">
-          <div class="payment-header">
-            <span class="payment-terminal" aria-hidden="true">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
-                <rect width="20" height="14" x="2" y="5" rx="2" />
-                <line x1="2" x2="22" y1="10" y2="10" />
-              </svg>
-            </span>
-            <div>
-              <p class="payment-label">Pago en caja</p>
-              <p class="payment-context">Simulación</p>
-            </div>
-          </div>
-          <div class="payment-stage">
-            <div class="payment-visual" aria-hidden="true">
-              <span class="payment-ready-mark">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="m9 12 2 2 4-4" />
+        <div class="phone-stage">
+          <div class="phone" id="payment-scene" data-state="home" role="group"
+            aria-label="Simulación ilustrativa de un pago con el celular">
+            <div class="phone-screen">
+              <div class="phone-status" aria-hidden="true">
+                <span id="phone-clock"></span>
+                <span class="phone-island"></span>
+                <svg viewBox="0 0 66 16">
+                  <path d="M0 12h3v4H0zM5 9h3v7H5zM10 5h3v11h-3zM15 1h3v15h-3z" />
+                  <path d="M33 15l-3-3.600a4.700 4.700 0 0 1 6 0zM25.500 7.500a11.500 11.500 0 0 1 15 0l-1.900 2.300a8.500 8.500 0 0 0-11.200 0z" />
+                  <path d="M46 3h15a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H46a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM64 6h2v4h-2z" />
                 </svg>
-              </span>
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon payment-spinner">
-                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-              </svg>
-              <img class="payment-error-art" src="pago-interrumpido.png" alt="" width="116" height="77">
-            </div>
-            <div class="payment-announcement" role="status" aria-atomic="true">
-              <h2 id="payment-status">Todo listo para pagar</h2>
-              <p id="payment-message">Tenés saldo suficiente para este pago.</p>
+              </div>
+
+              <div class="app-screen" data-screen="home">
+                <div class="app-header">
+                  <p class="app-title">Mi banco</p>
+                  <span class="app-avatar" aria-hidden="true">VOS</span>
+                </div>
+                <div class="app-balance"><span>Dinero disponible</span><strong>£ 291.400</strong></div>
+                <button class="app-primary" type="button" data-action="review" data-focus>Pagar la casa nueva</button>
+                <p class="app-label">Últimos movimientos</p>
+                <ul class="app-list">
+                  <li><span>Venta de tu casa</span><b class="income">+ £ 270.000</b></li>
+                  <li><span>Camión de mudanza</span><b>− £ 900</b></li>
+                  <li><span>Cajas y cinta</span><b>− £ 40</b></li>
+                </ul>
+              </div>
+
+              <div class="app-screen" data-screen="confirm" hidden>
+                <button class="app-back" type="button" data-action="home">‹ Cancelar</button>
+                <div class="merchant">
+                  <span class="app-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" class="ui-icon">
+                      <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                      <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    </svg></span>
+                  <p class="app-title">Dueño de la casa nueva</p>
+                </div>
+                <p class="amount">£ 285.000</p>
+                <ul class="app-list">
+                  <li><span>Concepto</span><b>Casa nueva</b></li>
+                  <li><span>Fecha límite</span><b>Hoy</b></li>                </ul>
+                <p class="app-note">Sale de tu dinero disponible: £&nbsp;291.400</p>
+                <button class="app-primary push" type="button" data-action="pay" data-focus>Transferir £ 285.000</button>
+              </div>
+
+              <div class="app-screen app-center" data-screen="pending" tabindex="-1" data-focus hidden>
+                <span class="app-spinner" aria-hidden="true"></span>
+                <p class="app-title">Enviando tu dinero</p>
+                <p class="app-note" id="pending-message"></p>
+                <p class="pending-time" id="pending-time" aria-hidden="true"></p>
+                <p class="app-note">No cierres la app.</p>
+              </div>
+
+              <div class="app-screen app-center" data-screen="failed" hidden>
+                <span class="error-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg></span>
+                <p class="error-title">No salió el pago</p>
+                <p class="app-note" id="failed-attempt"></p>
+                <div class="error-balance"><span class="app-label">Tu dinero no se movió</span><strong>£ 291.400</strong></div>
+                <button class="app-primary push" type="button" data-action="retry" data-focus>Reintentar</button>
+                <button class="app-secondary" type="button" data-action="home">Volver al inicio</button>
+              </div>
+
+              <span class="phone-homebar" aria-hidden="true"></span>
             </div>
           </div>
-          <button class="button payment-button" id="try-payment" type="button">Probar el pago</button>
+          <p class="sr-only" id="payment-announcer" role="status" aria-atomic="true"></p>
+        </div>
+
+        <div class="case-panel" id="case-panel" hidden>
+          <p class="kicker">Viernes 31 de enero de 2025 · Inglaterra</p>
+          <h1 id="overview-title" tabindex="-1">Esto pasó de verdad.</h1>
+          <p class="case-story">Paola Mereu, de 39 años, había vendido su casa. Con su esposo, sus dos hijas de 1 y 7
+            años y todas sus cosas en un camión de mudanza, esperaba frente a la casa nueva.</p>
+          <p class="case-story">A la 1 de la tarde llamó su abogado: el banco Barclays tenía problemas y la compra no se
+            podía completar. A las 5 seguía sin solución.</p>
+          <blockquote class="case-quote">«Estamos prácticamente sin casa».</blockquote>
+          <p class="case-context">La falla informática afectó a miles de clientes y recién terminó de resolverse el
+            domingo. El banco indicó que no fue un ciberataque.</p>
+          <button class="button gate-button" id="open-story" type="button">Ver el dashboard<small>¿Qué pasa en
+              Argentina? ↓</small></button>
+          <p class="case-source">Simulación simplificada de este caso, con montos ficticios. Fuentes: <a
+              href="https://propertyindustryeye.com/barclays-it-chaos-and-service-outage-left-a-family-homeless/"
+              target="_blank" rel="noopener">Property Industry Eye</a> y <a
+              href="https://www.thebci.org/news/lessons-from-barclays-it-incident.html" target="_blank"
+              rel="noopener">The BCI</a>, febrero de 2025.</p>
         </div>
       </div>
       <div class="story-block">
@@ -3039,6 +3092,7 @@
     renderWorld();
     syncView();
   </script>
+  <script src="checkout.js"></script>
   <script src="story.js"></script>
   <script src="world-tour.js"></script>
 </body>
