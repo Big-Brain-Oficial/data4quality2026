@@ -3,26 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description"
     content="Tenés dinero. Pero… ¿podés usarlo? Una historia interactiva sobre pagos cotidianos, incidentes documentados y calidad del software.">
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>Data4Quality | Pagos digitales y disponibilidad</title>
+  <link rel="stylesheet" href="brand.css">
   <style>
-    :root {
-      color-scheme: light;
-      font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
-      --ink: #14223b;
-      --muted: #52637d;
-      --paper: #fff;
-      --background: #f2f5fa;
-      --line: #dce4ef;
-      --navy: #111f3d;
-      --blue: #285ed0;
-      --radius: 20px;
-      --shadow: 0 7px 24px #15284608, 0 2px 5px #15284603;
-    }
-
     *,
     *::before,
     *::after {
@@ -36,8 +23,9 @@
     body {
       margin: 0;
       min-width: 300px;
-      background: var(--background);
-      color: var(--ink);
+      background: var(--color-base);
+      color: var(--color-ink);
+      line-height: 1.55;
     }
 
     h1,
@@ -54,8 +42,8 @@
     }
 
     a {
-      color: var(--blue);
-      text-underline-offset: 3px;
+      color: var(--color-brand);
+      text-underline-offset: .18em;
     }
 
     button,
@@ -68,7 +56,7 @@
     }
 
     :focus-visible {
-      outline: 3px solid #2283ee;
+      outline: 3px solid var(--focus-ring, var(--color-focus));
       outline-offset: 3px;
     }
 
@@ -78,7 +66,7 @@
       top: 10px;
       left: 10px;
       padding: .6rem 1rem;
-      background: white;
+      background: var(--color-surface);
       border-radius: 8px;
       clip-path: inset(50%);
     }
@@ -87,169 +75,11 @@
       clip-path: none;
     }
 
-    .shell {
-      display: grid;
-      grid-template-columns: 223px minmax(0, 1fr);
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 0;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      gap: 2.15rem;
-      padding: 1.55rem 1rem 1.25rem;
-      background: var(--navy);
-      color: #d8e3f5;
-    }
-
-    .brand {
-      display: flex;
-      gap: .68rem;
-      align-items: center;
-      padding: 0 .3rem;
-      text-decoration: none;
-      color: white;
-    }
-
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      flex: 0 0 37px;
-      height: 37px;
-      border-radius: 11px;
-      background: #77e6d6;
-      color: #122941;
-      font-size: 1.22rem;
-      line-height: 1;
-    }
-
-    .brand strong {
-      display: block;
-      font-size: 1.05rem;
-      letter-spacing: -.025em;
-    }
-
-    .brand small {
-      display: block;
-      margin-top: .18rem;
-      color: #aebfdb;
-      font-size: .8rem;
-    }
-
-    .sidebar nav {
-      display: grid;
-      gap: .25rem;
-    }
-
-    .sidebar nav a {
-      display: flex;
-      align-items: center;
-      gap: .65rem;
-      padding: .72rem .62rem;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      color: #c5d3e8;
-      font-size: .91rem;
-      font-weight: 550;
-      letter-spacing: -.01em;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .sidebar nav a:hover {
-      background: #ffffff0b;
-      color: white;
-    }
-
-    .sidebar nav a[aria-current] {
-      background: #24395f;
-      border-color: #314b74;
-      color: #fff;
-    }
-
-    .sidebar nav a[aria-current] .nav-icon {
-      color: #86eadb;
-    }
-
-    .sidebar nav a:last-child {
-      margin-top: .55rem;
-    }
-
-    .nav-icon {
-      display: inline-grid;
-      place-items: center;
-      width: 1.26rem;
-      flex: none;
-      color: #a4b9d8;
-      font-size: 1.14rem;
-      line-height: 1;
-    }
-
-    .sidebar-foot {
-      display: grid;
-      gap: .3rem;
-      margin-top: auto;
-      padding: 1rem .3rem 0;
-      border-top: 1px solid #ffffff23;
-      color: #b0c0da;
-      font-size: .8rem;
-    }
-
-    .sidebar-foot strong {
-      color: #ecf4ff;
-      font-size: .85rem;
-    }
-
-    .workspace {
-      min-width: 0;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: .75rem;
-      min-height: 65px;
-      padding: .64rem clamp(1rem, 2.8vw, 2.25rem);
-      border-bottom: 1px solid var(--line);
-      background: #fcfdff;
-    }
-
-    .trail {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: .3rem .7rem;
-      color: var(--muted);
-      font-size: .88rem;
-    }
-
-    .trail strong {
-      color: var(--ink);
-    }
-
-    .trail-separator {
-      color: #8596ae;
-    }
-
-    .flag {
-      display: inline-block;
-      width: 19px;
-      height: 13px;
-      border: 1px solid #b2d5ef;
-      border-radius: 3px;
-      background: radial-gradient(circle, #f3b43e 0 1.4px, transparent 1.8px),
-        linear-gradient(#82bfea 33.3%, #fff 33.3% 66.6%, #82bfea 66.6%);
-    }
-
     main {
       width: 100%;
-      max-width: 1560px;
+      max-width: var(--max-data);
       margin: 0 auto;
-      padding: clamp(1.1rem, 2.6vw, 2rem) clamp(1rem, 2.8vw, 2.25rem) 2rem;
+      padding: var(--content-top-padding) clamp(var(--space-4), 3vw, var(--space-8)) var(--space-8);
     }
 
     .view {
@@ -264,19 +94,20 @@
     }
 
     .page-heading h1 {
-      font-size: clamp(2rem, 3.25vw, 3.05rem);
-      letter-spacing: -.055em;
+      font-size: clamp(var(--font-5), 3.25vw, var(--font-7));
+      font-weight: var(--weight-display);
+      letter-spacing: -.03em;
     }
 
     .page-heading p {
-      max-width: 60ch;
-      font-size: 1.03rem;
-      line-height: 1.5;
-      color: var(--muted);
+      max-width: 68ch;
+      font-size: var(--font-2);
+      line-height: 1.55;
+      color: var(--color-muted);
     }
 
     .kicker {
-      color: var(--blue);
+      color: var(--color-brand);
       font-size: .79rem;
       font-weight: 750;
       letter-spacing: .08em;
@@ -284,15 +115,15 @@
     }
 
     .small {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .875rem;
       line-height: 1.55;
     }
 
     .source {
-      color: var(--muted);
-      font-size: .81rem;
-      line-height: 1.55;
+      color: var(--color-muted);
+      font-size: var(--font-1);
+      line-height: 1.45;
     }
 
     .source a {
@@ -301,11 +132,11 @@
 
     .panel {
       min-width: 0;
-      padding: clamp(1.05rem, 1.9vw, 1.55rem);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-      box-shadow: var(--shadow);
+      padding: clamp(var(--space-4), 1.9vw, var(--space-6));
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-panel);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-panel);
     }
 
     .panel-header {
@@ -313,22 +144,25 @@
       gap: .35rem;
     }
 
-    .panel-header h2,
-    .panel h2 {
-      font-size: 1.27rem;
-      letter-spacing: -.025em;
+    .panel-header :is(h2, h3),
+    .panel :is(h2, h3) {
+      font-size: var(--font-3);
+      line-height: 1.25;
+      letter-spacing: -.03em;
     }
 
+    .panel-header h2 { font-size: var(--font-4); line-height: 1.2; }
+
     .panel-header p {
-      font-size: .9rem;
-      color: var(--muted);
+      font-size: var(--font-2);
+      color: var(--color-muted);
       line-height: 1.45;
     }
 
     .panel-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
-      gap: 1.2rem;
+      gap: var(--space-5);
     }
 
     .balanced {
@@ -339,32 +173,33 @@
       display: flex;
       align-items: end;
       flex-wrap: wrap;
-      gap: .65rem;
+      gap: var(--space-3);
     }
 
     .controls label,
     .filter-grid label {
       display: grid;
       gap: .35rem;
-      color: var(--ink);
-      font-size: .875rem;
-      font-weight: 650;
+      color: var(--color-ink);
+      font-size: var(--font-2);
+      font-weight: var(--weight-semibold);
     }
 
     select {
       width: 100%;
+      min-width: 0;
       appearance: none;
       padding: .58rem 2.15rem .58rem .7rem;
-      border: 1px solid #c5d2e4;
-      border-radius: 9px;
-      background-color: #fff;
-      background-image: linear-gradient(45deg, transparent 50%, #516581 50%), linear-gradient(135deg, #516581 50%, transparent 50%);
+      border: 1px solid var(--color-control-line);
+      border-radius: var(--radius-control);
+      background-color: var(--color-surface);
+      background-image: linear-gradient(45deg, transparent 50%, var(--color-muted) 50%), linear-gradient(135deg, var(--color-muted) 50%, transparent 50%);
       background-position: right 15px center, right 10px center;
       background-size: 5px 5px;
       background-repeat: no-repeat;
-      color: var(--ink);
+      color: var(--color-ink);
       font-weight: 500;
-      min-height: 40px;
+      min-height: var(--target-min);
     }
 
     .button,
@@ -373,24 +208,25 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: .4rem;
-      min-height: 38px;
-      padding: .4rem .74rem;
-      border: 1px solid #c9d6e7;
-      border-radius: 9px;
-      background: white;
-      color: var(--ink);
-      font-size: .875rem;
-      font-weight: 650;
+      gap: var(--space-2);
+      min-height: var(--target-min);
+      min-width: var(--target-min);
+      padding: .4rem var(--space-3);
+      border: 1px solid var(--color-control-line);
+      border-radius: var(--radius-control);
+      background: var(--color-surface);
+      color: var(--color-ink);
+      font-size: var(--font-2);
+      font-weight: var(--weight-semibold);
       text-decoration: none;
-      line-height: 1.3;
+      line-height: 1.25;
     }
 
     .button:hover,
     .segment button:hover,
     .legend-toggle:hover {
-      border-color: #7197dc;
-      background: #edf4ff;
+      border-color: var(--color-control-line);
+      background: var(--color-hover);
     }
 
     .segment {
@@ -398,40 +234,37 @@
       flex-wrap: wrap;
       gap: .26rem;
       padding: .22rem;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      background: #f2f6fc;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-control);
+      background: var(--color-base);
     }
 
     .segment button {
-      min-height: 33px;
-      border-color: transparent;
-      background: transparent;
-      color: var(--muted);
+      color: var(--color-muted);
     }
 
     .segment button[aria-pressed="true"] {
-      border-color: #c9d9f3;
-      background: white;
-      color: #234fa5;
-      box-shadow: 0 1px 4px #234fa516;
+      border-color: var(--color-brand);
+      background: var(--color-tint);
+      color: var(--color-brand);
+      box-shadow: 0 1px 4px rgb(157 23 86 / .08);
     }
 
     .note {
       display: grid;
       gap: .28rem;
       padding: .95rem 1rem;
-      border: 1px solid #d4e3fa;
-      border-left: 4px solid #6a98e6;
+      border: 1px solid var(--color-line);
+      border-left: 4px solid var(--color-accent);
       border-radius: 10px;
-      background: #eaf2ff;
-      color: #30466c;
+      background: var(--color-tint);
+      color: var(--color-muted);
       font-size: .9rem;
       line-height: 1.55;
     }
 
     .note strong {
-      color: #21385e;
+      color: var(--color-ink);
     }
 
     .hero {
@@ -444,11 +277,12 @@
       gap: 1rem;
       min-height: 262px;
       padding: clamp(1.35rem, 3.1vw, 2.6rem);
-      border-radius: 23px;
+      border-radius: var(--radius-hero);
       background:
-        radial-gradient(ellipse at 94% -5%, #226c84 0, transparent 50%),
-        linear-gradient(116deg, #15234a 6%, #152c5b 56%, #163c62 100%);
-      color: #fff;
+        radial-gradient(ellipse at 94% -5%, rgb(157 23 86 / .34), transparent 54%),
+        var(--gradient-inverse);
+      color: var(--color-on-inverse);
+      --focus-ring: var(--color-focus-inverse);
     }
 
     .hero::before {
@@ -456,31 +290,24 @@
       position: absolute;
       z-index: -1;
       inset: 0 0 0 49%;
-      background: radial-gradient(#9dcaeb3c 1px, transparent 1.3px) 0 0/13px 13px;
+      background: var(--pattern-dots) 0 0/16px 16px;
       mask-image: linear-gradient(90deg, transparent, #000);
     }
 
     .hero .kicker {
-      color: #91eade;
+      color: var(--color-accent-soft);
     }
 
     .hero h1 {
       margin: .55rem 0 .7rem;
-      font-size: clamp(2rem, 4.05vw, 3.7rem);
-      font-weight: 720;
-      letter-spacing: -.065em;
-      line-height: 1.04;
+      font-size: clamp(var(--font-5), 1.45rem + 2.15vw, var(--font-7));
+      font-weight: var(--weight-display);
+      letter-spacing: -.03em;
+      line-height: 1.1;
     }
 
     .hero h1 span {
-      color: #a0eee4;
-    }
-
-    .hero p:last-child {
-      max-width: 53ch;
-      color: #e0eafa;
-      font-size: clamp(.96rem, 1.2vw, 1.08rem);
-      line-height: 1.5;
+      color: var(--color-accent-soft);
     }
 
     .hero-figure {
@@ -491,29 +318,29 @@
       width: min(100%, 219px);
       aspect-ratio: 1;
       padding: .8rem;
-      border: 1px solid #b1fff775;
+      border: 1px solid rgb(245 182 209 / .46);
       border-radius: 50%;
-      background: radial-gradient(circle, #143758 24%, #175e73bb 100%);
-      color: #fff;
+      background: var(--gradient-inverse);
+      color: var(--color-surface);
       text-align: center;
       text-decoration: none;
-      box-shadow: 0 0 0 12px #92efe417, 0 0 0 26px #92efe40b, 0 0 55px #68d9e34d;
+      box-shadow: 0 0 0 12px rgb(245 182 209 / .09), 0 0 0 26px rgb(245 182 209 / .04), 0 0 55px rgb(245 182 209 / .30);
     }
 
     .hero-figure::before {
       content: "";
       position: absolute;
       inset: 8px;
-      border: 1px dashed #c1fff46a;
+      border: 1px dashed rgb(245 182 209 / .42);
       border-radius: inherit;
     }
 
     .hero-figure:hover {
-      background: radial-gradient(circle, #1b4667 24%, #1e7083 100%);
+      background: var(--color-inverse-raised);
     }
 
     .hero-figure strong {
-      color: #a0f3e6;
+      color: var(--color-accent-soft);
       font-size: clamp(2rem, 3.6vw, 3.1rem);
       line-height: 1;
       letter-spacing: -.06em;
@@ -528,7 +355,7 @@
 
     .hero-figure small {
       margin-top: .3rem;
-      color: #badeec;
+      color: var(--color-muted-inverse);
       font-size: .78rem;
     }
 
@@ -548,12 +375,12 @@
       gap: .32rem;
       min-width: 0;
       padding: .95rem 1rem .98rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 16px;
-      background: white;
-      color: var(--ink);
+      background: var(--color-surface);
+      color: var(--color-ink);
       text-decoration: none;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-panel);
     }
 
     a.metric {
@@ -561,15 +388,15 @@
     }
 
     a.metric:hover {
-      border-color: #91afe9;
-      box-shadow: 0 8px 20px #285ed018;
+      border-color: var(--color-control-line);
+      box-shadow: 0 8px 20px rgb(157 23 86 / .09);
     }
 
     .metric-name {
       display: flex;
       align-items: center;
       gap: .46rem;
-      color: #344969;
+      color: var(--color-muted);
       font-size: .89rem;
       font-weight: 700;
     }
@@ -581,25 +408,25 @@
       height: 29px;
       flex: none;
       border-radius: 8px;
-      background: #e8f0ff;
-      color: #2355b7;
+      background: var(--color-tint);
+      color: var(--color-brand);
       font-size: 1.1rem;
       line-height: 1;
     }
 
     .metric-icon.violet {
-      background: #f1eafa;
-      color: #6939a8;
+      background: color-mix(in srgb, var(--data-violet) 10%, var(--color-surface));
+      color: var(--data-violet);
     }
 
     .metric-icon.mint {
-      background: #e0f5ef;
-      color: #06796a;
+      background: var(--color-success-bg);
+      color: var(--color-success);
     }
 
     .metric-icon.sand {
-      background: #fff0e4;
-      color: #9b4c22;
+      background: var(--color-warning-bg);
+      color: var(--color-warning);
     }
 
     .metric strong {
@@ -615,13 +442,13 @@
     }
 
     .metric>span:not(.metric-name) {
-      color: #354764;
+      color: var(--color-muted);
       font-size: .88rem;
       line-height: 1.35;
     }
 
     .metric>small {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .78rem;
       line-height: 1.38;
     }
@@ -633,16 +460,16 @@
       display: grid;
       align-content: end;
       gap: .55rem;
-      border-radius: var(--radius);
+      border-radius: var(--radius-panel);
       padding: 1.25rem;
       min-height: 296px;
-      background: radial-gradient(ellipse at 92% 18%, #236178 0, #173751 47%, #122542 85%);
-      color: white;
+      background: var(--gradient-inverse);
+      color: var(--color-surface);
       text-decoration: none;
     }
 
     .world-preview:hover {
-      box-shadow: inset 0 0 0 2px #9de9e6ae;
+      box-shadow: inset 0 0 0 2px rgb(245 182 209 / .68);
     }
 
     .world-preview canvas {
@@ -656,7 +483,7 @@
     }
 
     .world-preview .kicker {
-      color: #9ef4e6;
+      color: var(--color-accent-soft);
     }
 
     .world-preview h2 {
@@ -666,7 +493,7 @@
 
     .world-preview p {
       max-width: 28ch;
-      color: #deedfb;
+      color: var(--color-muted-inverse);
       line-height: 1.45;
       font-size: .95rem;
     }
@@ -675,7 +502,7 @@
       font-size: 2.5rem;
       line-height: 1;
       letter-spacing: -.06em;
-      color: #9ef4e6;
+      color: var(--color-accent-soft);
     }
 
     .world-preview .world-total small {
@@ -696,16 +523,14 @@
     }
 
     .legend-toggle {
-      min-height: 30px;
       justify-content: flex-start;
       gap: .42rem;
       padding: .35rem .48rem;
-      font-size: .83rem;
     }
 
     .legend-toggle[aria-pressed="false"] {
-      color: var(--muted);
-      background: #f1f4f9;
+      color: var(--color-on-disabled);
+      background: var(--color-disabled);
       text-decoration: line-through;
     }
 
@@ -715,7 +540,7 @@
       width: 9px;
       height: 9px;
       border-radius: 3px;
-      background: var(--swatch, #326bd9);
+      background: var(--swatch, var(--color-brand));
     }
 
     .trend-plot {
@@ -754,11 +579,11 @@
       width: max-content;
       max-width: 66%;
       padding: .45rem .55rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 9px;
-      background: #fffffffa;
-      color: var(--ink);
-      box-shadow: 0 3px 10px #182b4e1a;
+      background: var(--color-surface);
+      color: var(--color-ink);
+      box-shadow: 0 3px 10px rgb(57 23 45 / .10);
       pointer-events: none;
       font-size: .79rem;
       line-height: 1.35;
@@ -766,7 +591,7 @@
 
     .chart-value {
       margin: .22rem 0 .55rem;
-      color: #31496e;
+      color: var(--color-muted);
       font-size: .86rem;
       font-variant-numeric: tabular-nums;
       line-height: 1.45;
@@ -780,7 +605,7 @@
     }
 
     .dow {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .81rem;
       font-weight: 650;
       text-align: center;
@@ -793,30 +618,32 @@
       gap: .3rem;
       min-height: 61px;
       padding: .38rem .35rem;
-      border: 1px solid #dbe4f0;
-      border-radius: 9px;
-      background: #f7f9fd;
-      color: var(--ink);
+      border: 1px solid var(--color-control-line);
+      border-radius: var(--radius-control);
+      background: var(--color-base);
+      color: var(--color-ink);
       text-align: left;
       font-size: .84rem;
       font-variant-numeric: tabular-nums;
     }
 
     .calendar button[data-count="some"] {
-      background: #e7efff;
-      border-color: #b9cef3;
-      color: #163e8c;
+      background: var(--color-tint);
+      border-color: var(--color-control-line);
+      color: var(--color-brand);
     }
 
     .calendar button[aria-pressed="true"] {
-      border-color: #3c6cca;
-      background: #2c5fca;
-      color: white;
+      border-color: var(--color-brand);
+      background: var(--color-brand);
+      color: var(--color-on-brand);
     }
 
     .calendar button:hover {
-      border-color: #7197dc;
+      border-color: var(--color-brand);
     }
+
+    .calendar button:not([aria-pressed="true"]):hover { background: var(--color-hover); }
 
     .calendar-amount {
       justify-self: end;
@@ -827,7 +654,7 @@
     }
 
     .calendar button[data-count="zero"]:not([aria-pressed="true"]) .calendar-amount {
-      color: #687891;
+      color: var(--color-muted);
       font-weight: 500;
     }
 
@@ -851,21 +678,21 @@
     .incident-row {
       display: grid;
       gap: .28rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 11px;
       padding: .65rem .7rem;
-      color: var(--ink);
+      color: var(--color-ink);
       text-decoration: none;
       font-size: .88rem;
     }
 
     .incident-row:hover {
-      border-color: #9ab9ec;
-      background: #f4f8ff;
+      border-color: var(--color-control-line);
+      background: var(--color-hover);
     }
 
     .incident-date {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .81rem;
     }
 
@@ -878,7 +705,7 @@
     }
 
     .incident-title b:last-child {
-      color: #244b99;
+      color: var(--color-brand);
       white-space: nowrap;
     }
 
@@ -888,7 +715,7 @@
       width: 100%;
       overflow: hidden;
       border-radius: 8px;
-      background: #e7edf7;
+      background: var(--data-track);
     }
 
     .fill {
@@ -897,7 +724,7 @@
       min-width: 2px;
       width: var(--amount);
       border-radius: 8px;
-      background: var(--bar, #4d7ce0);
+      background: var(--bar, var(--color-brand));
     }
 
     .bars {
@@ -910,22 +737,23 @@
       display: grid;
       gap: .42rem;
       width: 100%;
+      min-height: var(--target-min);
       border: 1px solid transparent;
-      border-radius: 11px;
+      border-radius: var(--radius-control);
       background: transparent;
-      color: var(--ink);
+      color: var(--color-ink);
       padding: .45rem .55rem;
       text-align: left;
       font-size: .9rem;
     }
 
     .bar-row:hover {
-      background: #f2f6fe;
+      background: var(--color-hover);
     }
 
     .bar-row[aria-pressed="true"] {
-      background: #eef4ff;
-      border-color: #c9daf6;
+      background: var(--color-tint);
+      border-color: var(--color-brand);
     }
 
     .bar-label {
@@ -936,7 +764,7 @@
     }
 
     .bar-label strong {
-      color: #28497f;
+      color: var(--color-brand);
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
@@ -954,7 +782,7 @@
     .detail-panel hr {
       width: 100%;
       border: 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--color-line);
       margin: .15rem 0;
     }
 
@@ -970,7 +798,7 @@
       justify-content: space-between;
       gap: .55rem;
       padding-bottom: .52rem;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--color-line);
     }
 
     .stat-list div:last-child {
@@ -979,7 +807,7 @@
     }
 
     .stat-list dt {
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .88rem;
       line-height: 1.4;
     }
@@ -987,7 +815,7 @@
     .stat-list dd {
       margin: 0;
       text-align: right;
-      color: var(--ink);
+      color: var(--color-ink);
       font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
@@ -997,7 +825,7 @@
       height: 13px;
       overflow: hidden;
       border-radius: 8px;
-      background: #e5edf7;
+      background: var(--data-track);
     }
 
     .stack span {
@@ -1005,12 +833,14 @@
       background: var(--segment-color);
     }
 
+    .stack > :not(:last-child) { border-inline-end: 1px solid var(--color-surface); }
+
     .stack-key {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: .4rem .7rem;
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .84rem;
       line-height: 1.35;
     }
@@ -1026,10 +856,10 @@
       gap: .28rem;
       margin: .92rem 0;
       padding: 1rem;
-      border: 1px solid #cde9e5;
+      border: 1px solid color-mix(in srgb, var(--color-success) 20%, var(--color-surface));
       border-radius: 14px;
-      background: #eaf8f4;
-      color: #15564f;
+      background: var(--color-success-bg);
+      color: var(--color-success);
     }
 
     .impact-value strong {
@@ -1050,20 +880,22 @@
     }
 
     .accounts-chart .stack {
-      height: 23px;
+      height: var(--target-min);
       margin-top: .25rem;
     }
 
     .stack button {
       width: var(--amount);
-      border: 0;
+      border-block: 0;
+      border-inline-start: 0;
+      border-inline-end-width: 0;
       padding: 0;
       background: var(--segment-color);
     }
 
     .stack button:hover,
     .stack button:focus-visible {
-      box-shadow: inset 0 0 0 3px #ffffff;
+      box-shadow: inset 0 0 0 3px var(--color-surface);
       outline: none;
     }
 
@@ -1084,7 +916,7 @@
       position: relative;
       height: 12px;
       border-radius: 8px;
-      background: #e7edf7;
+      background: var(--data-track);
     }
 
     .signed-bar::after {
@@ -1092,7 +924,7 @@
       position: absolute;
       inset: 0 auto 0 var(--zero);
       width: 1px;
-      background: #627596;
+      background: var(--color-icon);
     }
 
     .signed-bar .fill {
@@ -1109,11 +941,12 @@
     .globe-panel {
       overflow: hidden;
       min-width: 0;
-      border: 1px solid #263d5c;
-      border-radius: var(--radius);
-      color: #f5fbff;
-      background: radial-gradient(ellipse at 60% 27%, #1a4261 0, #112741 55%, #102039 100%);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--color-inverse);
+      border-radius: var(--radius-panel);
+      color: var(--color-on-inverse);
+      background: var(--gradient-inverse);
+      --focus-ring: var(--color-focus-inverse);
+      box-shadow: var(--shadow-panel);
     }
 
     .globe-head {
@@ -1131,20 +964,20 @@
 
     .globe-head p {
       margin-top: .35rem;
-      color: #c5d7ec;
+      color: var(--color-muted-inverse);
       font-size: .86rem;
       line-height: 1.48;
     }
 
     .globe-head .button {
       flex: none;
-      background: #244663;
-      color: #e7f5ff;
-      border-color: #577999;
+      background: var(--color-inverse-raised);
+      color: var(--color-on-inverse);
+      border-color: var(--color-muted-inverse);
     }
 
     .globe-head .button:hover {
-      background: #305878;
+      background: var(--color-inverse-raised);
     }
 
     .globe-stage {
@@ -1186,7 +1019,7 @@
       border: 0;
       border-radius: 50%;
       background: transparent;
-      color: white;
+      color: var(--color-surface);
       pointer-events: auto;
     }
 
@@ -1195,19 +1028,19 @@
       display: block;
       width: 10px;
       height: 10px;
-      border: 1px solid #fff0cf;
+      border: 1px solid var(--color-on-inverse);
       border-radius: 50%;
-      background: #ffbe72;
-      box-shadow: 0 0 0 4px #ffc5743b, 0 0 14px #ffbb66bd;
+      background: var(--color-accent-soft);
+      box-shadow: 0 0 0 4px rgb(245 182 209 / .24), 0 0 14px rgb(245 182 209 / .59);
     }
 
     .marker:hover::before,
     .marker[aria-pressed="true"]::before {
       width: 13px;
       height: 13px;
-      background: #abf4e5;
-      border-color: #fff;
-      box-shadow: 0 0 0 5px #80ddcf50, 0 0 18px #80ddcfcf;
+      background: var(--color-on-inverse);
+      border-color: var(--color-surface);
+      box-shadow: 0 0 0 5px rgb(255 159 203 / .36), 0 0 18px rgb(255 159 203 / .75);
     }
 
     .marker span {
@@ -1217,10 +1050,10 @@
       left: 50%;
       transform: translateX(-50%);
       padding: .26rem .46rem;
-      border: 1px solid #77a6bb;
+      border: 1px solid var(--color-muted-inverse);
       border-radius: 7px;
-      background: #0e233c;
-      color: #fff;
+      background: var(--color-inverse);
+      color: var(--color-surface);
       white-space: nowrap;
       font-size: .81rem;
       pointer-events: none;
@@ -1229,7 +1062,6 @@
     .marker:hover,
     .marker:focus-visible {
       z-index: 2;
-      outline-color: #94fff1;
     }
 
     .marker:hover span,
@@ -1242,9 +1074,9 @@
       gap: .42rem;
       padding: .95rem 1rem;
       margin: 0 .95rem .95rem;
-      border: 1px solid #476781;
+      border: 1px solid var(--color-muted-inverse);
       border-radius: 13px;
-      background: #19344ee8;
+      background: var(--color-inverse-raised);
       font-size: .93rem;
       line-height: 1.48;
       scroll-margin-top: 7rem;
@@ -1255,18 +1087,18 @@
     }
 
     .map-case p {
-      color: #d8e7f7;
+      color: var(--color-muted-inverse);
     }
 
     .map-case a {
-      color: #97f1e3;
+      color: var(--color-muted-inverse);
       font-weight: 650;
       justify-self: start;
     }
 
     .map-case .case-meta {
       font-size: .81rem;
-      color: #a7d4e0;
+      color: var(--color-muted-inverse);
     }
 
     .world-catalog {
@@ -1290,13 +1122,13 @@
     }
 
     .filter-info .button {
-      min-height: 33px;
+      min-height: var(--target-min);
     }
 
     .table-scroll {
       max-height: 410px;
       overflow: auto;
-      border: 1px solid var(--line);
+      border: 1px solid var(--color-line);
       border-radius: 11px;
     }
 
@@ -1313,15 +1145,15 @@
       padding: .57rem .63rem;
       text-align: left;
       vertical-align: top;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--color-line);
     }
 
     th {
       position: sticky;
       top: 0;
       z-index: 1;
-      color: #344b6e;
-      background: #edf3fc;
+      color: var(--color-muted);
+      background: var(--color-tint);
       font-size: .83rem;
     }
 
@@ -1331,7 +1163,7 @@
 
     tr:hover td,
     tr.selected td {
-      background: #eef5ff;
+      background: var(--color-hover);
     }
 
     td:first-child {
@@ -1341,7 +1173,7 @@
     .cell-detail {
       display: block;
       margin-top: .28rem;
-      color: var(--muted);
+      color: var(--color-muted);
       font-size: .8rem;
     }
 
@@ -1349,7 +1181,8 @@
       border: 0;
       background: none;
       padding: 0;
-      color: #234e9e;
+      min-height: var(--target-min);
+      color: var(--color-brand);
       font-weight: 680;
       text-align: left;
       font-size: .9rem;
@@ -1370,15 +1203,15 @@
       width: min(650px, calc(100% - 2rem));
       max-height: calc(100dvh - 2rem);
       padding: 0;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: white;
-      color: var(--ink);
-      box-shadow: 0 18px 90px #0d1c4360;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-panel);
+      background: var(--color-surface);
+      color: var(--color-ink);
+      box-shadow: 0 18px 90px rgb(57 23 45 / .38);
     }
 
     dialog::backdrop {
-      background: #09152db0;
+      background: rgb(57 23 45 / .69);
     }
 
     .dialog-header {
@@ -1387,7 +1220,7 @@
       align-items: center;
       gap: 1rem;
       padding: 1rem 1.2rem;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--color-line);
     }
 
     .dialog-header h2 {
@@ -1398,7 +1231,7 @@
       display: grid;
       gap: .72rem;
       padding: 1rem 1.2rem 1.25rem;
-      color: #334561;
+      color: var(--color-muted);
       line-height: 1.55;
     }
 
@@ -1412,20 +1245,11 @@
     }
 
     .dialog-content h3 {
-      color: var(--ink);
+      color: var(--color-ink);
       font-size: 1rem;
     }
 
     @media (max-width: 1120px) {
-      .shell {
-        grid-template-columns: 190px minmax(0, 1fr);
-      }
-
-      .sidebar {
-        padding-left: .68rem;
-        padding-right: .68rem;
-      }
-
       .world-layout {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       }
@@ -1435,53 +1259,7 @@
       }
     }
 
-    @media (max-width: 920px) {
-      .shell {
-        display: block;
-      }
-
-      .sidebar {
-        z-index: 4;
-        height: auto;
-        gap: .65rem;
-        padding: .65rem 1rem .45rem;
-      }
-
-      .sidebar nav {
-        display: flex;
-        overflow-x: auto;
-        scrollbar-width: thin;
-        padding: 0 .12rem .2rem;
-      }
-
-      .sidebar nav a {
-        padding: .48rem .6rem;
-      }
-
-      .sidebar nav a:last-child {
-        margin-top: 0;
-      }
-
-      .sidebar-foot {
-        display: none;
-      }
-
-      .brand-mark {
-        flex-basis: 31px;
-        height: 31px;
-        border-radius: 8px;
-      }
-
-      .brand small {
-        display: none;
-      }
-
-      .topbar {
-        min-height: 52px;
-      }
-    }
-
-    @media (max-width: 700px) {
+    @media (max-width: 760px) {
       .hero {
         grid-template-columns: 1fr;
         align-items: start;
@@ -1561,25 +1339,8 @@
     }
 
     @media (max-width: 420px) {
-      .nav-icon {
-        display: none;
-      }
-
-      .sidebar nav a {
-        padding: .5rem .56rem;
-      }
-
-      .trail>span:not(.flag) {
-        display: none;
-      }
-
-      .trail {
-        gap: .36rem;
-      }
-
       main {
-        padding-left: .78rem;
-        padding-right: .78rem;
+        padding-inline: var(--space-4);
       }
 
       .panel {
@@ -1612,486 +1373,567 @@
       *,
       *::before,
       *::after {
+        animation: none !important;
         scroll-behavior: auto !important;
         transition: none !important;
       }
     }
   </style>
   <link rel="stylesheet" href="story.css">
+  <link rel="stylesheet" href="checkout.css">
 </head>
 
 <body>
   <a class="skip-link" href="#contenido">Ir al contenido</a>
-  <div class="shell">
-    <aside class="sidebar" aria-label="Panel">
-      <a class="brand" href="#vista-general" data-view>
-        <span class="brand-mark" aria-hidden="true">◈</span>
-        <span><strong>Data4Quality</strong><small>Pagos digitales</small></span>
-      </a>
-      <nav aria-label="Secciones">
-        <a href="#vista-general" data-view aria-current="page">La historia</a>
-        <a href="#disponibilidad" data-view>¿Cuándo pasó?</a>
-        <a href="#criticidad" data-view>¿Cuánto duró?</a>
-        <a href="#impacto" data-view>¿Qué está en juego?</a>
-        <a href="#uso-digital" data-view>¿Cuánto los usamos?</a>
-        <a href="#situacion-mundial" data-view>Casos en otros países</a>
-      </nav>
-      <div class="sidebar-foot">
-        <strong>TPI · Big Brain</strong>
-        <span>Corte de datos · 26 nov. 2026</span>
+  <nav class="bottom-bar" aria-label="Accesos">
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+        <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      </svg>
+      <span>Inicio</span>
+    </button>
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <path d="M12 16v5" />
+        <path d="M16 14v7" />
+        <path d="M20 10v11" />
+        <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15" />
+        <path d="M4 18v3" />
+        <path d="M8 14v7" />
+      </svg>
+      <span>Actividad</span>
+    </button>
+    <a class="dock-item dock-world" id="world-shortcut" href="#situacion-mundial" aria-label="Casos en otros países">
+      <span class="dock-orb" aria-hidden="true">
+        <img class="dock-qr" src="casos-qr.png" alt="" width="44" height="44">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon dock-globe">
+          <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
+          <path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
+          <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
+          <circle cx="12" cy="12" r="10" />
+        </svg>
+      </span>
+      <span id="world-shortcut-label">Casos</span>
+    </a>
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+        <path d="M13 5v2" />
+        <path d="M13 17v2" />
+        <path d="M13 11v2" />
+      </svg>
+      <span>Beneficios</span>
+    </button>
+    <button class="dock-item" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
+        <line x1="4" x2="20" y1="12" y2="12" />
+        <line x1="4" x2="20" y1="6" y2="6" />
+        <line x1="4" x2="20" y1="18" y2="18" />
+      </svg>
+      <span>Más</span>
+    </button>
+  </nav>
+
+  <main id="contenido" tabindex="-1">
+    <div class="view story-flow" id="vista-general">
+      <div class="scene intro" id="intro">
+        <h1 id="intro-title" tabindex="-1">Tenés 39 años y hoy te mudás.</h1>
+        <ul class="scene-lines">
+          <li>Ya vendiste tu casa.</li>
+          <li>Todas tus cosas están en un camión de mudanza.</li>
+          <li>Estás en la puerta de la casa nueva, con tu pareja y tus dos hijas de 1 y 7 años.</li>
+        </ul>
+        <p class="scene-punch">Solo falta que salga el pago.</p>
+        <button class="button gate-button" id="start-sim" type="button">Hacer el pago<small>Abrir mi banco →</small></button>
       </div>
-    </aside>
 
-    <div class="workspace">
-      <header class="topbar">
-        <div class="trail"><span class="flag" id="context-flag" aria-hidden="true"></span><span
-            id="area-title">Argentina</span><span class="trail-separator" aria-hidden="true">/</span><strong
-            id="current-view">Vista General</strong></div>
-      </header>
+      <div class="hero">
+        <div class="phone-stage">
+          <div class="phone" id="payment-scene" data-state="home" role="group"
+            aria-label="Simulación ilustrativa de un pago con el celular">
+            <div class="phone-screen">
+              <div class="phone-status" aria-hidden="true">
+                <span id="phone-clock"></span>
+                <span class="phone-island"></span>
+                <svg viewBox="0 0 66 16">
+                  <path d="M0 12h3v4H0zM5 9h3v7H5zM10 5h3v11h-3zM15 1h3v15h-3z" />
+                  <path d="M33 15l-3-3.600a4.700 4.700 0 0 1 6 0zM25.500 7.500a11.500 11.500 0 0 1 15 0l-1.900 2.300a8.500 8.500 0 0 0-11.200 0z" />
+                  <path d="M46 3h15a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H46a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM64 6h2v4h-2z" />
+                </svg>
+              </div>
 
-      <main id="contenido" tabindex="-1">
-        <section class="view" id="vista-general" aria-labelledby="overview-title">
-          <div class="hero">
-            <div>
-              <p class="kicker">Una historia sobre tu próximo pago</p>
-              <h1 id="overview-title" tabindex="-1">Tenés dinero. Pero…<br><span>¿podés usarlo?</span></h1>
-              <p>Estás en la caja. Tenés saldo.<br>Pero el pago no sale.</p>
-              <button class="button story-start" type="button" data-story-target="story-evidence">¿Qué dicen los
-                registros?</button>
+              <div class="app-screen" data-screen="home">
+                <div class="app-header">
+                  <p class="app-title">Mi banco</p>
+                  <span class="app-avatar" aria-hidden="true">VOS</span>
+                </div>
+                <div class="app-balance"><span>Dinero disponible</span><strong>£ 291.400</strong></div>
+                <button class="app-primary" type="button" data-action="review" data-focus>Pagar la casa nueva</button>
+                <p class="app-label">Últimos movimientos</p>
+                <ul class="app-list">
+                  <li><span>Venta de tu casa</span><b class="income">+ £ 270.000</b></li>
+                  <li><span>Camión de mudanza</span><b>− £ 900</b></li>
+                  <li><span>Cajas y cinta</span><b>− £ 40</b></li>
+                </ul>
+              </div>
+
+              <div class="app-screen" data-screen="confirm" hidden>
+                <button class="app-back" type="button" data-action="home">‹ Cancelar</button>
+                <div class="merchant">
+                  <span class="app-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" class="ui-icon">
+                      <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                      <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    </svg></span>
+                  <p class="app-title">Dueño de la casa nueva</p>
+                </div>
+                <p class="amount">£ 285.000</p>
+                <ul class="app-list">
+                  <li><span>Concepto</span><b>Casa nueva</b></li>
+                  <li><span>Fecha límite</span><b>Hoy</b></li>                </ul>
+                <p class="app-note">Sale de tu dinero disponible: £&nbsp;291.400</p>
+                <button class="app-primary push" type="button" data-action="pay" data-focus>Transferir £ 285.000</button>
+              </div>
+
+              <div class="app-screen app-center" data-screen="pending" tabindex="-1" data-focus hidden>
+                <span class="app-spinner" aria-hidden="true"></span>
+                <p class="app-title">Enviando tu dinero</p>
+                <p class="app-note" id="pending-message"></p>
+                <p class="pending-time" id="pending-time" aria-hidden="true"></p>
+                <p class="app-note">No cierres la app.</p>
+              </div>
+
+              <div class="app-screen app-center" data-screen="failed" hidden>
+                <span class="error-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg></span>
+                <p class="error-title">No salió el pago</p>
+                <p class="app-note" id="failed-attempt"></p>
+                <div class="error-balance"><span class="app-label">Tu dinero no se movió</span><strong>£ 291.400</strong></div>
+                <button class="app-primary push" type="button" data-action="retry" data-focus>Reintentar</button>
+                <button class="app-secondary" type="button" data-action="home">Volver al inicio</button>
+              </div>
+
+              <span class="phone-homebar" aria-hidden="true"></span>
             </div>
-            <div class="scene-receipt" id="payment-scene" data-state="ready"
-              aria-label="Simulación ilustrativa de un pago">
-              <span>EN LA CAJA</span>
-              <p>Saldo suficiente</p>
-              <div class="payment-symbol" aria-hidden="true"><span></span></div>
-              <strong id="payment-status" role="status">Todo listo para pagar</strong>
-              <button class="button" id="try-payment" type="button">Probar el pago</button>
-            </div>
           </div>
-          <article class="panel story-chapter" aria-labelledby="story-evidence">
-            <p class="kicker">De la situación a la evidencia</p>
-            <h2 id="story-evidence" tabindex="-1">El reloj sigue. ¿Y la solución?</h2>
-            <p class="evidence-scope" id="story-scope"></p>
-            <div class="clock-actions"><button class="button play-clock" type="button" id="play-clock"
-                aria-pressed="false">Reproducir el tiempo</button>
-              <div class="segment" aria-label="Saltar a un momento"><button type="button" data-minute="5"
-                  aria-pressed="false">5 min</button><button type="button" data-minute="60" aria-pressed="false">1
-                  hora</button><button type="button" data-minute="120" aria-pressed="false">2 horas</button></div>
-            </div>
-            <label class="wait-control" for="story-minutes">Desde el aviso: <output id="story-minutes-value"
-                for="story-minutes">15 minutos</output>
-              <input id="story-minutes" type="range" min="0" max="150" step="1" value="15"
-                aria-describedby="story-clock-note">
-            </label>
-            <p class="small" id="story-clock-note">Cada barra: del aviso a su resolución informada. Todos parten de cero
-              para compararlos.</p>
-            <p id="story-readout" class="story-readout" role="status"></p>
-            <div class="interval-axis" aria-hidden="true"><span>Minutos desde el aviso</span>
-              <div><span>0</span><span>30</span><span>60</span><span>90</span><span>120</span><span>150</span></div>
-            </div>
-            <div id="story-intervals" class="intervals" aria-label="Intervalos de los incidentes argentinos"></div>
-            <div class="interval-key"><span><i class="swatch" style="--swatch:#285ed0" aria-hidden="true"></i>Sin
-                resolución</span><span><i class="swatch" style="--swatch:#8d9bb0" aria-hidden="true"></i>Resolución
-                informada</span><span>Tocá una barra para ver el aviso.</span></div>
-            <details id="incident-disclosure">
-              <summary>Horarios y fuente del aviso seleccionado</summary>
-              <div id="story-incident-detail" class="note" aria-live="polite"></div>
-            </details>
-            <p class="source"><a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado
-                Pago Status</a> · Intervalos publicados, no tiempo de espera de una persona.</p>
-            <details>
-              <summary>Cómo leer estos tiempos</summary>
-              <p>Los avisos no ocurrieron simultáneamente. La comparación alinea sus publicaciones en el minuto cero. Se
-                muestran minutos redondeados y se calcula con marcas temporales completas.</p>
-              <p>Son avisos de servicios e integraciones: no implican que todos los pagos fallaron. Sin aviso tampoco
-                significa sin fallas. No permiten medir personas afectadas ni disponibilidad real.</p>
-            </details>
-            <button class="button chapter-next" type="button" data-story-target="story-discovery">Ver el
-              hallazgo</button>
-          </article>
+          <p class="sr-only" id="payment-announcer" role="status" aria-atomic="true"></p>
+        </div>
 
-          <article class="panel story-chapter" aria-labelledby="story-discovery">
-            <p class="kicker">El descubrimiento</p>
-            <h2 id="story-discovery" tabindex="-1">Un incidente no cuenta toda la historia.</h2>
-            <p id="story-finding" class="story-takeaway"></p>
-            <p class="small">En esta muestra, los avisos de Point tardaron más en resolverse. No es un ranking de
-              confiabilidad.</p>
-            <details>
-              <summary>Muestra, límites y descarga</summary>
-              <p id="story-sample"></p>
-              <p>Point es la terminal de cobro del comercio; QR inicia el pago al escanear un código. Faltan el volumen
-                de uso, los pagos fallidos y un monitoreo completo para comparar confiabilidad.</p>
-              <p>Los avisos globales o sin país no se atribuyen automáticamente a Argentina. La API muestra avisos
-                recientes y cambia con el tiempo.</p><button class="button" type="button"
-                id="download-evidence">Descargar los 50 registros</button>
-              <p class="small">JSON normalizado, con fuente y método. No es la respuesta íntegra de la API.</p><a
-                href="#disponibilidad" data-view>Revisar fechas y alcances</a>
-            </details>
-            <button class="button chapter-next" type="button" data-story-target="story-context">¿Por qué nos
-              importa?</button>
-          </article>
+        <div class="case-panel" id="case-panel" hidden>
+          <p class="kicker">Viernes 31 de enero de 2025 · Inglaterra</p>
+          <h1 id="overview-title" tabindex="-1">Esto pasó de verdad.</h1>
+          <p class="case-story">Paola Mereu, de 39 años, había vendido su casa. Con su esposo, sus dos hijas de 1 y 7
+            años y todas sus cosas en un camión de mudanza, esperaba frente a la casa nueva.</p>
+          <p class="case-story">A la 1 de la tarde llamó su abogado: el banco Barclays tenía problemas y la compra no se
+            podía completar. A las 5 seguía sin solución.</p>
+          <blockquote class="case-quote">«Estamos prácticamente sin casa».</blockquote>
+          <p class="case-context">La falla informática afectó a miles de clientes y recién terminó de resolverse el
+            domingo. El banco indicó que no fue un ciberataque.</p>
+          <button class="button gate-button" id="open-story" type="button">Ver el dashboard<small>¿Qué pasa en
+              Argentina? ↓</small></button>
+          <p class="case-source">Simulación simplificada de este caso, con montos ficticios. Fuentes: <a
+              href="https://propertyindustryeye.com/barclays-it-chaos-and-service-outage-left-a-family-homeless/"
+              target="_blank" rel="noopener">Property Industry Eye</a> y <a
+              href="https://www.thebci.org/news/lessons-from-barclays-it-incident.html" target="_blank"
+              rel="noopener">The BCI</a>, febrero de 2025.</p>
+        </div>
+      </div>
+      <div class="story-block">
+        <p class="kicker">De la situación a la evidencia</p>
+        <h2 id="story-evidence" tabindex="-1">El reloj sigue. ¿Y la solución?</h2>
+        <p class="evidence-scope" id="story-scope"></p>
+        <div class="clock-actions"><button class="button play-clock" type="button" id="play-clock"
+            aria-pressed="false">Reproducir el tiempo</button>
+          <div class="segment" aria-label="Saltar a un momento"><button type="button" data-minute="5"
+              aria-pressed="false">5 min</button><button type="button" data-minute="60" aria-pressed="false">1
+              hora</button><button type="button" data-minute="120" aria-pressed="false">2 horas</button></div>
+        </div>
+        <label class="wait-control" for="story-minutes">Desde el aviso: <output id="story-minutes-value"
+            for="story-minutes">15 minutos</output>
+          <input id="story-minutes" type="range" min="0" max="150" step="1" value="15"
+            aria-describedby="story-clock-note">
+        </label>
+        <p class="small" id="story-clock-note">Cada barra: del aviso a su resolución informada. Todos parten de cero
+          para compararlos.</p>
+        <p id="story-readout" class="story-readout" role="status"></p>
+        <div class="interval-axis" aria-hidden="true"><span>Minutos desde el aviso</span>
+          <div><span>0</span><span>30</span><span>60</span><span>90</span><span>120</span><span>150</span></div>
+        </div>
+        <div id="story-intervals" class="intervals" aria-label="Intervalos de los incidentes argentinos"></div>
+        <div class="interval-key"><span><i class="swatch" style="--swatch:var(--data-primary)" aria-hidden="true"></i>Sin
+            resolución</span><span><i class="swatch" style="--swatch:var(--data-resolved)" aria-hidden="true"></i>Resolución
+            informada</span><span>Tocá una barra para ver el aviso.</span></div>
+        <details id="incident-disclosure">
+          <summary>Horarios y fuente del aviso seleccionado</summary>
+          <div id="story-incident-detail" class="note" aria-live="polite"></div>
+        </details>
+        <p class="source"><a href="https://status.mercadopago.com/history" target="_blank" rel="noopener">Mercado
+            Pago Status</a> · Intervalos publicados, no tiempo de espera de una persona.</p>
+        <details>
+          <summary>Cómo leer estos tiempos</summary>
+          <p>Los avisos no ocurrieron simultáneamente. La comparación alinea sus publicaciones en el minuto cero. Se
+            muestran minutos redondeados y se calcula con marcas temporales completas.</p>
+          <p>Son avisos de servicios e integraciones: no implican que todos los pagos fallaron. Sin aviso tampoco
+            significa sin fallas. No permiten medir personas afectadas ni disponibilidad real.</p>
+        </details>
+      </div>
 
-          <article class="panel story-chapter" aria-labelledby="story-context">
-            <p class="kicker">La escala cotidiana</p>
-            <h2 id="story-context" tabindex="-1">Pagamos digitalmente <span class="highlight-number">5,7 veces</span> lo
-              que pagábamos en 2019.</h2>
-            <p class="small">Operaciones mensuales por adulto · Elegí un año para comparar.</p>
-            <div class="chart" id="overview-trend"></div>
-            <p class="source">Argentina · Primer semestre de cada año · <a
-                href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
-                target="_blank" rel="noopener">BCRA, Inclusión Financiera</a>.</p>
-            <details>
-              <summary>Qué compara el gráfico</summary>
-              <p>Promedios mensuales por adulto: 5,8 pagos electrónicos en 2019 y 32,8 en 2026 (32,8 / 5,8 ≈ 5,7). El
-                eje horizontal muestra años; el vertical, operaciones desde cero. La leyenda permite aislar cada serie.
-              </p>
-              <p>Las extracciones bajan de 2,9 a 1,3. Esto no mide compras en efectivo ni su abandono. Los promedios
-                describen a la población, no a cada persona.</p>
-              <p>El BCRA mide todo el sistema argentino; los avisos son de Mercado Pago. Multiplicar operaciones por
-                minuto por la duración de un aviso no permite estimar pagos afectados.</p>
-            </details>
-            <button class="button chapter-next" type="button" data-story-target="story-quality">Ponerle nombre al
-              problema</button>
-          </article>
+      <div class="story-block">
+        <p class="kicker">El descubrimiento</p>
+        <h2 id="story-discovery" tabindex="-1">Un incidente no cuenta toda la historia.</h2>
+        <p id="story-finding" class="story-takeaway"></p>
+        <p class="small">En esta muestra, los avisos de Point tardaron más en resolverse. No es un ranking de
+          confiabilidad.</p>
+        <details>
+          <summary>Muestra, límites y descarga</summary>
+          <p id="story-sample"></p>
+          <p>Point es la terminal de cobro del comercio; QR inicia el pago al escanear un código. Faltan el volumen
+            de uso, los pagos fallidos y un monitoreo completo para comparar confiabilidad.</p>
+          <p>Los avisos globales o sin país no se atribuyen automáticamente a Argentina. La API muestra avisos
+            recientes y cambia con el tiempo.</p><button class="button" type="button"
+            id="download-evidence">Descargar los 50 registros</button>
+          <p class="small">JSON normalizado, con fuente y método. No es la respuesta íntegra de la API.</p><a
+            href="#disponibilidad">Revisar fechas y alcances</a>
+        </details>
+      </div>
 
-          <article class="story-ending story-chapter" aria-labelledby="story-quality">
-            <p class="kicker">Ahora sí: la calidad del software</p>
-            <h2 id="story-quality" tabindex="-1">Tu dinero necesita un sistema que responda.</h2>
-            <p>Eso es <strong>disponibilidad</strong>: poder usar el sistema cuando lo necesitás.</p>
-            <p class="story-takeaway">La calidad también se juega en la caja.</p>
-            <p class="source">Parte de la confiabilidad en <a href="https://www.iso.org/standard/78176.html"
-                target="_blank" rel="noopener">ISO/IEC 25010:2023</a>. Explicación simplificada.</p>
-            <div class="story-links"><a class="button" href="#criticidad" data-view>Explorar otros servicios</a><a
-                class="button" href="#situacion-mundial" data-view>Leer otros casos</a><button class="button"
-                type="button" data-story-target="overview-title">Volver al comienzo</button></div>
-          </article>
-        </section>
-
-        <section class="view" id="disponibilidad" aria-labelledby="availability-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
-            <h1 id="availability-title" tabindex="-1">¿Cuándo se publicaron los avisos?</h1>
-            <p>Elegí un alcance y un servicio para localizar los reportes en el calendario. Un día sin avisos en esta
-              muestra no demuestra que el servicio funcionó sin fallas.</p>
-          </header>
-          <div class="metric-grid three" aria-label="Resumen del alcance seleccionado">
-            <div class="metric"><span class="metric-name">Incidentes publicados</span><strong
-                id="availability-count"></strong><span id="availability-scope-label"></span></div>
-            <div class="metric"><span class="metric-name">Suma de intervalos publicados</span><strong
-                id="availability-duration"></strong><span>Puede contar tiempos superpuestos; no es tiempo total de
-                caída</span></div>
-            <div class="metric"><span class="metric-name">Días con reportes</span><strong
-                id="availability-days"></strong><span>En la ventana de 21 días</span></div>
-          </div>
-          <div class="panel-grid balanced">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Incidentes por día</h2>
-                <p>Noviembre de 2026 · Tocá una fecha para ver sus reportes.</p>
-              </header>
-              <div class="controls" style="margin-top: .8rem">
-                <label>Alcance
-                  <select id="availability-scope">
-                    <option value="ar">Argentina (MLA)</option>
-                    <option value="all">Todos los sitios</option>
-                    <option value="unspecified">Sin país indicado</option>
-                    <option value="other">Otros países</option>
-                    <option value="sample">Muestra completa</option>
-                  </select>
-                </label>
-                <label>Servicio<select id="availability-service">
-                    <option value="">Todos los servicios</option>
-                  </select></label>
-              </div>
-              <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
-              <div class="calendar-footer">
-                <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank"
-                    rel="noopener">Mercado Pago Status</a></p>
-                <button class="button" id="availability-reset-day" type="button" hidden>Ver todo el período</button>
-              </div>
-            </article>
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Registro de incidentes</h2>
-                <p id="incident-list-label" aria-live="polite"></p>
-              </header>
-              <div class="incident-list" id="incident-list"></div>
-            </article>
-          </div>
-          <aside class="note">
-            <strong>Cómo interpretar los tiempos</strong>
-            <p>El reloj empieza con el aviso público y termina con la resolución informada, en hora argentina. Las
-              ventanas pueden superponerse. Calcular la disponibilidad real requeriría medir el tiempo operativo de cada
-              servicio.</p>
-          </aside>
-        </section>
-
-        <section class="view" id="criticidad" aria-labelledby="criticality-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
-            <h1 id="criticality-title" tabindex="-1">¿Cuánto pasó hasta la resolución?</h1>
-            <p>Compará cuántas veces se reportaron fallas en cada servicio y cuánto tardaron en darse por resueltas.</p>
-          </header>
-          <div class="panel-grid">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Comparación por servicio</h2>
-                <p>Seleccioná una barra para ver el detalle de ese servicio.</p>
-              </header>
-              <div class="controls" style="margin-top: .8rem">
-                <label>Alcance
-                  <select id="criticality-scope">
-                    <option value="ar">Argentina (MLA)</option>
-                    <option value="all">Todos los sitios</option>
-                    <option value="sample">Muestra completa</option>
-                  </select>
-                </label>
-                <div class="segment" id="criticality-mode" aria-label="Métrica del gráfico">
-                  <button type="button" data-mode="median" aria-pressed="true">Mediana</button>
-                  <button type="button" data-mode="count" aria-pressed="false">Cantidad</button>
-                </div>
-              </div>
-              <div class="bars" id="criticality-bars"></div>
-              <p class="source"><span id="criticality-chart-description"></span> <a
-                  href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado
-                  Pago Status</a></p>
-            </article>
-            <article class="panel detail-panel" id="criticality-detail" aria-live="polite"></article>
-          </div>
-          <aside class="note">
-            <strong>Impacto reportado por la plataforma</strong>
-            <p>Las categorías mayor y menor corresponden a la clasificación de Mercado Pago. Sus reportes describen qué
-              servicio falló y dejan sin cuantificar el alcance en personas o transacciones afectadas.</p>
-          </aside>
-        </section>
-
-        <section class="view" id="impacto" aria-labelledby="impact-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Argentina · BCRA</span>
-            <h1 id="impact-title" tabindex="-1">¿Qué está en juego cuando falla un pago?</h1>
-            <p>Estos datos dimensionan el uso del sistema argentino. No cuantifican el impacto de los incidentes de
-              Mercado Pago.</p>
-          </header>
-          <div class="metric-grid three" aria-label="Dinero en cuentas de pago y viajes con QR">
-            <div class="metric"><span class="metric-name">Cuentas de pago con saldo</span><strong>16,1
-                <small>M</small></strong><span>De 70,1 millones de cuentas · ago. 2026</span></div>
-            <div class="metric"><span class="metric-name">Saldo en cuentas de pago</span><strong>$900.000
-                <small>M</small></strong><span>Pesos argentinos · ago. 2026</span></div>
-            <div class="metric"><span class="metric-name">Viajes pagados con QR</span><strong>26,9
-                <small>M</small></strong><span>Colectivos y subte · sep. 2026</span></div>
-          </div>
-          <div class="panel-grid balanced">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Pagos con transferencia vía QR</h2>
-                <p>Septiembre de 2026 · QR interoperable en Argentina</p>
-              </header>
-              <div class="impact-value" aria-live="polite">
-                <strong id="qr-value">≈ 2.843</strong>
-                <span id="qr-unit">pagos por minuto en promedio</span>
-              </div>
-              <div class="segment" id="qr-period" aria-label="Unidad de tiempo">
-                <button type="button" data-period="month" aria-pressed="false">Mes</button>
-                <button type="button" data-period="day" aria-pressed="false">Día</button>
-                <button type="button" data-period="hour" aria-pressed="false">Hora</button>
-                <button type="button" data-period="minute" aria-pressed="true">Minuto</button>
-                <button type="button" data-period="second" aria-pressed="false">Segundo</button>
-              </div>
-              <p class="source" style="margin-top: .75rem">Base: 122,8 millones de pagos en septiembre, divididos por 30
-                días, 24 horas, 60 minutos y 60 segundos según la unidad. Es un promedio uniforme: no mide demanda por
-                horario ni pagos afectados por fallas. <a
-                  href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
-                  target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
-            </article>
-            <article class="panel detail-panel">
-              <header class="panel-header">
-                <h2>Cómo circulan los pagos QR</h2>
-                <p>De los 122,8 millones de pagos QR interoperables de septiembre de 2026, ¿desde qué cuenta se pagó y
-                  en cuál se cobró?</p>
-              </header>
-              <div class="accounts-chart">
-                <strong>Desde dónde se paga</strong>
-                <div class="stack" aria-label="Cuenta de origen">
-                  <button type="button" style="--amount:52.8%;--segment-color:#4776d6" data-account="origin-cbu"
-                    aria-label="52,8 % de pagos desde cuentas bancarias"></button>
-                  <button type="button" style="--amount:47.2%;--segment-color:#0b8578" data-account="origin-cvu"
-                    aria-label="47,2 % de pagos desde cuentas de pago"></button>
-                </div>
-                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 52,8 %</span><span><i
-                      class="swatch" style="--swatch:#0b8578"></i>CVU 47,2 %</span></div>
-              </div>
-              <div class="accounts-chart">
-                <strong>Dónde cobra el comercio</strong>
-                <div class="stack" aria-label="Cuenta de destino">
-                  <button type="button" style="--amount:45.3%;--segment-color:#4776d6" data-account="destination-cbu"
-                    aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
-                  <button type="button" style="--amount:54.7%;--segment-color:#0b8578" data-account="destination-cvu"
-                    aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
-                </div>
-                <div class="stack-key"><span><i class="swatch" style="--swatch:#4776d6"></i>CBU 45,3 %</span><span><i
-                      class="swatch" style="--swatch:#0b8578"></i>CVU 54,7 %</span></div>
-              </div>
-              <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas
-                de pago de los comercios (CVU).</p>
-            </article>
-          </div>
-          <article class="panel story-card">
-            <div>
-              <p class="kicker">Caso documentado · Argentina</p>
-              <h2>Problemas para pagar o cobrar con Mercado Pago</h2>
-              <p class="small">El 7 de mayo de 2026 hubo reportes de demoras y fallas en operaciones de la billetera.
-              </p>
-            </div>
-            <a class="button"
-              href="https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html"
-              target="_blank" rel="noopener">Leer en La Gaceta</a>
-          </article>
-        </section>
-
-        <section class="view" id="uso-digital" aria-labelledby="usage-title" hidden>
-          <header class="page-heading">
-            <span class="kicker">Argentina · BCRA</span>
-            <h1 id="usage-title" tabindex="-1">¿Cuánto usamos los pagos digitales?</h1>
-            <p>El uso frecuente de pagos electrónicos muestra cuánto dependemos de estos sistemas para operar día a día.
-            </p>
-          </header>
-          <div class="metric-grid" aria-label="Alcance en la población argentina">
-            <div class="metric"><span class="metric-name">Personas con cuentas</span><strong>38,1
-                <small>M</small></strong><span>Junio de 2026</span></div>
-            <div class="metric"><span class="metric-name">Tenencia simultánea</span><strong>76,5
-                <small>%</small></strong><span>Titulares con cuenta bancaria y de pago</span></div>
-            <div class="metric"><span class="metric-name">Acceso digital bancario</span><strong>7 <small>de</small>
-                10</strong><span>Con usuario habilitado para canales electrónicos</span></div>
-            <div class="metric"><span class="metric-name">Nuevos usuarios</span><strong>Más de 2
-                <small>M</small></strong><span>En pagos electrónicos frente al primer semestre de 2025</span></div>
-          </div>
-          <div class="panel-grid">
-            <article class="panel">
-              <header class="panel-header">
-                <h2>Pagos electrónicos y retiros de efectivo</h2>
-                <p>Operaciones mensuales por adulto · Primer semestre de cada año</p>
-              </header>
-              <div class="chart" id="usage-trend"></div>
-              <p class="source">Fuente · <a
-                  href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
-                  target="_blank" rel="noopener">BCRA, Inclusión Financiera</a></p>
-            </article>
-            <article class="panel detail-panel">
-              <header class="panel-header">
-                <h2>Un ecosistema interconectado</h2>
-                <p>Pagos Minoristas · septiembre de 2026</p>
-              </header>
-              <dl class="stat-list">
-                <div>
-                  <dt>Billeteras digitales interoperables registradas</dt>
-                  <dd>93</dd>
-                </div>
-                <div>
-                  <dt>Aceptadores de pagos con transferencia</dt>
-                  <dd>67</dd>
-                </div>
-                <div>
-                  <dt>Transferencias inmediatas de envío en pesos con CVU de origen o destino</dt>
-                  <dd>75 %</dd>
-                </div>
-                <div>
-                  <dt>Pagos con transferencia interoperables en pesos iniciados con QR</dt>
-                  <dd>99,1 %</dd>
-                </div>
-              </dl>
-              <p class="source"><a
-                  href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
-                  target="_blank" rel="noopener">Consultar el informe del BCRA</a></p>
-            </article>
-          </div>
+      <div class="story-data" id="disponibilidad" tabindex="-1">
+        <header class="story-heading">
+          <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
+          <h2>¿Cuándo se publicaron los avisos?</h2>
+          <p>Elegí un alcance y un servicio para localizar los reportes en el calendario. Un día sin avisos en esta
+            muestra no demuestra que el servicio funcionó sin fallas.</p>
+        </header>
+        <div class="metric-grid three" aria-label="Resumen del alcance seleccionado">
+          <div class="metric"><span class="metric-name">Incidentes publicados</span><strong
+              id="availability-count"></strong><span id="availability-scope-label"></span></div>
+          <div class="metric"><span class="metric-name">Suma de intervalos publicados</span><strong
+              id="availability-duration"></strong><span>Puede contar tiempos superpuestos; no es tiempo total de
+              caída</span></div>
+          <div class="metric"><span class="metric-name">Días con reportes</span><strong
+              id="availability-days"></strong><span>En la ventana de 21 días</span></div>
+        </div>
+        <div class="panel-grid balanced">
           <article class="panel">
             <header class="panel-header">
-              <h2>Operaciones por medio de pago</h2>
-              <p>Argentina · Comparación de volúmenes y crecimiento interanual</p>
+              <h3>Incidentes por día</h3>
+              <p>Noviembre de 2026 · Tocá una fecha para ver sus reportes.</p>
             </header>
-            <div class="controls" style="margin-top: .75rem">
-              <div class="segment" id="volume-mode" aria-label="Métrica del gráfico">
-                <button type="button" data-mode="amount" aria-pressed="true">Cantidad mensual</button>
-                <button type="button" data-mode="growth" aria-pressed="false">Variación interanual</button>
+            <div class="controls" style="margin-top: .8rem">
+              <label>Alcance
+                <select id="availability-scope">
+                  <option value="ar">Argentina (MLA)</option>
+                  <option value="all">Todos los sitios</option>
+                  <option value="unspecified">Sin país indicado</option>
+                  <option value="other">Otros países</option>
+                  <option value="sample">Muestra completa</option>
+                </select>
+              </label>
+              <label>Servicio<select id="availability-service">
+                  <option value="">Todos los servicios</option>
+                </select></label>
+            </div>
+            <label class="calendar-date-control">Fecha
+              <select id="availability-date">
+                <option value="">Todo el período</option>
+              </select>
+            </label>
+            <div class="calendar" id="calendar" aria-label="Calendario de incidentes"></div>
+            <div class="calendar-footer">
+              <p class="source">Fuente · <a href="https://status.mercadopago.com/history" target="_blank"
+                  rel="noopener">Mercado Pago Status</a></p>
+              <button class="button" id="availability-reset-day" type="button" hidden>Ver todo el período</button>
+            </div>
+          </article>
+          <article class="panel">
+            <header class="panel-header">
+              <h3>Registro de incidentes</h3>
+              <p id="incident-list-label" aria-live="polite"></p>
+            </header>
+            <div class="incident-list" id="incident-list"></div>
+          </article>
+        </div>
+        <aside class="note">
+          <strong>Cómo interpretar los tiempos</strong>
+          <p>El reloj empieza con el aviso público y termina con la resolución informada, en hora argentina. Las
+            ventanas pueden superponerse. Calcular la disponibilidad real requeriría medir el tiempo operativo de cada
+            servicio.</p>
+        </aside>
+      </div>
+
+      <div class="story-data" id="criticidad" tabindex="-1">
+        <header class="story-heading">
+          <span class="kicker">Mercado Pago Status · 4 al 24 de noviembre de 2026</span>
+          <h2>¿Cuánto pasó hasta la resolución?</h2>
+          <p>Compará cuántas veces se reportaron fallas en cada servicio y cuánto tardaron en darse por resueltas.</p>
+        </header>
+        <div class="panel-grid">
+          <article class="panel">
+            <header class="panel-header">
+              <h3>Comparación por servicio</h3>
+              <p>Seleccioná una barra para ver el detalle de ese servicio.</p>
+            </header>
+            <div class="controls" style="margin-top: .8rem">
+              <label>Alcance
+                <select id="criticality-scope">
+                  <option value="ar">Argentina (MLA)</option>
+                  <option value="all">Todos los sitios</option>
+                  <option value="sample">Muestra completa</option>
+                </select>
+              </label>
+              <div class="segment" id="criticality-mode" aria-label="Métrica del gráfico">
+                <button type="button" data-mode="median" aria-pressed="true">Mediana</button>
+                <button type="button" data-mode="count" aria-pressed="false">Cantidad</button>
               </div>
             </div>
-            <div class="bars" id="volume-bars"></div>
-            <p class="chart-value" id="volume-detail" aria-live="polite"></p>
-            <p class="source">Los datos de débito, crédito, prepaga y cajeros corresponden a agosto. Los demás
-              corresponden a septiembre de 2026. <a
+            <div class="bars" id="criticality-bars"></div>
+            <p class="source"><span id="criticality-chart-description"></span> <a
+                href="https://status.mercadopago.com/api/v2/incidents.json" target="_blank" rel="noopener">Mercado
+                Pago Status</a></p>
+          </article>
+          <article class="panel detail-panel" id="criticality-detail" aria-live="polite"></article>
+        </div>
+        <aside class="note">
+          <strong>Impacto reportado por la plataforma</strong>
+          <p>Las categorías mayor y menor corresponden a la clasificación de Mercado Pago. Sus reportes describen qué
+            servicio falló y dejan sin cuantificar el alcance en personas o transacciones afectadas.</p>
+        </aside>
+      </div>
+
+      <div class="story-data" id="uso-digital" tabindex="-1">
+        <div class="story-block">
+          <h2 id="story-context" tabindex="-1">Pagamos digitalmente <span class="highlight-number">5,7 veces</span> lo
+            que pagábamos en 2019.</h2>
+          <p class="small">Operaciones mensuales por adulto · Elegí un año para comparar.</p>
+          <div class="panel"><div class="chart" id="overview-trend"></div></div>
+          <p class="source">Argentina · Primer semestre de cada año · <a
+              href="https://www.bcra.gob.ar/publicaciones/informe-de-inclusion-financiera-primer-semestre-2026/"
+              target="_blank" rel="noopener">BCRA, Inclusión Financiera</a>.</p>
+          <details>
+            <summary>Qué compara el gráfico</summary>
+            <p>Promedios mensuales por adulto: 5,8 pagos electrónicos en 2019 y 32,8 en 2026 (32,8 / 5,8 ≈ 5,7). El
+              eje horizontal muestra años; el vertical, operaciones desde cero. La leyenda permite aislar cada serie.
+            </p>
+            <p>Las extracciones bajan de 2,9 a 1,3. Esto no mide compras en efectivo ni su abandono. Los promedios
+              describen a la población, no a cada persona.</p>
+            <p>El BCRA mide todo el sistema argentino; los avisos son de Mercado Pago. Multiplicar operaciones por
+              minuto por la duración de un aviso no permite estimar pagos afectados.</p>
+          </details>
+        </div>
+        <div class="metric-grid" aria-label="Alcance en la población argentina">
+          <div class="metric"><span class="metric-name">Personas con cuentas</span><strong>38,1
+              <small>M</small></strong><span>Junio de 2026</span></div>
+          <div class="metric"><span class="metric-name">Tenencia simultánea</span><strong>76,5
+              <small>%</small></strong><span>Titulares con cuenta bancaria y de pago</span></div>
+          <div class="metric"><span class="metric-name">Acceso digital bancario</span><strong>7 <small>de</small>
+              10</strong><span>Con usuario habilitado para canales electrónicos</span></div>
+          <div class="metric"><span class="metric-name">Nuevos usuarios</span><strong>Más de 2
+              <small>M</small></strong><span>En pagos electrónicos frente al primer semestre de 2025</span></div>
+        </div>
+        <article class="panel detail-panel">
+          <header class="panel-header">
+            <h3>Un ecosistema interconectado</h3>
+            <p>Pagos Minoristas · septiembre de 2026</p>
+          </header>
+          <dl class="stat-list">
+            <div>
+              <dt>Billeteras digitales interoperables registradas</dt>
+              <dd>93</dd>
+            </div>
+            <div>
+              <dt>Aceptadores de pagos con transferencia</dt>
+              <dd>67</dd>
+            </div>
+            <div>
+              <dt>Transferencias inmediatas de envío en pesos con CVU de origen o destino</dt>
+              <dd>75 %</dd>
+            </div>
+            <div>
+              <dt>Pagos con transferencia interoperables en pesos iniciados con QR</dt>
+              <dd>99,1 %</dd>
+            </div>
+          </dl>
+          <p class="source"><a
+              href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
+              target="_blank" rel="noopener">Consultar el informe del BCRA</a></p>
+        </article>
+        <article class="panel">
+          <header class="panel-header">
+            <h3>Operaciones por medio de pago</h3>
+            <p>Argentina · Comparación de volúmenes y crecimiento interanual</p>
+          </header>
+          <div class="controls" style="margin-top: .75rem">
+            <div class="segment" id="volume-mode" aria-label="Métrica del gráfico">
+              <button type="button" data-mode="amount" aria-pressed="true">Cantidad mensual</button>
+              <button type="button" data-mode="growth" aria-pressed="false">Variación interanual</button>
+            </div>
+          </div>
+          <div class="bars" id="volume-bars"></div>
+          <p class="chart-value" id="volume-detail" aria-live="polite"></p>
+          <p class="source">Los datos de débito, crédito, prepaga y cajeros corresponden a agosto. Los demás
+            corresponden a septiembre de 2026. <a
+              href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
+              target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
+        </article>
+      </div>
+
+      <div class="story-data" id="impacto" tabindex="-1">
+        <header class="story-heading">
+          <span class="kicker">Argentina · BCRA</span>
+          <h2>¿Qué está en juego cuando falla un pago?</h2>
+          <p>Estos datos dimensionan el uso del sistema argentino. No cuantifican el impacto de los incidentes de
+            Mercado Pago.</p>
+        </header>
+        <div class="metric-grid three" aria-label="Dinero en cuentas de pago y viajes con QR">
+          <div class="metric"><span class="metric-name">Cuentas de pago con saldo</span><strong>16,1
+              <small>M</small></strong><span>De 70,1 millones de cuentas · ago. 2026</span></div>
+          <div class="metric"><span class="metric-name">Saldo en cuentas de pago</span><strong>$900.000
+              <small>M</small></strong><span>Pesos argentinos · ago. 2026</span></div>
+          <div class="metric"><span class="metric-name">Viajes pagados con QR</span><strong>26,9
+              <small>M</small></strong><span>Colectivos y subte · sep. 2026</span></div>
+        </div>
+        <div class="panel-grid balanced">
+          <article class="panel">
+            <header class="panel-header">
+              <h3>Pagos con transferencia vía QR</h3>
+              <p>Septiembre de 2026 · QR interoperable en Argentina</p>
+            </header>
+            <div class="impact-value" aria-live="polite">
+              <strong id="qr-value">≈ 2.843</strong>
+              <span id="qr-unit">pagos por minuto en promedio</span>
+            </div>
+            <div class="segment" id="qr-period" aria-label="Unidad de tiempo">
+              <button type="button" data-period="month" aria-pressed="false">Mes</button>
+              <button type="button" data-period="day" aria-pressed="false">Día</button>
+              <button type="button" data-period="hour" aria-pressed="false">Hora</button>
+              <button type="button" data-period="minute" aria-pressed="true">Minuto</button>
+              <button type="button" data-period="second" aria-pressed="false">Segundo</button>
+            </div>
+            <p class="source" style="margin-top: .75rem">Base: 122,8 millones de pagos en septiembre, divididos por 30
+              días, 24 horas, 60 minutos y 60 segundos según la unidad. Es un promedio uniforme: no mide demanda por
+              horario ni pagos afectados por fallas. <a
                 href="https://www.bcra.gob.ar/publicaciones/informe-de-pagos-minoristas-septiembre-de-2026/"
                 target="_blank" rel="noopener">BCRA, Pagos Minoristas</a></p>
           </article>
-        </section>
-
-        <section class="view" id="situacion-mundial" aria-labelledby="world-title" hidden>
-          <header class="page-heading">
-            <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span>
-              casos documentados</span>
-            <h1 id="world-title" tabindex="-1">¿Dónde más se documentaron problemas?</h1>
-            <p>Una selección de casos para leer sus consecuencias. No es un censo de fallas ni permite comparar la
-              confiabilidad de países o bancos.</p>
-          </header>
-          <div class="panel-grid world-layout">
-            <article class="globe-panel">
-              <header class="globe-head">
-                <div>
-                  <h2>Ubicá los casos documentados</h2>
-                  <p id="globe-instructions">Cada punto localiza un país con casos en la selección; su tamaño no indica
-                    cantidad ni gravedad. Arrastrá o usá las flechas y elegí un punto para leer.</p>
-                </div>
-                <button class="button" type="button" id="globe-reset">Centrar</button>
-              </header>
-              <div class="globe-stage" id="globe-stage" tabindex="0" role="group"
-                aria-label="Globo terráqueo interactivo" aria-describedby="globe-instructions">
-                <canvas id="main-globe" aria-hidden="true"></canvas>
-                <div class="markers" id="globe-markers"></div>
+          <article class="panel detail-panel">
+            <header class="panel-header">
+              <h3>Cómo circulan los pagos QR</h3>
+              <p>De los 122,8 millones de pagos QR interoperables de septiembre de 2026, ¿desde qué cuenta se pagó y
+                en cuál se cobró?</p>
+            </header>
+            <div class="accounts-chart">
+              <strong>Desde dónde se paga</strong>
+              <div class="stack" aria-label="Cuenta de origen">
+                <button type="button" style="--amount:52.8%;--segment-color:var(--data-primary)" data-account="origin-cbu"
+                  aria-label="52,8 % de pagos desde cuentas bancarias"></button>
+                <button type="button" style="--amount:47.2%;--segment-color:var(--data-teal)" data-account="origin-cvu"
+                  aria-label="47,2 % de pagos desde cuentas de pago"></button>
               </div>
-              <div class="map-case" id="map-case" tabindex="0" aria-live="off" aria-label="Caso destacado. El recorrido se pausa mientras leés esta placa.">
-                <p>Casos documentados alrededor del mundo.</p>
+              <div class="stack-key"><span><i class="swatch" style="--swatch:var(--data-primary)"></i>CBU 52,8 %</span><span><i
+                    class="swatch" style="--swatch:var(--data-teal)"></i>CVU 47,2 %</span></div>
+            </div>
+            <div class="accounts-chart">
+              <strong>Dónde cobra el comercio</strong>
+              <div class="stack" aria-label="Cuenta de destino">
+                <button type="button" style="--amount:45.3%;--segment-color:var(--data-primary)" data-account="destination-cbu"
+                  aria-label="45,3 % de pagos acreditados en cuentas bancarias"></button>
+                <button type="button" style="--amount:54.7%;--segment-color:var(--data-teal)" data-account="destination-cvu"
+                  aria-label="54,7 % de pagos acreditados en cuentas de pago"></button>
               </div>
-            </article>
-            <article class="panel world-catalog">
-              <header class="panel-header">
-                <h2>Noticias e informes</h2>
-                <p>Elegí un caso para leer su resumen en el globo.</p>
-              </header>
-              <div class="filter-grid">
-                <label>País<select id="country-filter">
-                    <option value="">Todos los países</option>
-                  </select></label>
-                <label>Tipo de incidente<select id="type-filter">
-                    <option value="">Todos los tipos</option>
-                  </select></label>
-              </div>
-              <div class="filter-info">
-                <p class="small" id="world-result-count" aria-live="polite"></p>
-                <button class="button" id="reset-filters" type="button">Limpiar filtros</button>
-              </div>
-              <div class="table-scroll" tabindex="0" aria-label="Tabla de casos filtrados">
-                <table>
-                  <thead>
-                    <tr>
-                      <th scope="col">País y fecha</th>
-                      <th scope="col">Incidente</th>
-                    </tr>
-                  </thead>
-                  <tbody id="world-rows"></tbody>
-                </table>
-              </div>
-              <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a
-                  href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural
-                  Earth</a>.</p>
-            </article>
+              <div class="stack-key"><span><i class="swatch" style="--swatch:var(--data-primary)"></i>CBU 45,3 %</span><span><i
+                    class="swatch" style="--swatch:var(--data-teal)"></i>CVU 54,7 %</span></div>
+            </div>
+            <p class="small" id="account-detail" aria-live="polite">El 54,7 % de los pagos QR se acreditó en cuentas
+              de pago de los comercios (CVU).</p>
+          </article>
+        </div>
+        <article class="panel story-card">
+          <div>
+            <p class="kicker">Caso documentado · Argentina</p>
+            <h3>Problemas para pagar o cobrar con Mercado Pago</h3>
+            <p class="small">El 7 de mayo de 2026 hubo reportes de demoras y fallas en operaciones de la billetera.
+            </p>
           </div>
-        </section>
-      </main>
-    </div>
-  </div>
+          <a class="button"
+            href="https://www.lagaceta.com.ar/nota/1135907/sociedad/mercado-pagosufrio-caida-masiva-paso-dinero-usuarios.html"
+            target="_blank" rel="noopener">Leer en La Gaceta</a>
+        </article>
+      </div>
 
+      <div class="story-ending story-block">
+        <p class="kicker">Ahora sí: la calidad del software</p>
+        <h2 id="story-quality" tabindex="-1">Tu dinero necesita un sistema que responda.</h2>
+        <p>Eso es <strong>disponibilidad</strong>: poder usar el sistema cuando lo necesitás.</p>
+        <p class="story-takeaway">La calidad también se juega en la caja.</p>
+        <p class="source">Parte de la confiabilidad en <a href="https://www.iso.org/standard/78176.html"
+            target="_blank" rel="noopener">ISO/IEC 25010:2023</a>. Explicación simplificada.</p>
+      </div>
+    </div>
+
+    <section class="view" id="situacion-mundial" aria-labelledby="world-title" hidden>
+      <header class="page-heading">
+        <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span>
+          casos documentados</span>
+        <h1 id="world-title" tabindex="-1">Casos en otros países</h1>
+        <p>Una selección de casos para leer sus consecuencias. No es un censo de fallas ni permite comparar la
+          confiabilidad de países o bancos.</p>
+      </header>
+      <div class="panel-grid world-layout">
+        <article class="globe-panel">
+          <header class="globe-head">
+            <div>
+              <h2>Ubicá los casos documentados</h2>
+              <p id="globe-instructions">Cada punto localiza un país con casos en la selección; su tamaño no indica
+                cantidad ni gravedad. Arrastrá o usá las flechas y elegí un punto para leer.</p>
+            </div>
+            <button class="button" type="button" id="globe-reset">Centrar</button>
+          </header>
+          <div class="globe-stage" id="globe-stage" tabindex="0" role="group"
+            aria-label="Globo terráqueo interactivo" aria-describedby="globe-instructions">
+            <canvas id="main-globe" aria-hidden="true"></canvas>
+            <div class="markers" id="globe-markers"></div>
+          </div>
+          <div class="map-case" id="map-case" tabindex="0" aria-live="off" aria-label="Caso destacado. El recorrido se pausa mientras leés esta placa.">
+            <p>Casos documentados alrededor del mundo.</p>
+          </div>
+        </article>
+        <article class="panel world-catalog">
+          <header class="panel-header">
+            <h2>Noticias e informes</h2>
+            <p>Elegí un caso para leer su resumen en el globo.</p>
+          </header>
+          <div class="filter-grid">
+            <label>País<select id="country-filter">
+                <option value="">Todos los países</option>
+              </select></label>
+            <label>Tipo de incidente<select id="type-filter">
+                <option value="">Todos los tipos</option>
+              </select></label>
+          </div>
+          <div class="filter-info">
+            <p class="small" id="world-result-count" aria-live="polite"></p>
+            <button class="button" id="reset-filters" type="button">Limpiar filtros</button>
+          </div>
+          <div class="table-scroll" tabindex="0" aria-label="Tabla de casos filtrados">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">País y fecha</th>
+                  <th scope="col">Incidente</th>
+                </tr>
+              </thead>
+              <tbody id="world-rows"></tbody>
+            </table>
+          </div>
+          <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a
+              href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural
+              Earth</a>.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
   <noscript>
-    <p class="note">Activá JavaScript en el navegador para usar los gráficos, las pestañas y el globo.</p>
+    <p class="note">Activá JavaScript en el navegador para usar los gráficos y abrir los casos en otros países.</p>
   </noscript>
 
   <script type="application/json" id="incident-data">
@@ -2299,11 +2141,11 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const services = {
-      point: { label: "Point", color: "#4876d5", description: "Terminales de cobro que usan los comercios." },
-      qr: { label: "Pagos QR", color: "#087f74", description: "Pagos que se inician al escanear un código QR." },
-      online: { label: "Pagos online", color: "#7952b0", description: "Cobros en línea, incluidos los realizados a través de Checkout Pro." },
-      notifications: { label: "Notificaciones a comercios", color: "#b76836", description: "Avisos que reciben las integraciones al cambiar el estado de un pago." },
-      payments: { label: "API de pagos", color: "#63789d", description: "Servicio de pagos que utilizan las integraciones." }
+      point: { label: "Point", color: "var(--data-point)", description: "Terminales de cobro que usan los comercios." },
+      qr: { label: "Pagos QR", color: "var(--data-teal)", description: "Pagos que se inician al escanear un código QR." },
+      online: { label: "Pagos online", color: "var(--data-violet)", description: "Cobros en línea, incluidos los realizados a través de Checkout Pro." },
+      notifications: { label: "Notificaciones a comercios", color: "var(--data-amber)", description: "Avisos que reciben las integraciones al cambiar el estado de un pago." },
+      payments: { label: "API de pagos", color: "var(--data-slate)", description: "Servicio de pagos que utilizan las integraciones." }
     };
     const cases = embedded("world-data").sort((a, b) => b.date.localeCompare(a.date));
     const incidents = embedded("incident-data").map((record) => ({
@@ -2395,49 +2237,47 @@
       return scope === "sample" ? incidents : incidents.filter((record) => record.scope === scope);
     }
 
-    const sections = {
-      "vista-general": "La historia",
-      disponibilidad: "¿Cuándo pasó?",
-      criticidad: "¿Cuánto duró?",
-      impacto: "¿Qué está en juego?",
-      "uso-digital": "¿Cuánto los usamos?",
-      "situacion-mundial": "Casos en otros países"
-    };
-    const nav = document.querySelector(".sidebar nav");
+    const storyView = byId("vista-general");
+    const worldView = byId("situacion-mundial");
+    const worldShortcut = byId("world-shortcut");
+    const worldShortcutLabel = byId("world-shortcut-label");
 
-    function showSection(focusHeading = false) {
-      const fragment = location.hash.slice(1);
-      if (fragment === "contenido" && focusHeading) return;
-      const active = Object.hasOwn(sections, fragment) ? fragment : "vista-general";
-      for (const id of Object.keys(sections)) byId(id).hidden = id !== active;
-      const selectedLink = nav.querySelector(`a[href="#${active}"]`);
-      nav.querySelectorAll("a").forEach((link) => {
-        if (link === selectedLink) link.setAttribute("aria-current", "page");
-        else link.removeAttribute("aria-current");
-      });
-      byId("current-view").textContent = sections[active];
-      const world = active === "situacion-mundial";
-      byId("area-title").textContent = world ? "Internacional" : "Argentina";
-      byId("context-flag").hidden = world;
-      document.title = `${sections[active]} | Data4Quality`;
-      requestAnimationFrame(() => {
-        const bounds = nav.getBoundingClientRect();
-        const current = selectedLink.getBoundingClientRect();
-        if (current.left < bounds.left) nav.scrollLeft += current.left - bounds.left - 3;
-        if (current.right > bounds.right) nav.scrollLeft += current.right - bounds.right + 3;
-        if (focusHeading) {
-          window.scrollTo({ top: 0, behavior: "instant" });
-          byId(active).querySelector("h1").focus({ preventScroll: true });
-        }
-      });
+    function syncView(navigating = false) {
+      const worldOpen = location.hash === "#situacion-mundial" || location.hash === "#mundo";
+      const changed = worldView.hidden === worldOpen;
+      storyView.hidden = worldOpen;
+      worldView.hidden = !worldOpen;
+
+      worldShortcut.href = worldOpen ? "#vista-general" : "#situacion-mundial";
+      worldShortcut.setAttribute("aria-label", worldOpen ? "Volver a la historia" : "Casos en otros países");
+      worldShortcut.toggleAttribute("data-world-open", worldOpen);
+      worldShortcutLabel.textContent = worldOpen ? "Volver" : "Casos";
+      document.title = worldOpen ? "Casos en otros países | Data4Quality" : "Data4Quality | Pagos digitales y disponibilidad";
+
+      if (!navigating || !changed) return;
+
+      const anchor = byId(location.hash.slice(1));
+      const atStoryAnchor = !worldOpen && anchor !== storyView && storyView.contains(anchor);
+      const target = atStoryAnchor ? anchor : byId(worldOpen ? "world-title" : "overview-title");
+      target.focus({ preventScroll: true });
+      if (atStoryAnchor) target.scrollIntoView({ block: "start", behavior: "instant" });
+      else window.scrollTo({ top: 0, behavior: "instant" });
+
+      if (!reducedMotion.matches) {
+        const view = worldOpen ? worldView : storyView;
+        view.getAnimations().forEach(animation => animation.cancel());
+        view.animate(
+          [{ opacity: .55, transform: `translateY(${worldOpen ? 14 : -8}px)` }, { opacity: 1, transform: "none" }],
+          { duration: 360, easing: "cubic-bezier(.22, 1, .36, 1)" }
+        );
+      }
     }
 
-    window.addEventListener("hashchange", () => showSection(true));
-    document.addEventListener("click", (event) => {
-      const link = event.target.closest("a[data-view]");
-      if (link?.hash === location.hash && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
-        event.preventDefault();
-        showSection(true);
+    window.addEventListener("hashchange", () => syncView(true));
+    reducedMotion.addEventListener("change", () => {
+      if (!reducedMotion.matches) return;
+      for (const view of [storyView, worldView]) {
+        view.getAnimations().forEach(animation => animation.cancel());
       }
     });
 
@@ -2460,10 +2300,14 @@
 
     function drawTrend(container) {
       const series = [
-        { label: "Pagos electrónicos", color: "#315fc3", column: 1, shown: true },
-        { label: "Extracciones de efectivo", color: "#087d72", column: 2, shown: true }
+        { label: "Pagos electrónicos", color: "--data-primary", column: 1, shown: true },
+        { label: "Extracciones de efectivo", color: "--data-teal", column: 2, shown: true }
       ];
       const legend = node("div", "legend");
+      const yearControl = node("label", "trend-year-control", "Año");
+      const yearSelect = node("select");
+      addOptions(yearSelect, trend.map(([year], index) => [index, year]));
+      yearControl.append(yearSelect);
       const plot = node("div", "trend-plot");
       const canvas = node("canvas");
       canvas.setAttribute("aria-hidden", "true");
@@ -2474,7 +2318,7 @@
       const readout = node("p", "chart-value");
       readout.setAttribute("aria-live", "polite");
       plot.append(canvas, targets, tooltip);
-      container.append(legend, plot, readout);
+      container.append(legend, yearControl, plot, readout);
 
       let pinned = trend.length - 1;
       let hovered = null;
@@ -2488,7 +2332,14 @@
 
       function updateReadout() {
         readout.textContent = `${trend[pinned][0]} · ${valuesFor(pinned).join(" / ")}`;
+        yearSelect.value = String(pinned);
         yearButtons.forEach((item, index) => press(item, index === pinned));
+      }
+
+      function pinYear(index) {
+        pinned = index;
+        updateReadout();
+        schedule();
       }
 
       function paint() {
@@ -2496,6 +2347,8 @@
         const area = canvasArea(canvas);
         if (!area) return;
         const { context: ctx, width, height } = area;
+        const theme = getComputedStyle(canvas);
+        const color = (token) => theme.getPropertyValue(token).trim();
         const left = 26;
         const right = width - 12;
         const top = 12;
@@ -2505,15 +2358,15 @@
         const x = (index) => left + (index + 0.5) * (right - left) / trend.length;
         const y = (value) => bottom - value / upper * (bottom - top);
         const active = hovered ?? focused ?? pinned;
-        ctx.font = "12px Segoe UI, system-ui, sans-serif";
-        ctx.fillStyle = "#536681";
+        ctx.font = `${color("--font-1")} ${color("--font-ui")}`;
+        ctx.fillStyle = color("--color-muted");
         ctx.textBaseline = "middle";
         ctx.textAlign = "right";
         for (const tick of ticks) {
           const row = y(tick);
           ctx.fillText(tick, left - 7, row);
           ctx.beginPath();
-          ctx.strokeStyle = "#dfe7f3";
+          ctx.strokeStyle = color("--color-line");
           ctx.lineWidth = 1;
           ctx.moveTo(left, row);
           ctx.lineTo(right, row);
@@ -2535,8 +2388,8 @@
             ctx.lineTo(x(0), bottom);
             ctx.closePath();
             const gradient = ctx.createLinearGradient(0, top, 0, bottom);
-            gradient.addColorStop(0, "#b9d0fc88");
-            gradient.addColorStop(1, "#dfeaff36");
+            gradient.addColorStop(0, color("--data-area-top"));
+            gradient.addColorStop(1, color("--data-area-bottom"));
             ctx.fillStyle = gradient;
             ctx.fill();
             ctx.restore();
@@ -2545,7 +2398,8 @@
             for (const point of points.slice(1)) ctx.lineTo(...point);
           }
           ctx.lineJoin = "round";
-          ctx.strokeStyle = line.color;
+          ctx.setLineDash(line.column === 2 ? [6, 4] : []);
+          ctx.strokeStyle = color(line.color);
           ctx.lineWidth = 2.75;
           ctx.stroke();
         }
@@ -2553,18 +2407,18 @@
         ctx.moveTo(x(active), top);
         ctx.lineTo(x(active), bottom);
         ctx.setLineDash([4, 4]);
-        ctx.strokeStyle = "#8295b5";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = color("--data-marker");
+        ctx.lineWidth = 1.5;
         ctx.stroke();
         ctx.setLineDash([]);
         for (const line of series.filter((item) => item.shown)) {
           trend.forEach((year, index) => {
             ctx.beginPath();
             ctx.arc(x(index), y(year[line.column]), index === active ? 5 : 2.65, 0, 2 * Math.PI);
-            ctx.fillStyle = line.color;
+            ctx.fillStyle = color(line.color);
             ctx.fill();
             if (index === active) {
-              ctx.strokeStyle = "#fff";
+              ctx.strokeStyle = color("--color-surface");
               ctx.lineWidth = 1.6;
               ctx.stroke();
             }
@@ -2585,7 +2439,7 @@
       for (const line of series) {
         const toggle = button("legend-toggle");
         const key = node("i", "swatch");
-        key.style.setProperty("--swatch", line.color);
+        key.style.setProperty("--swatch", `var(${line.color})`);
         toggle.append(key, document.createTextNode(line.label));
         press(toggle, true);
         toggle.addEventListener("click", () => {
@@ -2607,25 +2461,23 @@
         });
         target.addEventListener("focus", () => { focused = index; schedule(); });
         target.addEventListener("blur", () => { focused = null; schedule(); });
-        target.addEventListener("click", () => {
-          pinned = index;
-          updateReadout();
-          schedule();
-        });
+        target.addEventListener("click", () => pinYear(index));
         yearButtons.push(target);
         targets.append(target);
       });
       plot.addEventListener("pointerleave", () => { hovered = null; schedule(); });
+      yearSelect.addEventListener("change", () => pinYear(Number(yearSelect.value)));
       new ResizeObserver(schedule).observe(canvas);
+      document.fonts?.ready.then(schedule);
       updateReadout();
       schedule();
     }
 
     drawTrend(byId("overview-trend"));
-    drawTrend(byId("usage-trend"));
 
     const availabilityScope = byId("availability-scope");
     const availabilityService = byId("availability-service");
+    const availabilityDate = byId("availability-date");
     const dayButtons = new Map();
     let selectedDay = null;
     addOptions(availabilityService, Object.entries(services).map(([key, service]) => [key, service.label]));
@@ -2669,6 +2521,7 @@
       const list = selectedDay === null ? items : items.filter(({ day }) => day === selectedDay);
       const largest = Math.max(1, ...items.map((record) => record.minutes));
       const label = selectedDay === null ? "Todo el período" : `${selectedDay} de noviembre`;
+      availabilityDate.value = selectedDay === null ? "" : String(selectedDay);
       byId("incident-list-label").textContent = `${label} · ${countLabel(list.length, "aviso", "avisos")}`;
       const rows = list.length ? list.map((record) => incidentLink(record, largest)) : [node("p", "small", "No hay avisos para esta selección.")];
       const listArea = byId("incident-list");
@@ -2690,8 +2543,13 @@
         renderAvailability();
       });
       calendar.append(target);
+      availabilityDate.add(new Option(`${day} de noviembre`, day));
       dayButtons.set(day, target);
     }
+    availabilityDate.addEventListener("change", () => {
+      selectedDay = availabilityDate.value ? Number(availabilityDate.value) : null;
+      renderAvailability();
+    });
     for (const select of [availabilityScope, availabilityService]) {
       select.addEventListener("change", renderAvailability);
     }
@@ -2746,7 +2604,7 @@
       const split = node("div", "stack");
       split.setAttribute("aria-hidden", "true");
       const severity = node("div", "stack-key");
-      for (const [label, count, color] of [["Mayor", major, "#7853a7"], ["Menor", minor, "#478aab"]]) {
+      for (const [label, count, color] of [["Mayor", major, "var(--data-violet)"], ["Menor", minor, "var(--data-slate)"]]) {
         const segment = node("span");
         segment.style.setProperty("--amount", `${count / records.length * 100}%`);
         segment.style.setProperty("--segment-color", color);
@@ -2840,7 +2698,8 @@
       const fill = node("span", "fill");
       fill.style.setProperty("--left", `${(Math.min(value, 0) - minimum) / span * 100}%`);
       fill.style.setProperty("--amount", `${Math.abs(value) / span * 100}%`);
-      fill.style.setProperty("--bar", value < 0 ? "#bd7044" : "#087f74");
+      fill.style.setProperty("--bar", value < 0 ? "var(--data-amber)" : "var(--data-teal)");
+      if (value < 0) fill.style.setProperty("--bar-origin", "right");
       track.append(fill);
       return track;
     }
@@ -2858,7 +2717,7 @@
       for (const entry of volume) {
         const quantity = `${decimal.format(entry.amount)} M`;
         const row = mode === "amount"
-          ? labeledBar(entry.label, quantity, fillTrack(entry.amount / maximum * 100, "#4a78d8"))
+          ? labeledBar(entry.label, quantity, fillTrack(entry.amount / maximum * 100, "var(--data-primary)"))
           : labeledBar(entry.label, changeText(entry.growth), signedTrack(entry.growth));
         row.addEventListener("click", () => select(entry));
         buttons.set(entry, row);
@@ -2944,7 +2803,7 @@
       mapCase.dataset.case = selectedCase?.id ?? "";
       if (previousId !== mapCase.dataset.case && !reducedMotion.matches && !byId("situacion-mundial").hidden) {
         mapCase.getAnimations().forEach(animation => animation.cancel());
-        mapCase.animate([{ opacity: .2, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 750, easing: "ease-out" });
+        mapCase.animate([{ opacity: .55, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 360, easing: "cubic-bezier(.22, 1, .36, 1)" });
       }
       document.dispatchEvent(new Event("world-case-change"));
     }
@@ -3008,6 +2867,9 @@
       const area = canvasArea(canvas);
       if (!area) return null;
       const { context: ctx, width, height } = area;
+      const theme = getComputedStyle(canvas);
+      const color = (token) => theme.getPropertyValue(token).trim();
+      const accent = color("--color-accent-soft");
       const radius = Math.min(width, height) * 0.443;
       const cx = width / 2;
       const cy = height / 2;
@@ -3026,22 +2888,26 @@
 
       ctx.beginPath();
       ctx.arc(cx, cy, radius + 7, 0, Math.PI * 2);
-      ctx.strokeStyle = "#93e4ed28";
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = .16;
       ctx.lineWidth = 1;
       ctx.stroke();
+      ctx.globalAlpha = 1;
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       const ocean = ctx.createRadialGradient(cx - radius * .35, cy - radius * .46, 0, cx, cy, radius * 1.08);
-      ocean.addColorStop(0, "#245675");
-      ocean.addColorStop(.7, "#153858");
-      ocean.addColorStop(1, "#10263e");
+      ocean.addColorStop(0, color("--color-inverse-raised"));
+      ocean.addColorStop(.7, color("--color-brand-active"));
+      ocean.addColorStop(1, color("--color-inverse"));
       ctx.fillStyle = ocean;
       ctx.shadowBlur = 22;
-      ctx.shadowColor = "#66c7d654";
+      ctx.shadowColor = color("--globe-glow");
       ctx.fill();
       ctx.shadowBlur = 0;
-      ctx.strokeStyle = "#7ddbe88c";
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = .52;
       ctx.stroke();
+      ctx.globalAlpha = 1;
 
       ctx.save();
       ctx.clip();
@@ -3056,7 +2922,8 @@
           visible = true;
         }
       }
-      ctx.strokeStyle = "#8ddde331";
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = .19;
       ctx.lineWidth = .75;
       ctx.stroke();
       const near = [];
@@ -3066,14 +2933,15 @@
         if (depth <= 0) continue;
         (depth < .38 ? far : near).push([x, y, depth]);
       }
-      for (const [points, color] of [[far, "#67afb686"], [near, "#86d5c9cc"]]) {
+      for (const [points, opacity] of [[far, .42], [near, .84]]) {
         ctx.beginPath();
         for (const [x, y, depth] of points) {
           const dot = (0.72 + depth * .52) * Math.min(1.18, radius / 138);
           ctx.moveTo(x + dot, y);
           ctx.arc(x, y, dot, 0, Math.PI * 2);
         }
-        ctx.fillStyle = color;
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = opacity;
         ctx.fill();
       }
       ctx.restore();
@@ -3222,13 +3090,9 @@
     });
     new ResizeObserver(scheduleGlobe).observe(globeStage);
     renderWorld();
-    showSection();
-    window.addEventListener("load", () => {
-      if (Object.hasOwn(sections, location.hash.slice(1))) {
-        requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "instant" }));
-      }
-    }, { once: true });
+    syncView();
   </script>
+  <script src="checkout.js"></script>
   <script src="story.js"></script>
   <script src="world-tour.js"></script>
 </body>

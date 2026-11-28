@@ -1,0 +1,99 @@
+@font-face {
+  font-family: "Inter";
+  src: url("assets/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  font-family: var(--font-ui);
+  --color-base: #FFF5F8;
+  --color-surface: #FFFFFF;
+  --color-tint: #FCE7EF;
+  --color-hover: #FFF0F5;
+  --color-inverse: #39172D;
+  --color-inverse-raised: #542347;
+  --color-ink: #281323;
+  --color-muted: #674455;
+  --color-icon: #7C3154;
+  --color-brand: #9D1756;
+  --color-brand-hover: #801344;
+  --color-brand-active: #631033;
+  --color-on-brand: var(--color-surface);
+  --color-on-inverse: var(--color-base);
+  --color-muted-inverse: #F2BDCF;
+  --color-focus: #A21B64;
+  --color-focus-inverse: #FF9FCB;
+  --color-line: #EAD2DC;
+  --color-control-line: #9A627B;
+  --color-disabled: #F2E4EA;
+  --color-on-disabled: #715263;
+  --color-accent: #D24583;
+  --color-accent-soft: #F5B6D1;
+  --color-success: #14634F;
+  --color-success-bg: #E7F7F1;
+  --color-warning: #7B4600;
+  --color-warning-bg: #FFF1D9;
+  --color-danger: #9C253F;
+  --color-danger-bg: #FDE8EE;
+
+  --data-primary: var(--color-brand);
+  --data-resolved: #784E66;
+  --data-teal: #17645D;
+  --data-point: #8B215C;
+  --data-violet: #634285;
+  --data-amber: #86501D;
+  --data-slate: #4B536C;
+  --data-track: #F3DFE8;
+  --data-marker: var(--color-ink);
+  --data-area-top: rgb(157 23 86 / .25);
+  --data-area-bottom: rgb(245 182 209 / .09);
+  --globe-glow: rgb(245 182 209 / .3);
+
+  --font-ui: "Inter", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-1: .8125rem;
+  --font-2: 1rem;
+  --font-3: 1.25rem;
+  --font-4: 1.5625rem;
+  --font-5: 1.9375rem;
+  --font-6: 2.4375rem;
+  --font-7: 3.0625rem;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-display: 750;
+
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --radius-control: .75rem;
+  --radius-panel: 1.25rem;
+  --radius-hero: 1.75rem;
+  --target-min: max(44px, 2.75rem);
+  --icon-size: 24px;
+  --icon-stroke: 2;
+  --max-story: 66.25rem;
+  --max-data: 90rem;
+  --max-receipt: 24rem;
+  --shadow-panel: 0 6px 24px rgb(57 23 45 / .08);
+  --shadow-receipt: 0 14px 36px rgb(40 19 35 / .22);
+
+  --gradient-inverse: linear-gradient(125deg, var(--color-inverse), var(--color-inverse-raised));
+  --gradient-soft: linear-gradient(145deg, var(--color-base), var(--color-tint));
+  --media-veil: linear-gradient(90deg, rgb(57 23 45 / .86), rgb(57 23 45 / .16) 75%);
+  --pattern-dots: radial-gradient(circle, rgb(245 182 209 / .2) 1px, transparent 1.4px);
+
+  --motion-quick: 180ms;
+  --motion-enter: 360ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --content-top-padding: clamp(var(--space-4), 2.6vw, var(--space-8));
+  --bottom-bar-height: calc(4.625rem + env(safe-area-inset-bottom));
+}

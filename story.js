@@ -111,24 +111,8 @@
   updateClock();
   select(point[0] ?? rows[0], false);
 
-  const scene = byId("payment-scene");
-  const payButton = byId("try-payment");
-  payButton.addEventListener("click", () => {
-    scene.dataset.state = "pending";
-    byId("payment-status").textContent = "Procesando…";
-    payButton.disabled = true;
-    const finish = () => {
-      scene.dataset.state = "failed";
-      byId("payment-status").textContent = "El pago no salió";
-      payButton.textContent = "Volver a probar";
-      payButton.disabled = false;
-    };
-    if (reducedMotion.matches) finish();
-    else setTimeout(finish, 1000);
-  });
-
   if ("IntersectionObserver" in window) {
-    const chapters = document.querySelectorAll("#vista-general > .hero, #vista-general > .story-chapter");
+    const storyBlocks = document.querySelectorAll("#vista-general > :is(.hero, .story-block, .story-data)");
     const reveal = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
@@ -137,19 +121,11 @@
         }
       }
     }, { threshold: 0.06 });
-    for (const chapter of chapters) { chapter.classList.add("reveal-ready"); reveal.observe(chapter); }
+    for (const block of storyBlocks) reveal.observe(block);
     const clockVisibility = new IntersectionObserver(entries => {
       if (!entries[0].isIntersecting && playing) stopClock();
     });
     clockVisibility.observe(byId("story-intervals"));
-  }
-
-  for (const item of document.querySelectorAll("[data-story-target]")) {
-    item.addEventListener("click", () => {
-      const target = byId(item.dataset.storyTarget);
-      target.focus({ preventScroll: true });
-      target.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "start" });
-    });
   }
 
   byId("download-evidence").addEventListener("click", () => {
