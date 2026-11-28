@@ -2,12 +2,13 @@
 
 (() => {
   const view = byId("situacion-mundial");
+  const cardInterval = 5000;
+  const rotationPeriod = 60000;
   let cardHovered = false;
   let globeHovered = false;
   let cardVisible = false;
   let globeVisible = false;
   let elapsed = 0;
-  let readingTime = 18000;
   let frame = 0;
   let lastTime = 0;
   let lastPaint = 0;
@@ -35,8 +36,6 @@
       cursor = 0;
     }
     if (deck[cursor]?.id !== selectedCase?.id) cursor = Math.max(0, deck.findIndex(item => item.id === selectedCase?.id));
-    const words = selectedCase ? `${selectedCase.title} ${selectedCase.summary}`.split(/\s+/).length : 0;
-    readingTime = Math.max(18000, Math.min(30000, words / 3 * 1000 + 4000));
     elapsed = 0;
   }
 
@@ -63,13 +62,12 @@
     lastTime = now;
     const interacting = now < interactionUntil || drag !== null;
     if (globeVisible && !globeHovered && !globeStage.contains(document.activeElement) && !reading() && !interacting) {
-      // One revolution in three minutes, independent of monitor refresh rate.
-      position.longitude = wrapLongitude(position.longitude + delta * 0.002);
+      position.longitude = wrapLongitude(position.longitude + delta * 360 / rotationPeriod);
       if (now - lastPaint >= 33) { scheduleGlobe(); lastPaint = now; }
     }
-    if (cardVisible && !reading() && !globeHovered && !globeStage.contains(document.activeElement) && !interacting && deck.length > 1) {
+    if (cardVisible && !showCaseDetails && !reading() && !globeHovered && !globeStage.contains(document.activeElement) && !interacting && deck.length > 1) {
       elapsed += delta;
-      if (elapsed >= readingTime) { advance(1); return; }
+      if (elapsed >= cardInterval) { advance(1); return; }
     }
     frame = requestAnimationFrame(tick);
   }
@@ -78,7 +76,6 @@
     cancelAnimationFrame(frame);
     frame = 0;
     lastTime = 0;
-    mapCase.setAttribute("aria-live", reducedMotion.matches ? "polite" : "off");
     if (canRun()) frame = requestAnimationFrame(tick);
   }
 
@@ -97,6 +94,7 @@
   window.addEventListener("hashchange", sync);
   document.addEventListener("visibilitychange", sync);
   reducedMotion.addEventListener("change", () => {
+    mapCase.setAttribute("aria-live", showCaseDetails || reducedMotion.matches ? "polite" : "off");
     if (reducedMotion.matches) mapCase.getAnimations().forEach(animation => animation.cancel());
     sync();
   });

@@ -77,8 +77,9 @@
   clock.textContent = "12:58";
 
   // Portada cerrada: la situación, después el celular solo y, cuando falla, el caso real al costado.
-  // El resto se abre con el botón del caso o con un enlace directo a una sección.
+  // El resto se abre al omitir la intro, desde el caso o con un enlace directo.
   const intro = byId("intro");
+  const skipIntro = byId("skip-intro");
   const hero = phone.closest(".hero");
   const casePanel = byId("case-panel");
   let closed = true;
@@ -99,8 +100,10 @@
       step = "phone";
       revealed = true;
     }
-    document.body.classList.toggle("gate-closed", closed && !worldRequested());
+    const showingGate = closed && !worldRequested();
+    document.body.classList.toggle("gate-closed", showingGate);
     intro.hidden = step !== "intro";
+    skipIntro.hidden = !showingGate;
     hero.hidden = step !== "phone";
     hero.classList.toggle("revealed", revealed);
     casePanel.hidden = !revealed;
@@ -128,20 +131,24 @@
     byId("overview-title").focus({ preventScroll: true });
     // En pantallas angostas el caso queda debajo del celular: se baja después de ver el error.
     if (window.matchMedia("(max-width: 760px)").matches) {
-      setTimeout(() => casePanel.scrollIntoView({ block: "start", behavior: reducedMotion.matches ? "instant" : "smooth" }), 1600);
+      setTimeout(() => {
+        if (closed) casePanel.scrollIntoView({ block: "start", behavior: reducedMotion.matches ? "instant" : "smooth" });
+      }, 1600);
     }
   }
 
-  function openStory() {
+  function openStory(behavior = reducedMotion.matches ? "instant" : "smooth") {
     closed = false;
+    if (phone.dataset.state === "pending") home();
     syncGate();
     const heading = byId("story-evidence");
     heading.focus({ preventScroll: true });
-    heading.closest(".story-block").scrollIntoView({ block: "start", behavior: reducedMotion.matches ? "instant" : "smooth" });
+    heading.closest(".story-block").scrollIntoView({ block: "start", behavior });
   }
 
   byId("start-sim").addEventListener("click", startSimulation);
-  openButton.addEventListener("click", openStory);
+  openButton.addEventListener("click", () => openStory());
+  skipIntro.addEventListener("click", () => openStory("instant"));
 
   // Enter funciona como "siguiente": adelanta el próximo texto y los demás conservan la pausa.
   // Cuando ya están todos, avanza con el botón de la pantalla.
@@ -168,7 +175,9 @@
       return;
     }
     const jump = Math.min(...waiting.map(animation => animation.effect.getTiming().delay - animation.currentTime)) + 1;
-    for (const animation of scene.getAnimations({ subtree: true })) {
+    const animations = scene.getAnimations({ subtree: true });
+    if (scene === intro) animations.push(...skipIntro.getAnimations({ subtree: true }));
+    for (const animation of animations) {
       if (animation.playState !== "finished") animation.currentTime += jump;
     }
   });

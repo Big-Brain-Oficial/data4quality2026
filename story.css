@@ -51,6 +51,42 @@ body { padding-block-end: calc(var(--bottom-bar-height) + 1rem); }
 
 .dock-item:disabled { cursor: default; color: var(--color-on-disabled); }
 
+#show-developers:hover { background: var(--color-hover); }
+
+.developer-list {
+  margin: 0;
+  padding: .35rem 1.2rem .7rem;
+  list-style: none;
+}
+
+.developer-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .35rem 1rem;
+  padding: .65rem 0;
+}
+
+.developer-list li + li { border-top: 1px solid var(--color-line); }
+
+.developer-icons { position: absolute; }
+.developer-links { display: flex; flex-wrap: wrap; gap: .25rem; }
+
+.developer-links a {
+  display: grid;
+  place-items: center;
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  color: var(--color-ink);
+}
+
+.developer-links a[href^="https://www.linkedin.com/"] { color: #0a66c2; }
+.developer-links a:hover { background: var(--color-hover); }
+.developer-links svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
+
 .dock-world {
   --qr-opacity: 1;
   --qr-transform: none;
@@ -232,7 +268,6 @@ body { padding-block-end: calc(var(--bottom-bar-height) + 1rem); }
   --focus-ring: var(--color-focus-inverse);
 }
 #situacion-mundial .page-heading .kicker { color: var(--color-accent-soft); }
-#situacion-mundial .page-heading p { color: var(--color-muted-inverse); }
 
 .chart { container: trend-chart / inline-size; min-width: 0; }
 #disponibilidad .panel:has(#calendar) { container: calendar-panel / inline-size; }
@@ -264,12 +299,14 @@ body { padding-block-end: calc(var(--bottom-bar-height) + 1rem); }
 }
 
 /* A quiet, readable case card beneath the rotating globe. */
-.map-case { min-height: 250px; align-content: start; gap: .5rem; padding: 1rem; border-color: color-mix(in srgb, var(--color-accent-soft) 48%, var(--color-inverse-raised)); background: linear-gradient(135deg, var(--color-inverse-raised), var(--color-inverse)); }
+.map-case { min-height: 5rem; align-content: center; gap: .5rem; padding: 1rem; border-color: color-mix(in srgb, var(--color-accent-soft) 48%, var(--color-inverse-raised)); background: linear-gradient(135deg, var(--color-inverse-raised), var(--color-inverse)); }
+.map-case.has-details { min-height: 250px; align-content: start; }
 .map-case .case-country { color: var(--color-accent-soft); font-size: 1.45rem; font-weight: 750; letter-spacing: -.025em; }
 .map-case .case-meta { font-size: .875rem; }
 .map-case h3 { font-size: 1.1rem; line-height: 1.35; }
 .map-case p { font-size: 1rem; line-height: 1.5; }
 .map-case a { margin-top: .3rem; font-size: .9rem; }
 @media (max-width: 440px) {
-  .map-case { margin-inline: .7rem; padding: .85rem; min-height: 280px; }
+  .map-case { margin-inline: .7rem; padding: .85rem; }
+  .map-case.has-details { min-height: 280px; }
 }

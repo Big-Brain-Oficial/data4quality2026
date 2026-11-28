@@ -1425,7 +1425,7 @@
       </svg>
       <span>Beneficios</span>
     </button>
-    <button class="dock-item" type="button" disabled>
+    <button class="dock-item" id="show-developers" type="button" aria-haspopup="dialog" aria-controls="developers-dialog">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ui-icon">
         <line x1="4" x2="20" y1="12" y2="12" />
         <line x1="4" x2="20" y1="6" y2="6" />
@@ -1434,6 +1434,85 @@
       <span>Más</span>
     </button>
   </nav>
+
+  <dialog id="developers-dialog" aria-labelledby="developers-title">
+    <svg width="0" height="0" aria-hidden="true" focusable="false" class="developer-icons">
+      <symbol id="developer-github-icon" viewBox="0 0 16 16">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+      </symbol>
+      <symbol id="developer-linkedin-icon" viewBox="0 0 24 24">
+        <path d="M20.45 20.45H16.9v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" />
+      </symbol>
+    </svg>
+    <div class="dialog-header">
+      <h2 id="developers-title">Desarrollado por</h2>
+      <form method="dialog">
+        <button class="button" type="submit" autofocus>Cerrar</button>
+      </form>
+    </div>
+    <ul class="developer-list" role="list">
+      <li>
+        <strong>Tomás Duarte</strong>
+        <div class="developer-links">
+          <a href="https://github.com/TomiDuarte" target="_blank" rel="noopener" aria-label="GitHub de Tomás Duarte" title="GitHub">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-github-icon"></use></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/tomas-duarte-27a133237/" target="_blank" rel="noopener" aria-label="LinkedIn de Tomás Duarte" title="LinkedIn">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-linkedin-icon"></use></svg>
+          </a>
+        </div>
+      </li>
+      <li>
+        <strong>Paula Kozak</strong>
+        <div class="developer-links">
+          <a href="https://github.com/Paukozak" target="_blank" rel="noopener" aria-label="GitHub de Paula Kozak" title="GitHub">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-github-icon"></use></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/paula-kozak/" target="_blank" rel="noopener" aria-label="LinkedIn de Paula Kozak" title="LinkedIn">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-linkedin-icon"></use></svg>
+          </a>
+        </div>
+      </li>
+      <li>
+        <strong>Gonzalo Orban</strong>
+        <div class="developer-links">
+          <a href="https://github.com/gonzaorban" target="_blank" rel="noopener" aria-label="GitHub de Gonzalo Orban" title="GitHub">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-github-icon"></use></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/gonzaorban/" target="_blank" rel="noopener" aria-label="LinkedIn de Gonzalo Orban" title="LinkedIn">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-linkedin-icon"></use></svg>
+          </a>
+        </div>
+      </li>
+      <li>
+        <strong>Agustin Orquera</strong>
+        <div class="developer-links">
+          <a href="https://www.linkedin.com/in/agustinorquera/" target="_blank" rel="noopener" aria-label="LinkedIn de Agustin Orquera" title="LinkedIn">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-linkedin-icon"></use></svg>
+          </a>
+        </div>
+      </li>
+      <li>
+        <strong>Carla Urturi</strong>
+        <div class="developer-links">
+          <a href="https://www.linkedin.com/in/carla-urturi-160b87432/" target="_blank" rel="noopener" aria-label="LinkedIn de Carla Urturi" title="LinkedIn">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-linkedin-icon"></use></svg>
+          </a>
+        </div>
+      </li>
+      <li>
+        <strong>Jeronimo Zapata</strong>
+        <div class="developer-links">
+          <a href="https://github.com/JeronimoZapata" target="_blank" rel="noopener" aria-label="GitHub de Jeronimo Zapata" title="GitHub">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-github-icon"></use></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/jeronimo-zapata/" target="_blank" rel="noopener" aria-label="LinkedIn de Jeronimo Zapata" title="LinkedIn">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#developer-linkedin-icon"></use></svg>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </dialog>
 
   <main id="contenido" tabindex="-1">
     <div class="view story-flow" id="vista-general">
@@ -1447,6 +1526,10 @@
         <p class="scene-punch">Solo falta que salga el pago.</p>
         <button class="button gate-button" id="start-sim" type="button">Hacer el pago<small>Abrir mi banco →</small></button>
       </div>
+      <button class="skip-intro" id="skip-intro" type="button" hidden>
+        <span class="skip-intro-fill" aria-hidden="true"></span>
+        Omitir intro
+      </button>
 
       <div class="hero">
         <div class="phone-stage">
@@ -1874,8 +1957,6 @@
         <span class="kicker"><span data-country-total>14</span> países · <span id="world-incident-total"></span>
           casos documentados</span>
         <h1 id="world-title" tabindex="-1">Casos en otros países</h1>
-        <p>Una selección de casos para leer sus consecuencias. No es un censo de fallas ni permite comparar la
-          confiabilidad de países o bancos.</p>
       </header>
       <div class="panel-grid world-layout">
         <article class="globe-panel">
@@ -1924,7 +2005,7 @@
               <tbody id="world-rows"></tbody>
             </table>
           </div>
-          <p class="source">Selección de casos del TPI. Cada punto representa un país. Cartografía de <a
+          <p class="source">Cada punto representa un país. Cartografía de <a
               href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural
               Earth</a>.</p>
         </article>
@@ -2241,6 +2322,7 @@
     const worldView = byId("situacion-mundial");
     const worldShortcut = byId("world-shortcut");
     const worldShortcutLabel = byId("world-shortcut-label");
+    byId("show-developers").addEventListener("click", () => byId("developers-dialog").showModal());
 
     function syncView(navigating = false) {
       const worldOpen = location.hash === "#situacion-mundial" || location.hash === "#mundo";
@@ -2763,6 +2845,7 @@
     addOptions(countryFilter, coveredCountries.map((key) => [key, countries[key].name]));
     addOptions(typeFilter, Object.entries(caseTypes));
     let selectedCase = null;
+    let showCaseDetails = false;
 
     function filteredCases() {
       return cases.filter((item) => (
@@ -2780,15 +2863,18 @@
 
     function renderMapCase() {
       const previousId = mapCase.dataset.case;
+      mapCase.classList.toggle("has-details", Boolean(selectedCase && showCaseDetails));
+      mapCase.setAttribute("aria-live", showCaseDetails || reducedMotion.matches ? "polite" : "off");
       if (selectedCase) {
         const item = selectedCase;
-        mapCase.replaceChildren(
+        const content = [
           node("div", "case-country", countries[item.country].name),
           node("div", "case-meta", `${formatDate(item.date)} · ${caseTypes[item.type]}`),
-          node("h3", "", item.title),
-          node("p", "", item.summary),
-          externalLink(item.url, `Leer en ${item.source}`)
-        );
+          node("h3", "", item.title)
+        ];
+        if (showCaseDetails) content.push(node("p", "", item.summary));
+        content.push(externalLink(item.url, `Leer en ${item.source}`));
+        mapCase.replaceChildren(...content);
       } else {
         const text = countryFilter.value
           ? "Este país no tiene casos con el tipo de incidente elegido."
@@ -2817,6 +2903,7 @@
       const title = button("news-title", item.title);
       title.addEventListener("click", () => {
         selectedCase = item;
+        showCaseDetails = true;
         renderMapCase();
         centerGlobe(countries[item.country]);
         revealMapCase();
@@ -2828,7 +2915,10 @@
 
     function renderWorld() {
       const results = filteredCases();
-      if (!results.includes(selectedCase)) selectedCase = results[0] ?? null;
+      if (!results.includes(selectedCase)) {
+        selectedCase = results[0] ?? null;
+        showCaseDetails = Boolean(countryFilter.value);
+      }
       const rows = results.map(caseRow);
       if (!rows.length) {
         const empty = node("tr");
@@ -2965,7 +3055,7 @@
       item.addEventListener("click", (event) => {
         const chosen = nearestMarker(event, code);
         countryFilter.value = chosen;
-        selectedCase = filteredCases()[0] ?? null;
+        selectedCase = null;
         renderWorld();
         centerGlobe(countries[chosen]);
         revealMapCase();
@@ -3076,7 +3166,7 @@
     });
     byId("globe-reset").addEventListener("click", () => centerGlobe(countries[countryFilter.value || selectedCase?.country]));
     countryFilter.addEventListener("change", () => {
-      selectedCase = countryFilter.value ? filteredCases()[0] ?? null : null;
+      selectedCase = null;
       renderWorld();
       centerGlobe(countries[countryFilter.value]);
     });

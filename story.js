@@ -135,7 +135,7 @@
       period: { first_date: "2026-11-04", last_date: "2026-11-24", calendar_dates: 21 },
       timezone: "America/Argentina/Buenos_Aires",
       description: "Registros normalizados incorporados al sitio. No es la respuesta íntegra original de la API.",
-      fields: { reported: "created_at de la API", resolved: "resolved_at de la API", service: "Clasificación del equipo", scope: "ar = Argentina (MLA); all = ALL SITES; unspecified = sin país; other = otro país" },
+      fields: { reported: "created_at de la API", resolved: "resolved_at de la API", service: "Categoría de servicio asignada al incidente", scope: "ar = Argentina (MLA); all = ALL SITES; unspecified = sin país; other = otro país" },
       formula: "minutes = (Date.parse(resolved) - Date.parse(reported)) / 60000",
       limitations: ["Muestra de avisos recientes, no monitoreo exhaustivo", "Intervalos publicados, no tiempo real de caída", "Sin datos de usuarios ni pagos afectados", "No permite estimar disponibilidad real"],
       incidents: embedded("incident-data")
