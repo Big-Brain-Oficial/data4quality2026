@@ -2328,7 +2328,21 @@
     const worldView = byId("situacion-mundial");
     const worldShortcut = byId("world-shortcut");
     const worldShortcutLabel = byId("world-shortcut-label");
-    byId("show-developers").addEventListener("click", () => byId("developers-dialog").showModal());
+    const developersDialog = byId("developers-dialog");
+    byId("show-developers").addEventListener("click", () => developersDialog.showModal());
+    developersDialog.addEventListener("submit", closeDevelopers);
+    developersDialog.addEventListener("cancel", closeDevelopers);
+
+    async function closeDevelopers(event) {
+      event.preventDefault();
+      if (developersDialog.classList.contains("is-closing")) return;
+
+      developersDialog.classList.add("is-closing");
+      const animation = developersDialog.getAnimations().find((item) => item.animationName === "developers-dialog-exit");
+      if (animation) await animation.finished.catch(() => {});
+      developersDialog.close();
+      developersDialog.classList.remove("is-closing");
+    }
 
     function syncView(navigating = false) {
       const worldOpen = location.hash === "#situacion-mundial" || location.hash === "#mundo";
